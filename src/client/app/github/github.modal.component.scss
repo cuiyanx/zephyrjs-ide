@@ -1,0 +1,57 @@
+@import "../../scss/main";
+
+:host {
+    .login-info {
+        padding: 10px;
+        .avatar {
+            display: inline-block;
+
+            img {
+                height: 40px;
+            }
+        }
+
+        .info {
+            display: inline-block;
+            margin-left: 15px;
+        }
+    }
+
+    .form-group {
+        position: relative;
+    }
+
+    fa.loading {
+        position: absolute;
+        top: 32px;
+        right: 20px;
+        z-index: 3;
+    }
+
+    table.tree-browser {
+        td.icon {
+            width: 25px;
+        }
+
+        tbody {
+            tr {
+                &:hover {
+                    background-color: #f2f2f2;
+                }
+
+                &.directory td {
+                    color: #4078c0;
+                }
+
+                &.selected {
+                    background: #4078c0;
+
+                    td, td > a {
+                        color: white;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+}

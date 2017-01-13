@@ -1,0 +1,180 @@
+@import "../../scss/main";
+
+:host {
+  display: block;
+  height: calc(100% - 72px);
+  padding-bottom: 15px;
+  overflow: hidden;
+}
+
+.editor-container {
+    height: 100%;
+    padding: 0 15px;
+
+    .pane, .pane, .tab-container {
+        height: 100%;
+    }
+
+    .pane {
+        .pane-header {
+            color: darken($panel-color, 7.5%);
+            border-bottom: 1px solid darken($panel-color, 5%);
+            margin-top: 15px;
+            padding-bottom: 16px;
+        }
+    }
+
+    #editor-pane {
+        min-width: 360px;
+
+        .pane-header {
+            margin-top: 0;
+            margin-bottom: 0;
+            padding: 15px;
+            display: inline-block;
+        }
+    }
+
+    .tab-container /deep/ {
+        .tab-content {
+            height: calc(100% - 42px);
+        }
+
+        .tab-pane {
+            height: 100%;
+            border-left: 1px solid darken($panel-color, 5%);
+            border-right: 1px solid darken($panel-color, 5%);
+            border-bottom: 1px solid darken($panel-color, 5%);
+        }
+
+        .nav-tabs  {
+            border-color: darken($panel-color, 5%);
+
+            a {
+                &.active {
+                    border-top-color: darken($panel-color, 5%);
+                    border-right-color: darken($panel-color, 5%);
+                    border-left-color: darken($panel-color, 5%);
+                }
+
+                &:not(.active) {
+                    border-bottom-color: darken($panel-color, 5%);
+                }
+            }
+        }
+
+        .tab-pane, .nav-link {
+            background-color: $panel-color;
+        }
+
+        .close-tab {
+            margin-left: 6px;
+        }
+    }
+
+    .monaco-editor {
+        height: calc(75% - 64px);
+        min-height: 250px;
+        border: 1px solid darken($panel-color, 5%);
+    }
+
+    .horizontal-resize-handle {
+        width: 100%;
+        text-align: center;
+        line-height: 0;
+        cursor: ns-resize;
+        color: darken($panel-color, 15%);
+    }
+
+    .console {
+        height: calc(25% - 42px);
+        background-color: white;
+        padding: 20px;
+        border: 1px solid darken($panel-color, 5%);
+
+        h2 {
+            color: #f2f2f2;
+            margin-top: -15px;
+            margin-left: -5px;
+            margin-bottom: 5px;
+        }
+
+        .console-content {
+            border: 0;
+            width: calc(100% + 40px);
+            height: calc(100% - 5px);
+            margin-left: -20px;
+            padding: 5px 17.5px;
+            color: #333;
+            font-family: monospaced;
+            resize: none;
+            outline:0px !important;
+             -webkit-appearance:none;
+        }
+    }
+
+    .status {
+        font-size: 90%;
+        color: #555;
+        text-shadow: 1px 1px 0 white;
+        background-color: #eee;
+        padding: 5px 12px;
+        margin: 0 1px;
+
+        &.warning {
+            color: $warning-color;
+        }
+
+        &.error {
+            color: $error-color;
+        }
+    }
+
+    .buttons {
+        float: right;
+        padding: 15px;
+        display: inline-block;
+    }
+
+    #documentation-pane {
+        margin-top: 41px;
+        background-color: $panel-color;
+        border: 1px solid darken($panel-color, 5%);
+        height: calc(100% - 41px);
+        width: calc(50% - 15px);
+
+        #documentation-resize-handle {
+            position: absolute;
+            top: 0;
+            left: -16px;
+            height: 100%;
+            width: 15px;
+            cursor: ew-resize;
+            color: darken($panel-color, 15%);
+
+            fa {
+                position: absolute;
+                top: 50%;
+                left: 6px;
+            }
+        }
+    }
+}
+
+.modal-error .modal-header {
+    color: white;
+    background: $error-color;
+
+    .close {
+        color: white;
+    }
+}
+
+.modal-warning .modal-header {
+    color: white;
+    background: $warning-color;
+
+    .close {
+        color: white;
+    }
+}

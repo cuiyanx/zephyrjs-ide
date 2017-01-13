@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="<%= APP_BASE %>">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title><%= APP_TITLE %></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- inject:css -->
+  <!-- endinject -->
+
+  <style>
+    html, body, sd-app {
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <sd-app>Loading...</sd-app>
+
+  <script>
+  // Fixes undefined module function in SystemJS bundle
+  function module() {}
+  </script>
+
+  <!-- shims:js -->
+  <!-- endinject -->
+
+  <% if (BUILD_TYPE === 'dev') { %>
+  <script src="<%= APP_BASE %>app/system-config.js"></script>
+  <% } %>
+
+  <!-- libs:js -->
+  <!-- endinject -->
+
+  <!--
+    - TODO: do we need such a bloated converter?
+    - Can we integrate it better?
+  -->
+  <script src="<%= APP_BASE %>app/shared/webusb/ihex.js"></script>
+  <!-- inject:js -->
+  <!-- endinject -->
+
+  <% if (BUILD_TYPE === 'dev') { %>
+  <script>
+  System.import('<%= BOOTSTRAP_MODULE %>')
+    .catch(function (e) {
+      console.error(e.stack || e,
+        'Not expecting this error? Report it at https://github.com/01org/zephyr.js/issues');
+    });
+
+  System.config({
+      map: {
+          'moment': 'moment/moment',
+          'ng2-bootstrap': 'ng2-bootstrap',
+          'angular2-fontawesome': 'angular2-fontawesome',
+          'github-api': 'github-api/dist/GitHub.bundle'
+      }
+  });
+  </script>
+  <% } %>
+
+</body>
+</html>

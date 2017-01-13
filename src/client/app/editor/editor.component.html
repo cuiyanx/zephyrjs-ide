@@ -1,0 +1,189 @@
+<div class="row editor-container">
+    <div class="col-md-6 pane" id="editor-pane">
+        <tabset>
+            <tab *ngFor="let tab of tabs"
+                 (select)="onTabSelected(tab.id)">
+
+                <template tabHeading>
+                    <div *ngIf="tab.id === 999">
+                        <fa [name]="'plus'"></fa>
+                    </div>
+
+                    <div *ngIf="tab.id !== 999">
+                        {{tab.title}}
+
+                        <a *ngIf="tabs.length > 2"
+                           href="#"
+                           class="close-tab"
+                           (click)="onCloseTab(tab.id)">
+                            <fa [name]="'close'"></fa>
+                        </a>
+                    </div>
+                </template>
+
+                <h2 class="pane-header">Editor</h2>
+
+                <div class="buttons">
+                    <button
+                        class="btn btn-default"
+                        [disabled]="!mayConnect(tab.id)"
+                        (click)="onConnect(tab.id)">
+                        <fa [name]="'plug'"></fa>
+                    </button>
+
+                    <button
+                        class="btn btn-default"
+                        [disabled]="!mayUpload(tab.id)"
+                        (click)="onUpload(tab.id)">
+                        <fa [name]="'upload'"></fa>
+                    </button>
+
+                    <button
+                        class="btn btn-default"
+                        (click)="onFetchFromGitHub(tab.id)">
+                        <fa [name]="'github'"></fa>
+                    </button>
+                </div>
+
+                <div
+                    #editor
+                    id="editor-{{tab.id}}"
+                    class="monaco-editor">
+                </div>
+
+                <div class="horizontal-resize-handle" id="editor-resize-handle-{{tab.id}}">
+                    <fa [name]="'ellipsis-h'"></fa>
+                </div>
+
+                <div id="console-{{tab.id}}" class="console">
+                    <h2>Console</h2>
+                    <textarea class="console-content">$</textarea>
+                </div>
+
+                <div [ngClass]="['status', getEditorStatus(tab.id).cls]">
+                    {{getEditorStatus(tab.id).msg}}
+                </div>
+            </tab>
+        </tabset>
+    </div> <!-- /col pane -->
+
+    <div class="col-md-6 pane" id="documentation-pane">
+        <div class="vertical-resize-handle" id="documentation-resize-handle">
+            <fa [name]="'ellipsis-v'"></fa>
+        </div>
+
+        <h2 class="pane-header">Documentation</h2>
+    </div>
+</div> <!-- /row editor-container -->
+
+
+<!-- MODALS -->
+
+<div bsModal #warningModal="bs-modal" class="modal modal-warning fade" tabindex="-1"
+    role="dialog" aria-labelledby="warningModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="warningModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Warning</h4>
+      </div>
+      <div class="modal-body">
+          {{lastMessage}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #errorModal="bs-modal" class="modal modal-error fade" tabindex="-1"
+    role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="errorModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Error</h4>
+      </div>
+      <div class="modal-body">
+          {{lastMessage}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #deviceChooserModal="bs-modal" class="modal modal-device-chooser fade" tabindex="-1"
+    role="dialog" aria-labelledby="deviceChooserModalLabel" aria-hidden="true"
+    (onHide)="onDeviceChooserHide()">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="deviceChooserModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Multiple WebUSB devices detected</h4>
+      </div> <!--/modal-header -->
+
+      <div class="modal-body">
+          <p>Please select which WebUSB device you would like to connect to.</p>
+          <table class="table table-striped">
+              <thead>
+                  <tr>
+                      <th>&nbsp;</th>
+                      <th>Manufacturer</th>
+                      <th>Name</th>
+                      <th>Serial number</th>
+                      <th>Vendor ID</th>
+                      <th>Product ID</th>
+                      <th>USB Version</th>
+                      <th>Device Version</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let port of webusbPorts">
+                      <td>
+                          <input type="radio" (click)="selectPort(port)"/>
+                      </td>
+                      <td>{{port.device.manufacturerName}}</td>
+                      <td>{{port.device.productName}}</td>
+                      <td>{{port.device.serialNumber}}</td>
+                      <td>{{port.device.vendorId}}</td>
+                      <td>{{port.device.productId}}</td>
+                      <td>
+                          {{port.device.usbVersionMajor}}.
+                          {{port.device.usbVersionMinor}}.
+                          {{port.device.usbVersionSubminor}}
+                      </td>
+                      <td>
+                          {{port.device.deviceVersionMajor}}.
+                          {{port.device.deviceVersionMinor}}.
+                          {{port.device.deviceVersionSubminor}}
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div> <!-- /modal-body -->
+
+      <div class="modal-footer">
+          <button type="button"
+                  class="btn btn-default"
+                  aria-label="Cancel"
+                  (click)="deviceChooserModal.hide()">
+              Cancel
+          </button>
+          <button type="button"
+                  class="btn btn-primary"
+                  (click)="onConnect(); deviceChooserModal.hide()"
+                  [disabled]="webusbPort === null">
+              Connect
+          </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<github-modal #gitHubModal (fileFetched)="onGitHubFileFetched($event)">
+</github-modal>
