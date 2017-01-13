@@ -2,7 +2,7 @@
 
 :host {
   display: block;
-  height: calc(100% - 72px);
+  height: calc(100% - 72px - 60px); // 60px for the footer
   padding-bottom: 15px;
   overflow: hidden;
 }
