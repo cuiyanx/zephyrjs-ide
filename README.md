@@ -249,6 +249,7 @@ file for guidelines.
 │   ├── tasks                  <- gulp tasks
 │   │   ├── project            <- project specific gulp tasks
 │   │   │   └── sample.task.ts
+│   │   │   └── build.templatelocals.ts
 │   │   └── seed               <- seed generic gulp tasks. They can be overriden by the project specific gulp tasks
 │   │       ├── build.assets.dev.ts
 │   │       ├── build.assets.prod.ts
