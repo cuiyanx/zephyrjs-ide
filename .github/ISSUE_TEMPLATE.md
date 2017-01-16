@@ -27,6 +27,6 @@ please provide the *STEPS TO REPRODUCE* and if possible a *MINIMAL DEMO* of the 
 <!-- Operating system, IDE, package manager, HTTP server, ... -->
 
 * **Zephyr.js IDE Version:** `abcd1234`
-<!-- Check which is the hash of the last commit from `Zephyr.js` that you have locally -->
+<!-- Check which is the hash of the last commit from `Zephyr.js IDE` that you have locally -->
 
 * **Node:** `node --version` =

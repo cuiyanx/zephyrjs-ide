@@ -14,6 +14,9 @@ lib-cov
 coverage
 coverage_js
 
+# ignore documentation
+documentation
+
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 
@@ -35,7 +38,6 @@ ts-node
 #IDE configuration files
 .idea
 *.iml
-*.swp
 
 /tools/**/*.js
 dist

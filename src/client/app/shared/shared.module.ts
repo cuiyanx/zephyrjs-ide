@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
+import { ToolbarComponent } from './toolbar/toolbar.component';
 import { NavbarComponent } from './navbar/index';
 import { FooterComponent } from './footer/index';
 import { WebUsbService } from './webusb/index';
@@ -13,8 +14,8 @@ import { WebUsbService } from './webusb/index';
 
 @NgModule({
   imports: [CommonModule, RouterModule],
-  declarations: [NavbarComponent, FooterComponent],
-  exports: [NavbarComponent, FooterComponent,
+  declarations: [ToolbarComponent, NavbarComponent, FooterComponent],
+  exports: [ToolbarComponent, NavbarComponent, FooterComponent,
     CommonModule, FormsModule, RouterModule]
 })
 export class SharedModule {

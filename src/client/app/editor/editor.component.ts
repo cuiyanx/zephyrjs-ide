@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 
 // 3rd party
-import { ModalDirective } from 'ng2-bootstrap/components/modal/modal.component';
+import { ModalDirective } from 'ng2-bootstrap';
 
 // Own
 import { GitHubModalComponent } from '../github/github.modal.component';
@@ -53,10 +53,12 @@ declare const require: any;
   selector: 'sd-editor',
   templateUrl: 'editor.component.html',
   styleUrls: ['editor.component.css'],
-  providers: [WebUsbService, ModalDirective]
+  providers: [WebUsbService]
 })
 export class EditorComponent implements OnInit, AfterViewInit {
     readonly MAX_TABS: number = 5;
+
+    public lastMessage: string = '';
 
     // Childen
 
@@ -94,8 +96,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
         '    toggle = !toggle;',
         '    pin.write(toggle);',
         '}, 1000);'].join('\n');
-
-    private lastMessage: string = '';
 
     private tabs: Array<EditorTab> = [{
         id: 1,
@@ -149,17 +149,216 @@ export class EditorComponent implements OnInit, AfterViewInit {
             let editors = document.getElementsByClassName('monaco-editor');
             let consoles = document.getElementsByClassName('console');
 
-            editorPane.style.width = '';
-            docsPane.style.width = '';
+            if (editorPane !== null && docsPane !== null) {
+                editorPane.style.width = '';
+                docsPane.style.width = '';
 
-            for (let i = 0; i < editors.length; i++) {
-                (editors[i] as HTMLElement).style.height = '';
-            }
+                for (let i = 0; i < editors.length; i++) {
+                    (editors[i] as HTMLElement).style.height = '';
+                }
 
-            for (let i = 0; i < consoles.length; i++ ) {
-                (consoles[i] as HTMLElement).style.height = '';
+                for (let i = 0; i < consoles.length; i++ ) {
+                    (consoles[i] as HTMLElement).style.height = '';
+                }
             }
         };
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    public getEditorStatus(id: number): {} {
+        let tab = this.getTabById(id);
+
+        if (tab !== null) {
+            let map: {[key:number]:{};} = {
+                [EDITOR_STATUS.WEBUSB_UNAVAILABLE]: {
+                    cls: 'error',
+                    msg: 'Your browser does not support WebUSB.'
+                },
+
+                [EDITOR_STATUS.READY]: {
+                    cls: 'info',
+                    msg: 'Ready.'
+                },
+
+                [EDITOR_STATUS.CONNECTING]: {
+                    cls: 'info',
+                    msg: 'Connecting...'
+                },
+
+                [EDITOR_STATUS.UPLOADING]: {
+                    cls: 'info',
+                    msg: 'Uploading...'
+                }
+            };
+
+            if (tab.editorStatus in map)
+                return map[tab.editorStatus];
+        }
+
+        return {
+            cls: 'error',
+            msg: 'Unknown status.'
+        };
+    }
+
+    public getActiveTab(): EditorTab {
+        for (let tab of this.tabs) {
+            if (tab.active) {
+                return tab;
+            }
+        }
+        return null;
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    public onTabSelected(id: number) {
+        if (id === 999) { // Special case for the 'new tab' button
+            this.newTab();
+        } else {
+            this.activateTab(id);
+        }
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    public onCloseTab(id: number) {
+        let tab = this.getTabById(id);
+        let index = this.tabs.indexOf(tab);
+        this.tabs.splice(index, 1);
+
+        if (this.tabs.length < this.MAX_TABS) {
+            this.tabs.push(this.generateNewTabButton());
+        }
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    public mayConnect(id: number): boolean {
+        let tab = this.getTabById(id);
+
+        return this.webusbService.usb !== undefined &&
+               tab.connectionStatus === STATUS.NOT_STARTED ||
+               tab.connectionStatus === STATUS.ERROR;
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    public onConnect(id?: number) {
+        let tab: EditorTab;
+
+        if (id !== undefined) {
+            tab = this.getTabById(id);
+        } else {
+            tab = this.getActiveTab();
+        }
+
+        tab.connectionStatus = STATUS.IN_PROGRESS;
+        tab.editorStatus = EDITOR_STATUS.CONNECTING;
+
+        let doConnect = () => {
+            this.webusbService.connect(tab.port)
+            .then(() => {
+                tab.connectionStatus = STATUS.DONE;
+                tab.editorStatus = EDITOR_STATUS.READY;
+            })
+            .catch((error: string) => {
+                tab.connectionStatus = STATUS.ERROR;
+                this.lastMessage = error;
+                this.errorModal.show();
+            });
+        };
+
+        if (tab.port !== null) {
+            doConnect();
+        } else {
+            this.webusbService.getPorts().then(ports => {
+                this.webusbPorts = ports;
+
+                if (ports.length === 1) {
+                    tab.port = ports[0];
+                    doConnect();
+                } else if (ports.length > 1) {
+                    this.deviceChooserModal.show();
+                } else {
+                    tab.connectionStatus = STATUS.NOT_STARTED;
+                    this.lastMessage = 'No WebUSB capable devices were detected.';
+                    this.errorModal.show();
+                }
+            });
+        }
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    public mayUpload(id: number): boolean {
+        let tab = this.getTabById(id);
+
+        return this.webusbService.usb !== undefined &&
+               tab.connectionStatus === STATUS.DONE &&
+               tab.editor.getValue().length > 0 &&
+               tab.uploadStatus !== STATUS.IN_PROGRESS &&
+               tab.port !== null;
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    public onUpload(id: number) {
+        let tab = this.getTabById(id);
+
+        tab.uploadStatus = STATUS.IN_PROGRESS;
+        tab.editorStatus = EDITOR_STATUS.UPLOADING;
+
+        tab.port.run(tab.editor.getValue())
+        .then((warning: string) => {
+            tab.uploadStatus = STATUS.DONE;
+            tab.editorStatus = EDITOR_STATUS.READY;
+
+            if (warning !== undefined) {
+                this.lastMessage = warning;
+                this.warningModal.show();
+            }
+        })
+        .catch((error: string) => {
+            tab.connectionStatus = STATUS.NOT_STARTED;
+            tab.uploadStatus = STATUS.NOT_STARTED;
+            tab.editorStatus = EDITOR_STATUS.READY;
+            this.lastMessage = error;
+            this.errorModal.show();
+        });
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    public onDeviceChooserHide(id: number) {
+        let tab = this.getActiveTab();
+        tab.connectionStatus = STATUS.NOT_STARTED;
+        tab.editorStatus = EDITOR_STATUS.READY;
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    public onFetchFromGitHub(id: number) {
+        this.gitHubModal.show();
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    public onGitHubFileFetched(content: string) {
+        let tab = this.getActiveTab();
+        tab.editor.setValue(content);
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    public hideWarningModal() {
+        this.warningModal.hide();
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    public hideErrorModal() {
+        this.errorModal.hide();
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    public hideDeviceChooserModal() {
+        this.deviceChooserModal.hide();
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    public selectPort(port: WebUsbPort) {
+        let tab = this.getActiveTab();
+        tab.port = port;
     }
 
     // Will be called once monaco library is available
@@ -200,7 +399,10 @@ export class EditorComponent implements OnInit, AfterViewInit {
             window.addEventListener('mouseup', stopEditorResize, false);
         };
 
-        editorResizeHandleEl.addEventListener('mousedown', startEditorResize, false);
+        if (editorResizeHandleEl !== null) {
+            editorResizeHandleEl.addEventListener(
+                'mousedown', startEditorResize, false);
+        }
     }
 
     private initDocsResizeHandle() {
@@ -267,35 +469,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
         }
     }
 
-    private getActiveTab(): EditorTab {
-        for (let tab of this.tabs) {
-            if (tab.active) {
-                return tab;
-            }
-        }
-        return null;
-    }
-
-    // tslint:disable-next-line:no-unused-variable
-    private onTabSelected(id: number) {
-        if (id === 999) { // Special case for the 'new tab' button
-            this.newTab();
-        } else {
-            this.activateTab(id);
-        }
-    }
-
-    // tslint:disable-next-line:no-unused-variable
-    private onCloseTab(id: number) {
-        let tab = this.getTabById(id);
-        let index = this.tabs.indexOf(tab);
-        this.tabs.splice(index, 1);
-
-        if (this.tabs.length < this.MAX_TABS) {
-            this.tabs.push(this.generateNewTabButton());
-        }
-    }
-
     private setDefaultTabStatuses(id: number) {
         let tab = this.getTabById(id);
 
@@ -348,158 +521,5 @@ export class EditorComponent implements OnInit, AfterViewInit {
         }
 
         return tab;
-    }
-
-    // tslint:disable-next-line:no-unused-variable
-    private getEditorStatus(id: number): {} {
-        let tab = this.getTabById(id);
-
-        if (tab !== null) {
-            let map: {[key:number]:{};} = {
-                [EDITOR_STATUS.WEBUSB_UNAVAILABLE]: {
-                    cls: 'error',
-                    msg: 'Your browser does not support WebUSB.'
-                },
-
-                [EDITOR_STATUS.READY]: {
-                    cls: 'info',
-                    msg: 'Ready.'
-                },
-
-                [EDITOR_STATUS.CONNECTING]: {
-                    cls: 'info',
-                    msg: 'Connecting...'
-                },
-
-                [EDITOR_STATUS.UPLOADING]: {
-                    cls: 'info',
-                    msg: 'Uploading...'
-                }
-            };
-
-            if (tab.editorStatus in map)
-                return map[tab.editorStatus];
-        }
-
-        return {
-            cls: 'error',
-            msg: 'Unknown status.'
-        };
-    }
-
-    // tslint:disable-next-line:no-unused-variable
-    private mayConnect(id: number): boolean {
-        let tab = this.getTabById(id);
-
-        return this.webusbService.usb !== undefined &&
-               tab.connectionStatus === STATUS.NOT_STARTED ||
-               tab.connectionStatus === STATUS.ERROR;
-    }
-
-    // tslint:disable-next-line:no-unused-variable
-    private onConnect(id?: number) {
-        let tab: EditorTab;
-
-        if (id !== undefined) {
-            tab = this.getTabById(id);
-        } else {
-            tab = this.getActiveTab();
-        }
-
-        tab.connectionStatus = STATUS.IN_PROGRESS;
-        tab.editorStatus = EDITOR_STATUS.CONNECTING;
-
-        let doConnect = () => {
-            this.webusbService.connect(tab.port)
-            .then(() => {
-                tab.connectionStatus = STATUS.DONE;
-                tab.editorStatus = EDITOR_STATUS.READY;
-            })
-            .catch((error: string) => {
-                tab.connectionStatus = STATUS.ERROR;
-                this.lastMessage = error;
-                this.errorModal.show();
-            });
-        };
-
-        if (tab.port !== null) {
-            doConnect();
-        } else {
-            this.webusbService.getPorts().then(ports => {
-                this.webusbPorts = ports;
-
-                if (ports.length === 1) {
-                    tab.port = ports[0];
-                    doConnect();
-                } else if (ports.length > 1) {
-                    this.deviceChooserModal.show();
-                } else {
-                    tab.connectionStatus = STATUS.NOT_STARTED;
-                    this.lastMessage = 'No WebUSB capable devices were detected.';
-                    this.errorModal.show();
-                }
-            });
-        }
-    }
-
-    // tslint:disable-next-line:no-unused-variable
-    private mayUpload(id: number): boolean {
-        let tab = this.getTabById(id);
-
-        return this.webusbService.usb !== undefined &&
-               tab.connectionStatus === STATUS.DONE &&
-               tab.editor.getValue().length > 0 &&
-               tab.uploadStatus !== STATUS.IN_PROGRESS &&
-               tab.port !== null;
-    }
-
-    // tslint:disable-next-line:no-unused-variable
-    private onUpload(id: number) {
-        let tab = this.getTabById(id);
-
-        tab.uploadStatus = STATUS.IN_PROGRESS;
-        tab.editorStatus = EDITOR_STATUS.UPLOADING;
-
-        tab.port.run(tab.editor.getValue())
-        .then((warning: string) => {
-            tab.uploadStatus = STATUS.DONE;
-            tab.editorStatus = EDITOR_STATUS.READY;
-
-            if (warning !== undefined) {
-                this.lastMessage = warning;
-                this.warningModal.show();
-            }
-        })
-        .catch((error: string) => {
-            tab.connectionStatus = STATUS.NOT_STARTED;
-            tab.uploadStatus = STATUS.NOT_STARTED;
-            tab.editorStatus = EDITOR_STATUS.READY;
-            this.lastMessage = error;
-            this.errorModal.show();
-        });
-    }
-
-    // tslint:disable-next-line:no-unused-variable
-    private onDeviceChooserHide(id: number) {
-        let tab = this.getActiveTab();
-        tab.connectionStatus = STATUS.NOT_STARTED;
-        tab.editorStatus = EDITOR_STATUS.READY;
-    }
-
-    // tslint:disable-next-line:no-unused-variable
-    private selectPort(port: WebUsbPort) {
-        let tab = this.getActiveTab();
-        tab.port = port;
-    }
-
-    // tslint:disable-next-line:no-unused-variable
-    private onFetchFromGitHub(id: number) {
-        this.gitHubModal.show();
-    }
-
-    // tslint:disable-next-line:no-unused-variable
-    private onGitHubFileFetched(content: string) {
-        let tab = this.getActiveTab();
-        tab.editor.setValue(content);
     }
 }

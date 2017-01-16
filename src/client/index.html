@@ -7,6 +7,8 @@
   <title><%= APP_TITLE %></title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="assets/favicon/favicon-<%= ENV_CONFIG.ENV %>.ico" type="image/x-icon">
+
   <!-- inject:css -->
   <!-- endinject -->
 
@@ -48,13 +50,11 @@
   System.import('<%= BOOTSTRAP_MODULE %>')
     .catch(function (e) {
       console.error(e.stack || e,
-        'Not expecting this error? Report it at https://github.com/01org/zephyr.js/issues');
+        'Not expecting this error? Report it at https://github.com/01org/zephyrjs-ide/issues');
     });
 
   System.config({
       map: {
-          'moment': 'moment/moment',
-          'ng2-bootstrap': 'ng2-bootstrap',
           'angular2-fontawesome': 'angular2-fontawesome',
           'github-api': 'github-api/dist/GitHub.bundle'
       }

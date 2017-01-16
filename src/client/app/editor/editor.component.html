@@ -84,7 +84,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="warningModal.hide()">
+        <button type="button" class="close" aria-label="Close" (click)="hideWarningModal()">
           <span aria-hidden="true">&times;</span>
         </button>
         <h4 class="modal-title">Warning</h4>
@@ -101,7 +101,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="errorModal.hide()">
+        <button type="button" class="close" aria-label="Close" (click)="hideErrorModal()">
           <span aria-hidden="true">&times;</span>
         </button>
         <h4 class="modal-title">Error</h4>
@@ -120,7 +120,7 @@
     <div class="modal-content">
 
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="deviceChooserModal.hide()">
+        <button type="button" class="close" aria-label="Close" (click)="hideDeviceChooserModal()">
           <span aria-hidden="true">&times;</span>
         </button>
         <h4 class="modal-title">Multiple WebUSB devices detected</h4>
@@ -170,13 +170,13 @@
           <button type="button"
                   class="btn btn-default"
                   aria-label="Cancel"
-                  (click)="deviceChooserModal.hide()">
+                  (click)="hideDeviceChooserModal()">
               Cancel
           </button>
           <button type="button"
                   class="btn btn-primary"
-                  (click)="onConnect(); deviceChooserModal.hide()"
-                  [disabled]="webusbPort === null">
+                  (click)="onConnect(); hideDeviceChooserModal()"
+                  [disabled]="getActiveTab().port === null">
               Connect
           </button>
       </div>
