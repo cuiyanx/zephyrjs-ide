@@ -73,9 +73,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
     @ViewChildren('editor')
     private editorViews: QueryList<ElementRef>;
 
-    @ViewChild('deviceChooserModal')
-    private deviceChooserModal: ModalDirective;
-
     @ViewChild('warningModal')
     private warningModal: ModalDirective;
 
@@ -88,7 +85,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
     // Variables
 
     private webusbService: WebUsbService = undefined;
-    private webusbPorts: WebUsbPort[] = []; // List of discovered ports
 
     private initialCode: string = [
         'var gpio = require("gpio");',
@@ -436,19 +432,18 @@ export class EditorComponent implements OnInit, AfterViewInit {
         if (tab.port !== null) {
             doConnect();
         } else {
-            this.webusbService.getPorts().then(ports => {
-                this.webusbPorts = ports;
-
-                if (ports.length === 1) {
-                    tab.port = ports[0];
-                    doConnect();
-                } else if (ports.length > 1) {
-                    this.deviceChooserModal.show();
-                } else {
-                    tab.connectionStatus = STATUS.NOT_STARTED;
-                    this.lastMessage = 'No WebUSB capable devices were detected.';
-                    this.errorModal.show();
-                }
+            this.webusbService.requestPort()
+            .then((port: WebUsbPort) => {
+                tab.port = port;
+                doConnect();
+            })
+            .catch((error: string) => {
+                tab.connectionStatus = STATUS.NOT_STARTED;
+                this.lastMessage = {
+                    header: 'Unable to connect to the device',
+                    content: error
+                };
+                this.errorModal.show();
             });
         }
     }

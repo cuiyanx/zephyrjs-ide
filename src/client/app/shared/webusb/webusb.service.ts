@@ -6,8 +6,7 @@ import { WebUsbPort } from './webusbport';
  */
 @Injectable()
 export class WebUsbService {
-    usb: any;
-    ports: WebUsbPort[] = [];
+    public usb: any;
 
     constructor() {
         this.usb = (navigator as any).usb;
@@ -17,16 +16,25 @@ export class WebUsbService {
         }
     }
 
-    getPorts(): Promise<WebUsbPort[]> {
-        return new Promise<WebUsbPort[]>(resolve => {
-            this.usb.getDevices().then((devices: any[]) => {
-                this.ports = devices.map((device: any) => new WebUsbPort(device));
-                resolve(this.ports);
+    public requestPort(): Promise<WebUsbPort> {
+        return new Promise<WebUsbPort>((resolve, reject) => {
+            const filters = [{
+                'vendorId': 0x8086,
+                'productId': 0xF8A1
+            }];
+
+            console.log(this.usb);
+            this.usb.requestDevice({'filters': filters})
+            .then((device: any) => {
+                resolve(new WebUsbPort(device));
+            })
+            .catch((error: string) => {
+                reject(error);
             });
         });
     }
 
-    connect(port: WebUsbPort) {
+    public connect(port: WebUsbPort) {
         return port.connect().then(() => {
             port.onReceive = data => {
                 // tslint:disable-next-line:no-empty
