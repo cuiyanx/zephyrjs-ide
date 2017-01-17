@@ -178,3 +178,9 @@
         color: white;
     }
 }
+
+.modal-error, .modal-warning {
+    .message-content {
+        color: #666;
+    }
+}

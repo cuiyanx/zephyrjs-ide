@@ -44,6 +44,11 @@ interface EditorTab {
     editorStatus?: EDITOR_STATUS;
 };
 
+interface ErrorMessage {
+    header: string;
+    content: string;
+};
+
 declare const monaco: any;
 declare const require: any;
 
@@ -56,7 +61,12 @@ declare const require: any;
   providers: [WebUsbService, ModalDirective]
 })
 export class EditorComponent implements OnInit, AfterViewInit {
-    readonly MAX_TABS: number = 5;
+    public lastMessage: ErrorMessage = {
+        header: '',
+        content: ''
+    };
+
+    private readonly MAX_TABS: number = 5;
 
     // Childen
 
@@ -94,8 +104,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
         '    toggle = !toggle;',
         '    pin.write(toggle);',
         '}, 1000);'].join('\n');
-
-    private lastMessage: string = '';
 
     private tabs: Array<EditorTab> = [{
         id: 1,
@@ -417,7 +425,10 @@ export class EditorComponent implements OnInit, AfterViewInit {
             })
             .catch((error: string) => {
                 tab.connectionStatus = STATUS.ERROR;
-                this.lastMessage = error;
+                this.lastMessage = {
+                    header: 'Unable to connect to the device',
+                    content: error
+                };
                 this.errorModal.show();
             });
         };
@@ -466,7 +477,10 @@ export class EditorComponent implements OnInit, AfterViewInit {
             tab.editorStatus = EDITOR_STATUS.READY;
 
             if (warning !== undefined) {
-                this.lastMessage = warning;
+                this.lastMessage = {
+                    header: 'There were problems uploading your file',
+                    content: warning
+                };
                 this.warningModal.show();
             }
         })
@@ -474,7 +488,10 @@ export class EditorComponent implements OnInit, AfterViewInit {
             tab.connectionStatus = STATUS.NOT_STARTED;
             tab.uploadStatus = STATUS.NOT_STARTED;
             tab.editorStatus = EDITOR_STATUS.READY;
-            this.lastMessage = error;
+            this.lastMessage = {
+                header: 'Unable to upload file',
+                content: error
+            };
             this.errorModal.show();
         });
     }
