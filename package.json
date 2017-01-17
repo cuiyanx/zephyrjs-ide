@@ -1,6 +1,6 @@
 {
   "name": "zephyrjs-ide",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Online JavaScript editor with WebUSB Zephyr.js integration",
   "repository": {
     "url": "https://github.com/01org/zephyr.js"
