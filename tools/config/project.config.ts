@@ -10,6 +10,7 @@ import { SeedConfig } from './seed.config';
 export class ProjectConfig extends SeedConfig {
 
   PROJECT_TASKS_DIR = join(process.cwd(), this.TOOLS_DIR, 'tasks', 'project');
+  GIT_REV: string = '';
 
   constructor() {
     super();
@@ -17,6 +18,7 @@ export class ProjectConfig extends SeedConfig {
 
     this.PORT = argv['port'] || 8000;
     this.PLUGIN_CONFIGS['browser-sync']['port'] = this.PORT;
+    this.GIT_REV = this.getGitRev();
 
     /* Enable typeless compiler runs (faster) between typed compiler runs. */
     // this.TYPED_COMPILE_INTERVAL = 5;
@@ -47,4 +49,11 @@ export class ProjectConfig extends SeedConfig {
     this.ENABLE_SCSS = true;
   }
 
+  getGitRev() {
+      let exec = require('sync-exec');
+      let stdout = exec('git rev-parse --short HEAD').stdout;
+      let rev = stdout.split('\n')[0];
+
+      return rev;
+  }
 }

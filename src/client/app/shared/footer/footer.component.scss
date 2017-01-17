@@ -12,7 +12,9 @@
         font-weight: bold;
     }
 
-    .app-version {
-        color: #ddd;
+    a {
+        color: #bbb;
+        text-style: italic;
+        border-bottom: 1px dotted #bbb;
     }
 }
