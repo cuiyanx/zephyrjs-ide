@@ -293,9 +293,12 @@ export class EditorComponent implements OnInit, AfterViewInit {
     private onCloseTab(id: number) {
         let tab = this.getTabById(id);
         let index = this.tabs.indexOf(tab);
-        this.tabs.splice(index, 1);
+        let hasNewTabButton = this.tabs.filter((t: EditorTab) => {
+            return t.id === 999;
+        }).length > 0;
 
-        if (this.tabs.length < this.MAX_TABS) {
+        this.tabs.splice(index, 1);
+        if (!hasNewTabButton) {
             this.tabs.push(this.generateNewTabButton());
         }
     }
