@@ -11,6 +11,7 @@ export class WebUsbPort {
     device: any;
     decoder: any;
     encoder: any;
+    rawMode: boolean;
 
     constructor(device: any) {
         this.device = device;
@@ -27,7 +28,32 @@ export class WebUsbPort {
     }
 
     public connect(): Promise<void> {
+        this.rawMode = true;
+
         return new Promise<void>((resolve, reject) => {
+            let readLoop = () => {
+                this.device.transferIn(3, 64).then((result: any) => {
+                    let skip = true,
+                        str = this.decoder.decode(result.data);
+
+                    if (str === 'raw') {
+                        this.rawMode = true;
+                    } else if (str === 'ihex') {
+                        this.rawMode = false;
+                    }
+
+                    skip = !this.rawMode && /^(\n|\[.*\])/.test(str);
+
+                    if (!skip) {
+                        this.onReceive(str);
+                    }
+
+                    readLoop();
+                }, (error: string) => {
+                    this.onReceiveError(error);
+                });
+            };
+
             this.device.open()
             .then(() => {
                 if (this.device.configuration === null) {
@@ -42,7 +68,10 @@ export class WebUsbPort {
                         request: 0x22,
                         value: 0x01,
                         index: 0x02})
-                    .then(() => { resolve(); })
+                    .then(() => {
+                        readLoop();
+                        resolve();
+                    })
                     .catch((error: string) => {
                         reject('Unable to send control data to the device: ' +
                                error);
@@ -67,43 +96,15 @@ export class WebUsbPort {
         });
     }
 
-    public send(data: string, expects?: string): Promise<string> {
+    public send(data: string): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             if (data.length === 0) {
                 reject('Empty data');
             }
 
-            console.log('Sending: ' + data);
-
             this.device.transferOut(2, this.encoder.encode(data))
-            .then(() => {
-                if (expects !== undefined) {
-                    let response: string = '',
-                        promise: Promise<void> = null;
-
-                    let await_ = () => {
-                        promise = this.read().then((value: string) => {
-                            response += value;
-                            if (response.includes(expects)) {
-                                resolve();
-                            } else {
-                                await_();
-                            }
-                        });
-                    };
-
-                    setTimeout(() => {
-                        resolve('Timeout while waiting for a response from the device.');
-                    }, 1000);
-
-                    await_();
-                } else {
-                    resolve();
-                }
-            })
-            .catch((error: string) => {
-                reject(error);
-            });
+            .then(() => { resolve(); })
+            .catch((error: string) => { reject(error); });
         });
     }
 
@@ -113,9 +114,9 @@ export class WebUsbPort {
                 reject('Empty data');
             }
 
-            this.send('set transfer ihex\n', '[ECMD]')
-                .then(() => this.send('stop\n', '[ECMD]'))
-                .then(() => this.send('load\n', '[ECMD]'))
+            this.send('set transfer ihex\n')
+                .then(() => this.send('stop\n'))
+                .then(() => this.send('load\n'))
                 .then(() => {
                     let ihex =
                         this.convIHex(
@@ -124,10 +125,10 @@ export class WebUsbPort {
                                     this.stripConsole(data))));
 
                     for (let line of ihex.split('\n')) {
-                        this.send(line + '\n', '[ACK]');
+                        this.send(line + '\n');
                     }
                 })
-                .then(() => this.send('run temp.dat\n', '[ECMD]'))
+                .then(() => this.send('run temp.dat\n'))
                 .then(() => this.send('set transfer raw\n'))
                 .then((warning: string) => resolve(warning))
                 .catch((error: string) => reject(error));

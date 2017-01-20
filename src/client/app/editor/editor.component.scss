@@ -87,30 +87,9 @@
     }
 
     .console {
+        position: relative;
         height: calc(25% - 42px);
-        background-color: white;
-        padding: 20px;
         border: 1px solid darken($panel-color, 5%);
-
-        h2 {
-            color: #f2f2f2;
-            margin-top: -15px;
-            margin-left: -5px;
-            margin-bottom: 5px;
-        }
-
-        .console-content {
-            border: 0;
-            width: calc(100% + 40px);
-            height: calc(100% - 5px);
-            margin-left: -20px;
-            padding: 5px 17.5px;
-            color: #333;
-            font-family: monospaced;
-            resize: none;
-            outline:0px !important;
-             -webkit-appearance:none;
-        }
     }
 
     .status {
@@ -118,7 +97,7 @@
         color: #555;
         text-shadow: 1px 1px 0 white;
         background-color: #eee;
-        padding: 5px 12px;
+        padding: 5px 5px 5px 20px;
         margin: 0 1px;
 
         &.warning {

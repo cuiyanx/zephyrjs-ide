@@ -16,6 +16,14 @@ export class WebUsbService {
         }
     }
 
+    public onReceive(data: string) {
+        // tslint:disable-next-line:no-empty
+    }
+
+    public onReceiveError(error: string) {
+        // tslint:disable-next-line:no-empty
+    }
+
     public requestPort(): Promise<WebUsbPort> {
         return new Promise<WebUsbPort>((resolve, reject) => {
             const filters = [{
@@ -23,7 +31,6 @@ export class WebUsbService {
                 'productId': 0xF8A1
             }];
 
-            console.log(this.usb);
             this.usb.requestDevice({'filters': filters})
             .then((device: any) => {
                 resolve(new WebUsbPort(device));
@@ -36,13 +43,17 @@ export class WebUsbService {
 
     public connect(port: WebUsbPort) {
         return port.connect().then(() => {
-            port.onReceive = data => {
-                // tslint:disable-next-line:no-empty
+            port.onReceive = (data: string) => {
+                this.onReceive(data);
             };
 
-            port.onReceiveError = error => {
-                console.error(error);
+            port.onReceiveError = (error: string) => {
+                this.onReceiveError(error);
             };
         });
+    }
+
+    public send(port: WebUsbPort, data: string) {
+        return port.send(data);
     }
 }

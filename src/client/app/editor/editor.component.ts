@@ -17,7 +17,6 @@ import { GitHubModalComponent } from '../github/github.modal.component';
 import { WebUsbService } from '../shared/webusb/webusb.service';
 import { WebUsbPort } from '../shared/webusb/webusbport';
 
-
 enum STATUS {
     NOT_STARTED,
     STARTING,
@@ -39,6 +38,7 @@ interface EditorTab {
     title: string;
     editor: any;
     port: WebUsbPort;
+    term: any;
     connectionStatus?: STATUS;
     uploadStatus?: STATUS;
     editorStatus?: EDITOR_STATUS;
@@ -85,6 +85,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
     // Variables
 
     private webusbService: WebUsbService = undefined;
+    private hterm: any = undefined;
 
     private initialCode: string = [
         'var gpio = require("gpio");',
@@ -106,13 +107,18 @@ export class EditorComponent implements OnInit, AfterViewInit {
         active: true,
         title: 'Tab 1',
         editor: null,
-        port: null
+        port: null,
+        term: null
     }];
 
     // Methods
 
     constructor(webusbService: WebUsbService) {
         this.webusbService = webusbService;
+
+        let htermUMDjs = require('hterm-umdjs/dist/index');
+        this.hterm = htermUMDjs.hterm;
+        this.hterm.defaultStorage = new htermUMDjs.lib.Storage.Memory();
 
         this.tabs.push(this.generateNewTabButton());
         this.setDefaultTabStatuses(this.getActiveTab().id);
@@ -143,6 +149,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
         }
 
         setTimeout(() => {
+            this.initTerminal(1);
             this.initEditorResizeHandle(1);
             this.initDocsResizeHandle();
         }, 0);
@@ -169,7 +176,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
     // Will be called once monaco library is available
     private initMonaco(id: number) {
         let tab = this.getTabById(id);
-        if (tab.id === id && tab.editor === null) {
+        if (tab !== null && tab.editor === null) {
             let elem = this.getEditorViewById(id);
             if (elem !== null) {
                 tab.editor = monaco.editor.create(elem.nativeElement, {
@@ -178,6 +185,39 @@ export class EditorComponent implements OnInit, AfterViewInit {
                     automaticLayout: true
                 });
             }
+        }
+    }
+
+    private initTerminal(id: number) {
+        let tab = this.getTabById(id);
+        if (tab !== null && tab.term === null) {
+            tab.term = new this.hterm.Terminal();
+
+            tab.term.onTerminalReady = () => {
+                let io = tab.term.io.push();
+                io.onVTKeystroke = (str: string) => {
+                    this.webusbService.send(tab.port, str)
+                    .catch((error: string) => {
+                        io.println('Send error: ' + error);
+                    });
+                };
+
+                io.sendString = (str: string) => {
+                    this.webusbService.send(tab.port, str)
+                    .catch((error: string) => {
+                        io.println('Send error: ' + error);
+                    });
+                };
+            };
+
+            tab.term.prefs_.set('background-color', '#333');
+            tab.term.prefs_.set('foreground-color', '#eee');
+            tab.term.prefs_.set('cursor-color', 'rgba(100, 100, 10, 0.5)');
+            tab.term.prefs_.set('font-size', 13);
+            tab.term.prefs_.set('cursor-blink', true);
+
+            tab.term.decorate(document.getElementById('console-' + id));
+            tab.term.installKeyboard();
         }
     }
 
@@ -321,7 +361,8 @@ export class EditorComponent implements OnInit, AfterViewInit {
             title: '+', // Not really rendered, but gotta match the interface
             active: false,
             editor: null,
-            port: null
+            port: null,
+            term: null
         };
     }
 
@@ -335,6 +376,8 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
         tab.id = id;
         tab.title = 'Tab ' + id;
+        this.initTerminal(id);
+
         let editorView = this.getEditorViewById(999);
         editorView.nativeElement.id = 'editor-' + id;
         this.setDefaultTabStatuses(id);
@@ -417,6 +460,14 @@ export class EditorComponent implements OnInit, AfterViewInit {
         tab.editorStatus = EDITOR_STATUS.CONNECTING;
 
         let doConnect = () => {
+            this.webusbService.onReceive = (data: string) => {
+                tab.term.io.print(data);
+            };
+
+            this.webusbService.onReceiveError = (error: string) => {
+                console.error(error);
+            };
+
             this.webusbService.connect(tab.port)
             .then(() => {
                 tab.connectionStatus = STATUS.DONE;
