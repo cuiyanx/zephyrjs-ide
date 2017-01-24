@@ -385,7 +385,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
         tab.id = id;
         tab.title = 'Sketch # ' + id;
-        this.initTerminal(id);
 
         let editorView = this.getEditorViewById(999);
         editorView.nativeElement.id = 'editor-' + id;
@@ -396,6 +395,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
             // setTimeout to allow the DOM to be updated
             setTimeout(() => {
                 this.initMonaco(tab.id);
+                this.initTerminal(id);
                 this.initEditorResizeHandle(tab.id);
             }, 0);
         }
