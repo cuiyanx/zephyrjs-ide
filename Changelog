@@ -1,3 +1,8 @@
+2017-01-24 Salvatore Iovene <salvatore.iovene@intel.com>
+	* Release 0.3.0
+	* Port UI to latest visual guidelines
+	* Add working console
+
 2017-01-17 Salvatore Iovene <salvatore.iovene@intel.com>
 	* Release 0.2.0
 	* Add version info to the About page, version and revision to footer
