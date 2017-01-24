@@ -1,12 +1,16 @@
+@import '../../../scss/main';
+
 :host {
     position: absolute;
     bottom: 0;
     width: 100%;
     height: 60px;
-    background-color: #666;
-    color: #eee;
-    text-align: right;
     padding: 20px;
+
+    background-color: $footer-bg-color;
+    color: $text-color;
+
+    text-align: right;
 
     .app-name {
         font-weight: bold;

@@ -2,8 +2,7 @@
 
 :host {
   display: block;
-  height: calc(100% - 72px - 60px); // 60px for the footer
-  padding-bottom: 15px;
+  height: calc(100% - 50px - 60px); // 60px for the footer
   overflow: hidden;
 }
 
@@ -16,11 +15,14 @@
     }
 
     .pane {
+        padding: 0;
+
         .pane-header {
-            color: darken($panel-color, 7.5%);
-            border-bottom: 1px solid darken($panel-color, 5%);
-            margin-top: 15px;
-            padding-bottom: 16px;
+            color: $text-highlight-color;
+            margin: 0;
+            padding: 15px;
+            font-size: 15px;
+            text-transform: uppercase;
         }
     }
 
@@ -30,41 +32,65 @@
         .pane-header {
             margin-top: 0;
             margin-bottom: 0;
-            padding: 15px;
+            padding: 8px;
+            padding-left: 40px;
             display: inline-block;
         }
     }
 
     .tab-container /deep/ {
         .tab-content {
-            height: calc(100% - 42px);
+            height: calc(100% - 40px);
         }
 
         .tab-pane {
             height: 100%;
-            border-left: 1px solid darken($panel-color, 5%);
-            border-right: 1px solid darken($panel-color, 5%);
-            border-bottom: 1px solid darken($panel-color, 5%);
         }
 
         .nav-tabs  {
-            border-color: darken($panel-color, 5%);
+            background-color: $panel-bg-color;
+            border: 0;
+            padding-left: 35px;
 
-            a {
-                &.active {
-                    border-top-color: darken($panel-color, 5%);
-                    border-right-color: darken($panel-color, 5%);
-                    border-left-color: darken($panel-color, 5%);
+            li {
+                padding: 10px 0;
+
+                &:hover {
+                    background-color: lighten($panel-bg-color, 5%);
+
+                    a {
+                        color: $accent-color;
+                        border-right-color: lighten($panel-bg-color, 5%);
+                    }
                 }
 
-                &:not(.active) {
-                    border-bottom-color: darken($panel-color, 5%);
+                &:last-child a {
+                    border-right: none;
+                }
+
+                a {
+                    padding: 0 20px;
+                    margin: 0;
+
+                    border: none;
+                    border-right: 1px solid lighten($panel-bg-color, 10%);
+                    border-radius: 0;
+
+                    background-color: inherit;
+                    color: $text-color;
+
+                    text-transform: uppercase;
+
+                    &.active {
+                        color: $text-highlight-color;
+                        font-weight: bold;
+                    }
                 }
             }
         }
 
-        .tab-pane, .nav-link {
-            background-color: $panel-color;
+        .tab-pane {
+            background-color: $panel-bg-color;
         }
 
         .close-tab {
@@ -72,10 +98,35 @@
         }
     }
 
+    .editor-toolbar {
+        background-color: $code-bg-color;
+        padding: 5px 15px 30px 45px;
+
+        button {
+            background: none;
+            border: 0;
+            color: $text-color;
+            box-shadow: none;
+            text-shadow: none;
+            font-size: 11px;
+            font-weight: normal;
+
+            fa {
+                margin-right: 4px;
+            }
+        }
+    }
+
     .monaco-editor {
-        height: calc(75% - 64px);
+        height: calc(75% - 93px);
         min-height: 250px;
-        border: 1px solid darken($panel-color, 5%);
+        background-color: $code-bg-color;
+
+        /deep/ {
+            .monaco-editor.vs-dark, .monaco-editor-background {
+                background-color: $code-bg-color;
+            }
+        }
     }
 
     .horizontal-resize-handle {
@@ -83,22 +134,20 @@
         text-align: center;
         line-height: 0;
         cursor: ns-resize;
-        color: darken($panel-color, 15%);
+        color: $text-color;
     }
 
     .console {
         position: relative;
-        height: calc(25% - 42px);
-        border: 1px solid darken($panel-color, 5%);
+        height: calc(25% - 43px);
     }
 
     .status {
-        font-size: 90%;
-        color: #555;
-        text-shadow: 1px 1px 0 white;
-        background-color: #eee;
-        padding: 5px 5px 5px 20px;
-        margin: 0 1px;
+        font-size: 10px;
+        color: darken($text-color, 10%);
+        background-color: $panel-bg-color;
+        padding: 5px;
+        padding-left: 40px;
 
         &.warning {
             color: $warning-color;
@@ -116,20 +165,18 @@
     }
 
     #documentation-pane {
-        margin-top: 41px;
-        background-color: $panel-color;
-        border: 1px solid darken($panel-color, 5%);
-        height: calc(100% - 41px);
-        width: calc(50% - 15px);
+        background-color: $panel-bg-color;
+        height: 100%;
+        width: 50%;
 
         #documentation-resize-handle {
             position: absolute;
             top: 0;
-            left: -16px;
+            left: 0px;
             height: 100%;
             width: 15px;
             cursor: ew-resize;
-            color: darken($panel-color, 15%);
+            color: $text-color;
 
             fa {
                 position: absolute;
@@ -137,29 +184,5 @@
                 left: 6px;
             }
         }
-    }
-}
-
-.modal-error .modal-header {
-    color: white;
-    background: $error-color;
-
-    .close {
-        color: white;
-    }
-}
-
-.modal-warning .modal-header {
-    color: white;
-    background: $warning-color;
-
-    .close {
-        color: white;
-    }
-}
-
-.modal-error, .modal-warning {
-    .message-content {
-        color: #666;
     }
 }

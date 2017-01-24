@@ -35,8 +35,12 @@
 
         tbody {
             tr {
+                a {
+                    color: $text-color;
+                }
+
                 &:hover {
-                    background-color: #f2f2f2;
+                    background-color: lighten($panel-bg-color, 2.5%);
                 }
 
                 &.directory td {
@@ -44,7 +48,7 @@
                 }
 
                 &.selected {
-                    background: #4078c0;
+                    background: lighten($panel-bg-color, 5%);
 
                     td, td > a {
                         color: white;

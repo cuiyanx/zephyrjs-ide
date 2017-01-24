@@ -105,7 +105,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
     private tabs: Array<EditorTab> = [{
         id: 1,
         active: true,
-        title: 'Tab 1',
+        title: 'Sketch # 1',
         editor: null,
         port: null,
         term: null
@@ -179,10 +179,17 @@ export class EditorComponent implements OnInit, AfterViewInit {
         if (tab !== null && tab.editor === null) {
             let elem = this.getEditorViewById(id);
             if (elem !== null) {
+                monaco.editor.defineTheme('zephyrjs-ide', {
+                    base: 'vs-dark',
+                    inherit: true,
+                    rules: []
+                });
+
                 tab.editor = monaco.editor.create(elem.nativeElement, {
                     value: this.initialCode,
                     language: 'javascript',
-                    automaticLayout: true
+                    automaticLayout: true,
+                    theme: 'zephyrjs-ide'
                 });
             }
         }
@@ -210,8 +217,10 @@ export class EditorComponent implements OnInit, AfterViewInit {
                 };
             };
 
-            tab.term.prefs_.set('background-color', '#333');
-            tab.term.prefs_.set('foreground-color', '#eee');
+            // TODO: replace these colors at build time, so they are always
+            // in sync with src/client/scss/colors.scss.
+            tab.term.prefs_.set('background-color', '#22252e');
+            tab.term.prefs_.set('foreground-color', '#d9d9d9');
             tab.term.prefs_.set('cursor-color', 'rgba(100, 100, 10, 0.5)');
             tab.term.prefs_.set('font-size', 13);
             tab.term.prefs_.set('cursor-blink', true);
@@ -375,7 +384,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
         let id = this.getFirstAvailableTabId();
 
         tab.id = id;
-        tab.title = 'Tab ' + id;
+        tab.title = 'Sketch # ' + id;
         this.initTerminal(id);
 
         let editorView = this.getEditorViewById(999);

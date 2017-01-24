@@ -21,27 +21,25 @@
                     </div>
                 </template>
 
-                <h2 class="pane-header">Editor</h2>
-
-                <div class="buttons">
+                <div class="editor-toolbar">
                     <button
                         class="btn btn-default"
                         [disabled]="!mayConnect(tab.id)"
                         (click)="onConnect(tab.id)">
-                        <fa [name]="'plug'"></fa>
+                        <fa [name]="'plug'"></fa> Connect
                     </button>
 
                     <button
                         class="btn btn-default"
                         [disabled]="!mayUpload(tab.id)"
                         (click)="onUpload(tab.id)">
-                        <fa [name]="'upload'"></fa>
+                        <fa [name]="'upload'"></fa> Upload
                     </button>
 
                     <button
                         class="btn btn-default"
                         (click)="onFetchFromGitHub(tab.id)">
-                        <fa [name]="'github'"></fa>
+                        <fa [name]="'github'"></fa> GitHub
                     </button>
                 </div>
 
@@ -54,6 +52,8 @@
                 <div class="horizontal-resize-handle" id="editor-resize-handle-{{tab.id}}">
                     <fa [name]="'ellipsis-h'"></fa>
                 </div>
+
+                <div class="pane-header">Console</div>
 
                 <div id="console-{{tab.id}}" class="console">
                     
@@ -71,7 +71,7 @@
             <fa [name]="'ellipsis-v'"></fa>
         </div>
 
-        <h2 class="pane-header">Documentation</h2>
+        <h2 class="pane-header">Board schematic</h2>
     </div>
 </div> <!-- /row editor-container -->
 

@@ -2,3 +2,63 @@
 @import 'fonts';
 @import 'mixins';
 @import 'variables';
+
+strong {
+    color: $text-highlight-color;
+}
+
+a {
+    color: $accent-color;
+}
+
+/* MISC */
+
+.well {
+    background: lighten($panel-bg-color, 10%);
+    border-color: lighten($panel-bg-color, 5%);
+}
+
+/* MODALS */
+
+.modal-header {
+    border-bottom-color: darken($panel-bg-color, 10%);
+    color: $text-highlight-color;
+
+    .close {
+        color: $text-highlight-color;
+    }
+}
+
+.modal-content {
+    background-color: $panel-bg-color;
+    color: $text-color;
+
+    h3 {
+        margin-top: 0;
+        color: $text-highlight-color;
+    }
+}
+
+.modal-error .modal-header {
+    background: $error-color;
+}
+
+.modal-warning .modal-header {
+    background: $warning-color;
+}
+
+.modal-footer {
+    border-top-color: lighten($panel-bg-color, 10%);
+}
+
+/* BUTTONS */
+
+.btn-primary {
+    @include button-variant(white, $accent-color, darken($accent-color, 5%));
+}
+
+/* TABLES */
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td,
+.table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    border-color: lighten($panel-bg-color, 1%);
+}

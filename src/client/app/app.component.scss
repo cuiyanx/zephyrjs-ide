@@ -1,0 +1,8 @@
+@import '../scss/main';
+
+:host {
+    background: $panel-bg-color;
+    color: $text-color;
+    display: block;
+    height: 100%;
+}
