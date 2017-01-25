@@ -117,14 +117,18 @@
         }
     }
 
-    .monaco-editor {
-        height: calc(75% - 93px);
+    .monaco-container {
+        height: calc(75% - 31px);
         min-height: 250px;
-        background-color: $code-bg-color;
 
-        /deep/ {
-            .monaco-editor.vs-dark, .monaco-editor-background {
-                background-color: $code-bg-color;
+        .monaco-editor {
+            height: calc(100% - 62px); // 62px for the toolbar
+            background-color: $code-bg-color;
+
+            /deep/ {
+                .monaco-editor.vs-dark, .monaco-editor-background {
+                    background-color: $code-bg-color;
+                }
             }
         }
     }
@@ -137,12 +141,24 @@
         color: $text-color;
     }
 
-    .console {
+    .console-container {
         position: relative;
         height: calc(25% - 43px);
+
+        .pane-header {
+            width: 100%;
+            background-color: $panel-bg-color;
+        }
+
+        .console {
+            height: 100%;
+        }
     }
 
-    .status {
+    .statusbar {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
         font-size: 10px;
         color: darken($text-color, 10%);
         background-color: $panel-bg-color;

@@ -231,14 +231,53 @@ export class EditorComponent implements OnInit, AfterViewInit {
     }
 
     private initEditorResizeHandle(id: number) {
-        let editorResizeHandleEl = document.getElementById('editor-resize-handle-' + id);
-        let editorEl = document.getElementById('editor-' + id);
-        let consoleEl = document.getElementById('console-' + id);
+        interface IElements {
+            editorContainer: HTMLElement;
+            resizeHandle: HTMLElement;
+            consoleContainer: HTMLElement;
+            consoleHeader: HTMLElement;
+            statusBar: HTMLElement;
+            footer: HTMLElement;
+        };
+
+        let elems: IElements = {
+            editorContainer: document.getElementById('monaco-container-' + id),
+            resizeHandle: document.getElementById('editor-resize-handle-' + id),
+            consoleContainer: document.getElementById('console-container-' + id),
+            consoleHeader: document.getElementById('console-header-' + id),
+            statusBar: document.getElementById('statusbar-' + id),
+            footer: document.getElementById('footer')
+        };
+
+        if (elems.editorContainer === null ||
+            elems.resizeHandle === null ||
+            elems.consoleContainer === null ||
+            elems.consoleHeader === null ||
+            elems.statusBar === null ||
+            elems.footer === null) {
+            return;
+        }
 
         let doEditorResize = (ev: any) => {
-            if (window.innerHeight - ev.clientY > 91) {
-                editorEl.style.height = (ev.clientY - editorEl.offsetTop - 80) + 'px';
-                consoleEl.style.height = (consoleEl.parentElement.offsetHeight - editorEl.offsetHeight - 101) + 'px';
+            // The resizing should not happen over this limit so that the
+            // status bar is not pushed out of the way.
+            let overflowLimit =
+                elems.consoleHeader.clientHeight +
+                elems.statusBar.clientHeight +
+                elems.footer.clientHeight;
+
+            if (window.innerHeight - ev.clientY > overflowLimit) {
+                elems.editorContainer.style.height = (
+                    ev.clientY -
+                    elems.editorContainer.offsetTop -
+                    elems.footer.clientHeight) + 'px';
+
+                elems.consoleContainer.style.height = (
+                    elems.consoleContainer.parentElement.clientHeight -
+                    elems.editorContainer.clientHeight -
+                    elems.resizeHandle.clientHeight -
+                    elems.consoleHeader.clientHeight -
+                    elems.statusBar.clientHeight) + 'px';
             }
             ev.preventDefault();
         };
@@ -253,7 +292,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
             window.addEventListener('mouseup', stopEditorResize, false);
         };
 
-        editorResizeHandleEl.addEventListener('mousedown', startEditorResize, false);
+        elems.resizeHandle.addEventListener('mousedown', startEditorResize, false);
     }
 
     private initDocsResizeHandle() {
