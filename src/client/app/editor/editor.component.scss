@@ -83,6 +83,7 @@
 
                     &.active {
                         color: $text-highlight-color;
+                        font-family: 'ClearSansBold', Helvetica, sans-serif;
                         font-weight: bold;
                     }
                 }
@@ -159,7 +160,7 @@
         position: absolute;
         bottom: 0;
         width: 100%;
-        font-size: 10px;
+        font-size: 11px;
         color: darken($text-color, 10%);
         background-color: $panel-bg-color;
         padding: 5px;
