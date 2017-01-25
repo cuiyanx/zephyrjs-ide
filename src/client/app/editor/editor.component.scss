@@ -33,7 +33,7 @@
             margin-top: 0;
             margin-bottom: 0;
             padding: 8px;
-            padding-left: 40px;
+            padding-left: 52px;
             display: inline-block;
         }
     }
@@ -50,7 +50,7 @@
         .nav-tabs  {
             background-color: $panel-bg-color;
             border: 0;
-            padding-left: 35px;
+            padding-left: 32px;
 
             li {
                 padding: 10px 0;
@@ -101,7 +101,7 @@
 
     .editor-toolbar {
         background-color: $code-bg-color;
-        padding: 5px 15px 30px 45px;
+        padding: 5px 15px 30px 42px;
 
         button {
             background: none;
@@ -165,7 +165,7 @@
         color: darken($text-color, 10%);
         background-color: $panel-bg-color;
         padding: 5px;
-        padding-left: 40px;
+        padding-left: 52px;
 
         &.warning {
             color: $warning-color;
