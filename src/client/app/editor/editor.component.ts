@@ -197,23 +197,30 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
     private initTerminal(id: number) {
         let tab = this.getTabById(id);
+
         if (tab !== null && tab.term === null) {
             tab.term = new this.hterm.Terminal();
 
             tab.term.onTerminalReady = () => {
                 let io = tab.term.io.push();
+
+                let send = (port: WebUsbPort, str: string) => {
+                    if (tab.port !== null) {
+                        this.webusbService.send(tab.port, str)
+                        .catch((error: string) => {
+                            io.println('Send error: ' + error);
+                        });
+                    } else {
+                        io.println('Not connected to a device yet');
+                    }
+                };
+
                 io.onVTKeystroke = (str: string) => {
-                    this.webusbService.send(tab.port, str)
-                    .catch((error: string) => {
-                        io.println('Send error: ' + error);
-                    });
+                    send(tab.port, str);
                 };
 
                 io.sendString = (str: string) => {
-                    this.webusbService.send(tab.port, str)
-                    .catch((error: string) => {
-                        io.println('Send error: ' + error);
-                    });
+                    send(tab.port, str);
                 };
             };
 
