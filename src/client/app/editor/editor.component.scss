@@ -48,32 +48,25 @@
         }
 
         .nav-tabs  {
-            background-color: $panel-bg-color;
+            margin-top: 0;
+            padding-left: 42px;
             border: 0;
-            padding-left: 32px;
+            background-color: $panel-bg-color;
 
             li {
                 padding: 10px 0;
 
-                &:hover {
-                    background-color: lighten($panel-bg-color, 5%);
-
-                    a {
-                        color: $accent-color;
-                        border-right-color: lighten($panel-bg-color, 5%);
-                    }
-                }
-
-                &:last-child a {
-                    border-right: none;
+                &:hover:not(:last-child) a:not(.close-tab):not(.active) {
+                    color: white;
+                    font-weight: bold;
                 }
 
                 a {
-                    padding: 0 20px;
+                    padding: 0 10px;
                     margin: 0;
 
                     border: none;
-                    border-right: 1px solid lighten($panel-bg-color, 10%);
+                    border-right: 1px solid lighten($panel-bg-color, 5%);
                     border-radius: 0;
 
                     background-color: inherit;
@@ -82,9 +75,36 @@
                     text-transform: uppercase;
 
                     &.active {
+                        color: $secondary-accent-color;
+                    }
+
+                    &.close-tab {
+                        text-align: right;
+                        margin-left: 10px;
+                        padding: 0;
+
+                        &:hover {
+                            color: red;
+                        }
+                    }
+                }
+
+                &:last-child {
+                    float: right;
+                    margin-top: 6px;
+
+                    a {
+                        padding: 0 10px;
+                        font-size: 12px;
                         color: $text-highlight-color;
-                        font-family: $bold-font;
-                        font-weight: bold;
+                        background: $accent-color;
+                        text-shadow: 0 1px 0 darken($accent-color, 10%);
+                        border: 1px solid darken($accent-color, 5%);
+                        border-radius: 5px;
+
+                        &:hover {
+                            background: lighten($accent-color, 5%);
+                        }
                     }
                 }
             }
@@ -92,10 +112,6 @@
 
         .tab-pane {
             background-color: $panel-bg-color;
-        }
-
-        .close-tab {
-            margin-left: 6px;
         }
     }
 
@@ -124,7 +140,7 @@
         min-height: 250px;
 
         .monaco-editor {
-            height: calc(100% - 62px); // 62px for the toolbar
+            height: calc(100% - 76px); // 62px for the toolbar
             background-color: $code-bg-color;
 
             /deep/ {
