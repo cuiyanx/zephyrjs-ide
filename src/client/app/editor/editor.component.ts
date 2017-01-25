@@ -179,17 +179,23 @@ export class EditorComponent implements OnInit, AfterViewInit {
         if (tab !== null && tab.editor === null) {
             let elem = this.getEditorViewById(id);
             if (elem !== null) {
-                monaco.editor.defineTheme('zephyrjs-ide', {
-                    base: 'vs-dark',
-                    inherit: true,
-                    rules: []
-                });
+                let theme = 'vs-dark';
+
+                if (monaco.editor.defineTheme !== undefined) {
+                    monaco.editor.defineTheme('zephyrjs-ide', {
+                        base: theme,
+                        inherit: true,
+                        rules: []
+                    });
+
+                    theme = 'zephyrjs-ide';
+                }
 
                 tab.editor = monaco.editor.create(elem.nativeElement, {
                     value: this.initialCode,
                     language: 'javascript',
                     automaticLayout: true,
-                    theme: 'zephyrjs-ide'
+                    theme: theme
                 });
             }
         }
