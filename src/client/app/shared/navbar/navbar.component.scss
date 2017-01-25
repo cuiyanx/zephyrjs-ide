@@ -1,5 +1,7 @@
 @import '../../../scss/main';
 
+$active-link-border-width: 5px;
+
 .navbar-default {
     background: $navbar-bg-color;
     margin: 0;
@@ -15,11 +17,15 @@
 
     .navbar-nav > li > a {
         color: $text-color;
+        padding-bottom: 10px;
+
+        &.router-link-active {
+            border-bottom: $active-link-border-width solid $accent-color;
+        }
 
         &:focus, &:hover {
             color: $text-highlight-color;
-            padding-bottom: 10px;
-            border-bottom: 5px solid lighten($accent-color, 5%);
+            border-bottom: $active-link-border-width solid lighten($accent-color, 5%);
         }
     }
 }
