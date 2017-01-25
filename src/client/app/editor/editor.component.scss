@@ -40,7 +40,7 @@
 
     .tab-container /deep/ {
         .tab-content {
-            height: calc(100% - 40px);
+            height: calc(100% - 45px);
         }
 
         .tab-pane {
@@ -136,11 +136,11 @@
     }
 
     .monaco-container {
-        height: calc(75% - 31px);
+        height: 60%;
         min-height: 250px;
 
         .monaco-editor {
-            height: calc(100% - 76px); // 62px for the toolbar
+            height: calc(100% - 75px);
             background-color: $code-bg-color;
 
             /deep/ {
@@ -161,15 +161,21 @@
 
     .console-container {
         position: relative;
-        height: calc(25% - 43px);
+        height: calc(40% - 40px);
+        overflow: hidden;
 
         .pane-header {
+            position: absolute;
+            top: 0;
             width: 100%;
             background-color: $panel-bg-color;
         }
 
         .console {
-            height: 100%;
+            position: absolute;
+            top: 32px;
+            width: 100%;
+            height: calc(100% - 32px);
         }
     }
 

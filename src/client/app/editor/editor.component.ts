@@ -289,7 +289,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
                     elems.consoleContainer.parentElement.clientHeight -
                     elems.editorContainer.clientHeight -
                     elems.resizeHandle.clientHeight -
-                    elems.consoleHeader.clientHeight -
                     elems.statusBar.clientHeight) + 'px';
             }
             ev.preventDefault();

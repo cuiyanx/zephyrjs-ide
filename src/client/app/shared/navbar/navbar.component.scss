@@ -20,12 +20,18 @@ $active-link-border-width: 5px;
         padding-bottom: 10px;
 
         &.router-link-active {
+            padding-bottom: 6px;
             border-bottom: $active-link-border-width solid $accent-color;
         }
 
         &:focus, &:hover {
             color: $text-highlight-color;
+            padding-bottom: 6px;
             border-bottom: $active-link-border-width solid lighten($accent-color, 5%);
         }
+    }
+
+    .navbar-toggle {
+        margin-bottom: 0;
     }
 }
