@@ -157,8 +157,8 @@ export class EditorComponent implements OnInit, AfterViewInit {
         window.onresize = () => {
             let editorPane = document.getElementById('editor-pane');
             let docsPane = document.getElementById('documentation-pane');
-            let editors = document.getElementsByClassName('monaco-editor');
-            let consoles = document.getElementsByClassName('console');
+            let editors = document.getElementsByClassName('monaco-container');
+            let consoles = document.getElementsByClassName('console-container');
 
             editorPane.style.width = '';
             docsPane.style.width = '';
