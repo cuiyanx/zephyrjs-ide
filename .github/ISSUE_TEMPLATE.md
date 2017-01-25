@@ -1,32 +1,14 @@
-<!--
-IF YOU DON'T FILL OUT THE FOLLOWING INFORMATION WE MIGHT CLOSE YOUR ISSUE WITHOUT INVESTIGATING
--->
-
-**I'm submitting a ...**  (check one with "x")
-```
-[ ] bug report => search github for a similar issue or PR before submitting
-[ ] feature request
-```
+**Issue description**
+<!-- Shortly describe your issue. -->
 
 **Current behavior**
-<!-- Describe how the bug manifests. -->
+<!-- Describe how the issue manifests. -->
 
 **Expected behavior**
-<!-- Describe what the behavior would be without the bug. -->
+<!-- Describe what the behavior would be without the issue. -->
 
-**Minimal reproduction of the problem with instructions**
-<!--
-If the current behavior is a bug or you can illustrate your feature request better with an example, 
-please provide the *STEPS TO REPRODUCE* and if possible a *MINIMAL DEMO* of the problem.
--->
+**Steps to reproduce**
+<!-- If not obvious, please describe how to reproduce the issue. -->
 
-**What is the motivation / use case for changing the behavior?**
-<!-- Describe the motivation or the concrete use case -->
-
-**Please tell us about your environment:**
-<!-- Operating system, IDE, package manager, HTTP server, ... -->
-
-* **Zephyr.js IDE Version:** `abcd1234`
-<!-- Check which is the hash of the last commit from `Zephyr.js` that you have locally -->
-
-* **Node:** `node --version` =
+**Zephyr.js IDE version:** `X.Y.Z / abcd1234`
+<!-- Look at the footer of your Zephyr.js IDE page for this information. -->
