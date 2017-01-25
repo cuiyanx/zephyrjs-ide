@@ -61,7 +61,6 @@ _Does not rely on any global dependencies._
 - [Running tests](#running-tests)
 - [Contributing](#contributing)
 - [Directory Structure](#directory-structure)
-- [Change Log](#change-log)
 - [License](#license)
 
 # Configuration
