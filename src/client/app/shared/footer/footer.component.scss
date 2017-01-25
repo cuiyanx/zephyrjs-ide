@@ -8,17 +8,23 @@
     padding: 20px;
 
     background-color: $footer-bg-color;
-    color: $text-color;
 
     text-align: right;
 
     .app-name {
+        font-family: $bold-font;
         font-weight: bold;
     }
 
     a {
-        color: #bbb;
-        text-style: italic;
-        border-bottom: 1px dotted #bbb;
+        color: $accent-color;
+        text-decoration: none;
+        font-style: italic;
+
+        &:hover {
+            &:hover, &:focus {
+                color: lighten($accent-color, 5%);
+            }
+        }
     }
 }
