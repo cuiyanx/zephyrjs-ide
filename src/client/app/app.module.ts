@@ -20,7 +20,7 @@ import { SharedModule } from './shared/shared.module';
   imports: [
       BrowserModule,
       HttpModule,
-      RouterModule.forRoot(routes),
+      RouterModule.forRoot(routes, {useHash: true}),
       Ng2BootstrapModule,
       AboutModule,
       EditorModule,
