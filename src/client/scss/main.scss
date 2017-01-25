@@ -4,21 +4,6 @@
 @import 'variables';
 
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'ClearSansBold', Helvetica, sans-serif;
-    font-weight: bold;
-}
-
-strong {
-    color: $text-highlight-color;
-    font-family: 'ClearSansBold', Helvetica, sans-serif;
-    font-weight: bold;
-}
-
-a {
-    color: $accent-color;
-}
-
 /* MISC */
 
 .well {

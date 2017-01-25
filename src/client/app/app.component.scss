@@ -5,5 +5,15 @@
     color: $text-color;
     display: block;
     height: 100%;
-    font-family: 'ClearSansRegular', Helvetica, sans-serif !important;
+    font-family: $default-font;
+
+    h1, h2, h3, h4, h5, h6, strong {
+        color: $text-highlight-color;
+        font-family: $bold-font;
+        font-weight: bold;
+    }
+
+    a {
+        color: $accent-color;
+    }
 }

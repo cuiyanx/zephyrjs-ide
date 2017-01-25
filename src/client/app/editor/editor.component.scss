@@ -18,9 +18,9 @@
         padding: 0;
 
         .pane-header {
-            color: $text-highlight-color;
             margin: 0;
             padding: 15px;
+            font-family: $bold-font;
             font-size: 15px;
             text-transform: uppercase;
         }
@@ -83,7 +83,7 @@
 
                     &.active {
                         color: $text-highlight-color;
-                        font-family: 'ClearSansBold', Helvetica, sans-serif;
+                        font-family: $bold-font;
                         font-weight: bold;
                     }
                 }
@@ -109,6 +109,7 @@
             color: $text-color;
             box-shadow: none;
             text-shadow: none;
+            font-family: $default-font;
             font-size: 11px;
             font-weight: normal;
 
