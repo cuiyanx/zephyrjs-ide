@@ -1,26 +1,35 @@
 <div class="row editor-container">
     <div class="col-md-6 pane" id="editor-pane">
-        <tabset>
-            <tab *ngFor="let tab of tabs"
-                 (select)="onTabSelected(tab.id)">
+        <ul #tabMenu class="nav nav-tabs" role="tablist">
+            <li
+                *ngFor="let tab of tabs" role="presentation"
+                [ngClass]="{'nav-item': true, 'active': tab.active}">
+                <a
+                    class="nav-link"
+                    href="#tab-{{tab.id}}"
+                    role="tab"
+                    data-toggle="tab">
 
-                <template tabHeading>
-                    <div *ngIf="tab.id === 999">
-                        <fa [name]="'plus'"></fa>
-                        New sketch
-                    </div>
-
-                    <div *ngIf="tab.id !== 999">
+                    <div class="tab-title">
                         {{tab.title}}
-
-                        <a *ngIf="tabs.length > 2"
-                           href="#"
-                           class="close-tab"
-                           (click)="onCloseTab(tab.id)">
-                            <fa [name]="'close'"></fa>
-                        </a>
                     </div>
-                </template>
+
+                    <a *ngIf="tabs.length > 1"
+                       href=""
+                       class="close-tab"
+                       (click)="onCloseTab(tab.id)">
+                        <fa [name]="'close'"></fa>
+                    </a>
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div
+                *ngFor="let tab of tabs"
+                role="tabpanel"
+                [ngClass]="{'tab-pane': true, 'active': tab.active}"
+                id="tab-{{tab.id}}">
 
                 <div
                     id="monaco-container-{{tab.id}}"
@@ -78,8 +87,15 @@
                     [ngClass]="['statusbar', getEditorStatus(tab.id).cls]">
                     {{getEditorStatus(tab.id).msg}}
                 </div>
-            </tab>
-        </tabset>
+            </div> <!-- ./tab-pane -->
+        </div> <!-- ./tab-content -->
+
+        <button
+            id="new-tab-button"
+            [hidden]="!mayAddTab()"
+            (click)="newTab()">
+            <fa [name]="'plus'"></fa> New sketch
+        </button>
     </div> <!-- /col pane -->
 
     <div class="col-md-6 pane" id="documentation-pane">

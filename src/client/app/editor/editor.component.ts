@@ -66,12 +66,15 @@ export class EditorComponent implements OnInit, AfterViewInit {
         content: ''
     };
 
-    private readonly MAX_TABS: number = 5;
+    private readonly MAX_TABS: number = 10;
 
     // Childen
 
     @ViewChildren('editor')
     private editorViews: QueryList<ElementRef>;
+
+    @ViewChild('tabMenu')
+    private tabMenu: ElementRef;
 
     @ViewChild('warningModal')
     private warningModal: ModalDirective;
@@ -119,9 +122,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
         let htermUMDjs = require('hterm-umdjs/dist/index');
         this.hterm = htermUMDjs.hterm;
         this.hterm.defaultStorage = new htermUMDjs.lib.Storage.Memory();
-
-        this.tabs.push(this.generateNewTabButton());
-        this.setDefaultTabStatuses(this.getActiveTab().id);
     }
 
     public ngOnInit() {
@@ -149,6 +149,8 @@ export class EditorComponent implements OnInit, AfterViewInit {
         }
 
         setTimeout(() => {
+            this.setDefaultTabStatuses(1);
+            this.computeTabMenuWidth();
             this.initTerminal(1);
             this.initEditorResizeHandle(1);
             this.initDocsResizeHandle();
@@ -170,7 +172,22 @@ export class EditorComponent implements OnInit, AfterViewInit {
             for (let i = 0; i < consoles.length; i++ ) {
                 (consoles[i] as HTMLElement).style.height = '';
             }
+
+            this.computeTabMenuWidth();
         };
+    }
+
+    private computeTabMenuWidth() {
+        let editorPane = document.getElementById('editor-pane');
+        let newButton = document.getElementById('new-tab-button');
+
+        let width = editorPane.clientWidth - 10;
+
+        if (newButton !== null) {
+            width -= newButton.clientWidth;
+        }
+
+        this.tabMenu.nativeElement.style.width = width + 'px';
     }
 
     // Will be called once monaco library is available
@@ -316,6 +333,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
             if (window.innerWidth - ev.clientX > 300) {
                 editorEl.style.width = (ev.clientX + editorEl.offsetLeft) + 'px';
                 docsEl.style.width = (docsEl.parentElement.offsetWidth - editorEl.offsetWidth - 45) + 'px';
+                this.computeTabMenuWidth();
             }
             ev.preventDefault();
         };
@@ -354,21 +372,11 @@ export class EditorComponent implements OnInit, AfterViewInit {
     private getFirstAvailableTabId(): number {
         let max = 1;
         for (let tab of this.tabs) {
-            if (tab.id < 999 && tab.id > max) {
+            if (tab.id > max) {
                 max = tab.id;
             }
         }
         return max + 1;
-    }
-
-    private activateTab(id: number) {
-        for (let tab of this.tabs) {
-            if (tab.id === id) {
-                tab.active = true;
-            } else {
-                tab.active = false;
-            }
-        }
     }
 
     private getActiveTab(): EditorTab {
@@ -381,25 +389,14 @@ export class EditorComponent implements OnInit, AfterViewInit {
     }
 
     // tslint:disable-next-line:no-unused-variable
-    private onTabSelected(id: number) {
-        if (id === 999) { // Special case for the 'new tab' button
-            this.newTab();
-        } else {
-            this.activateTab(id);
-        }
-    }
-
-    // tslint:disable-next-line:no-unused-variable
     private onCloseTab(id: number) {
         let tab = this.getTabById(id);
         let index = this.tabs.indexOf(tab);
-        let hasNewTabButton = this.tabs.filter((t: EditorTab) => {
-            return t.id === 999;
-        }).length > 0;
-
         this.tabs.splice(index, 1);
-        if (!hasNewTabButton) {
-            this.tabs.push(this.generateNewTabButton());
+        this.tabs[this.tabs.length - 1].active = true;
+
+        if (this.tabs.length === this.MAX_TABS - 1) {
+            this.computeTabMenuWidth();
         }
     }
 
@@ -415,47 +412,39 @@ export class EditorComponent implements OnInit, AfterViewInit {
         }
     }
 
-    private generateNewTabButton(): EditorTab {
-        return {
-            id: 999, // 999 reserved for the 'New tab' button
-            title: '+', // Not really rendered, but gotta match the interface
-            active: false,
-            editor: null,
-            port: null,
-            term: null
-        };
-    }
-
+    // tslint:disable-next-line:no-unused-variable
     private mayAddTab(): boolean {
         return this.tabs.length < this.MAX_TABS;
     }
 
+    // tslint:disable-next-line:no-unused-variable
     private newTab(): EditorTab {
-        let tab = this.getTabById(999);
         let id = this.getFirstAvailableTabId();
+        let tab: EditorTab = {
+            id: id,
+            active: true,
+            title: 'Sketch # ' + id,
+            editor: null,
+            port: null,
+            term: null
+        };
 
-        tab.id = id;
-        tab.title = 'Sketch # ' + id;
-
-        let editorView = this.getEditorViewById(999);
-        editorView.nativeElement.id = 'editor-' + id;
-        this.setDefaultTabStatuses(id);
-        this.activateTab(id);
-
-        if (tab.editor === null) {
-            // setTimeout to allow the DOM to be updated
-            setTimeout(() => {
-                this.initMonaco(tab.id);
-                this.initTerminal(id);
-                this.initEditorResizeHandle(tab.id);
-            }, 0);
+        for (let other of this.tabs) {
+            other.active = false;
         }
 
-        if (this.mayAddTab()) {
-            // Insert new 'new tab' button
-            this.tabs.push(this.generateNewTabButton());
-            this.setDefaultTabStatuses(999);
+        this.tabs.push(tab);
+
+        if (this.tabs.length === this.MAX_TABS) {
+            this.computeTabMenuWidth();
         }
+
+        setTimeout(() => {
+            this.setDefaultTabStatuses(tab.id);
+            this.initMonaco(tab.id);
+            this.initTerminal(tab.id);
+            this.initEditorResizeHandle(tab.id);
+        }, 0);
 
         return tab;
     }

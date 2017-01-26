@@ -10,11 +10,8 @@
     height: 100%;
     padding: 0 15px;
 
-    .pane, .pane, .tab-container {
-        height: 100%;
-    }
-
     .pane {
+        height: 100%;
         padding: 0;
 
         .pane-header {
@@ -38,84 +35,114 @@
         }
     }
 
-    .tab-container /deep/ {
-        .tab-content {
-            height: calc(100% - 45px);
-        }
+    .nav-tabs  {
+        margin-top: 0;
+        padding-left: 52px;
+        border: 0;
+        background-color: $panel-bg-color;
+        height: 40px;
+        overflow: hidden;
 
-        .tab-pane {
-            height: 100%;
-        }
+        li {
+            padding: 10px 0;
+            padding-left: 10px;
+            overflow: hidden;
+            max-width: 140px;
 
-        .nav-tabs  {
-            margin-top: 0;
-            padding-left: 42px;
-            border: 0;
-            background-color: $panel-bg-color;
+            &.active > a {
+                color: $secondary-accent-color;
+            }
 
-            li {
-                padding: 10px 0;
+            &:first-child {
+                padding-left: 0;
+            }
 
-                &:hover:not(:last-child) a:not(.close-tab):not(.active) {
+            &:last-child  {
+                > a {
+                    // No border for the penultimate child, i.e. the last tab.
+                    border-right: 1px solid transparent;
+                }
+            }
+
+            > a {
+                padding: 0;
+                margin: 0;
+
+                border: none;
+                border-right: 1px solid lighten($panel-bg-color, 5%);
+                border-radius: 0;
+
+                background-color: inherit;
+                color: $text-color;
+
+                overflow: hidden;
+                white-space: nowrap;
+
+                &:hover:not(.active) {
                     color: white;
                     font-weight: bold;
                 }
 
-                a {
-                    padding: 0 10px;
-                    margin: 0;
-
-                    border: none;
-                    border-right: 1px solid lighten($panel-bg-color, 5%);
-                    border-radius: 0;
-
-                    background-color: inherit;
-                    color: $text-color;
-
+                .tab-title {
+                    width: calc(100% - 24px);
                     text-transform: uppercase;
-
-                    &.active {
-                        color: $secondary-accent-color;
-                    }
-
-                    &.close-tab {
-                        text-align: right;
-                        margin-left: 10px;
-                        padding: 0;
-
-                        &:hover {
-                            color: red;
-                        }
-                    }
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
                 }
 
-                &:last-child {
-                    float: right;
-                    margin-top: 2px;
+                .close-tab {
+                    color: $text-color;
+                    position: absolute;
+                    top: 0px;
+                    right: 8px;
+                    width: 16px;
+                    text-align: center;
+                    padding: 0;
 
-                    a {
-                        padding: 2px 10px;
-                        font-size: 11px;
-                        color: $panel-bg-color;
-                        background: $accent-color;
-                        border-radius: 15px;
-                        text-transform: initial;
-
-                        fa {
-                            margin-right: 4px;
-                            font-weight: normal;
-                        }
-
-                        &:hover {
-                            background: lighten($accent-color, 5%);
-                        }
+                    &:hover {
+                        color: red;
                     }
                 }
             }
         }
 
+        @for $i from 1 through 20 {
+            li:first-child:nth-last-child(#{$i}),
+            li:first-child:nth-last-child(#{$i}) ~ li {
+                width: 100% / $i;
+            }
+        }
+    }
+
+    .tab-content {
+        height: calc(100% - 40px);
+
         .tab-pane {
-            background-color: $panel-bg-color;
+            height: 100%;
+        }
+    }
+
+    #new-tab-button {
+        position: absolute;
+        top: 12px;
+        right: 2px;
+
+        padding: 2px 10px;
+        font-size: 11px;
+        color: $panel-bg-color;
+        background: $accent-color;
+        border: none;
+        border-radius: 15px;
+        text-align: center;
+
+        fa {
+            margin-right: 4px;
+            font-weight: normal;
+        }
+
+        &:hover {
+            background: lighten($accent-color, 5%);
         }
     }
 
