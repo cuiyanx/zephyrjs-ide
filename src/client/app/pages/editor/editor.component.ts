@@ -5,6 +5,7 @@ import {
     ElementRef,
     QueryList,
     OnInit,
+    OnDestroy,
     ViewChild,
     ViewChildren
 } from '@angular/core';
@@ -61,7 +62,7 @@ declare const require: any;
   styleUrls: ['editor.component.css'],
   providers: [WebUsbService, ModalDirective]
 })
-export class EditorComponent implements OnInit, AfterViewInit {
+export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     public lastMessage: ErrorMessage = {
         header: '',
         content: ''
@@ -127,6 +128,10 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
     public ngOnInit() {
         // tsling:disable-next-line:no-empty
+    }
+
+    public ngOnDestroy() {
+        window.onresize = null;
     }
 
     public ngAfterViewInit() {
