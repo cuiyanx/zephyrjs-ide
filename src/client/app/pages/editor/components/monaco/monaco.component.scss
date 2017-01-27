@@ -1,0 +1,39 @@
+@import '../../../../../scss/main';
+
+:host {
+    .monaco-toolbar {
+        background-color: $code-bg-color;
+        padding: 5px 15px 30px 42px;
+
+        button {
+            background: none;
+            border: 0;
+            color: $text-color;
+            box-shadow: none;
+            text-shadow: none;
+            font-family: $default-font;
+            font-size: 11px;
+            font-weight: normal;
+
+            fa {
+                margin-right: 4px;
+            }
+        }
+    }
+
+    .monaco-container {
+        height: 60%;
+        min-height: 250px;
+
+        .monaco-editor {
+            height: calc(100% - 75px);
+            background-color: $code-bg-color;
+
+            /deep/ {
+                .monaco-editor.vs-dark, .monaco-editor-background {
+                    background-color: $code-bg-color;
+                }
+            }
+        }
+    }
+}

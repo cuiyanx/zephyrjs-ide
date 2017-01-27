@@ -8,7 +8,7 @@ import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome';
 
 // Own modules
-import { GitHubModule } from './components/github/github.module';
+import { MonacoModule } from './components/monaco/monaco.module';
 
 // This module
 import { EditorComponent } from './editor.component';
@@ -21,7 +21,7 @@ import { EditorComponent } from './editor.component';
         FormsModule,
         ModalModule,
 
-        GitHubModule
+        MonacoModule
     ],
     declarations: [EditorComponent],
     exports: [EditorComponent]

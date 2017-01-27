@@ -1,0 +1,41 @@
+<div
+    id="monaco-container-{{tab.id}}"
+    class="monaco-container">
+
+    <div
+        id="monaco-toolbar-{{tab.id}}"
+        class="monaco-toolbar">
+
+        <button
+            class="btn btn-default"
+            [disabled]="!mayConnect(tab.id)"
+            (click)="onConnect(tab.id)">
+            <fa [name]="'plug'"></fa> Connect
+        </button>
+
+        <button
+            class="btn btn-default"
+            [disabled]="!mayUpload(tab.id)"
+            (click)="onUpload(tab.id)">
+            <fa [name]="'upload'"></fa> Upload
+        </button>
+
+        <button
+            class="btn btn-default"
+            (click)="onFetchFromGitHub(tab.id)">
+            <fa [name]="'github'"></fa> GitHub
+        </button>
+    </div> <!-- ./monaco-toolbar -->
+
+    <div
+        #editor
+        id="monaco-editor-{{tab.id}}"
+        class="monaco-editor">
+    </div> <!-- ./monaco-editor -->
+
+</div> <!-- ./monaco-container -->
+
+<github-modal
+    #gitHubModal
+    (fileFetched)="onGitHubFileFetched($event)">
+</github-modal>

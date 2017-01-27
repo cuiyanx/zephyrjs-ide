@@ -31,37 +31,11 @@
                 [ngClass]="{'tab-pane': true, 'active': tab.active}"
                 id="tab-{{tab.id}}">
 
-                <div
-                    id="monaco-container-{{tab.id}}"
-                    class="monaco-container">
-                    <div id="editor-toolbar-{{tab.id}}" class="editor-toolbar">
-                        <button
-                            class="btn btn-default"
-                            [disabled]="!mayConnect(tab.id)"
-                            (click)="onConnect(tab.id)">
-                            <fa [name]="'plug'"></fa> Connect
-                        </button>
-
-                        <button
-                            class="btn btn-default"
-                            [disabled]="!mayUpload(tab.id)"
-                            (click)="onUpload(tab.id)">
-                            <fa [name]="'upload'"></fa> Upload
-                        </button>
-
-                        <button
-                            class="btn btn-default"
-                            (click)="onFetchFromGitHub(tab.id)">
-                            <fa [name]="'github'"></fa> GitHub
-                        </button>
-                    </div>
-
-                    <div
-                        #editor
-                        id="editor-{{tab.id}}"
-                        class="monaco-editor">
-                    </div>
-                </div> <!-- ./editor-container -->
+                <sd-monaco
+                    [tab]="tab"
+                    (onWarning)="onWarning($event)"
+                    (onError)="onError($event)">
+                </sd-monaco>
 
                 <div class="horizontal-resize-handle" id="editor-resize-handle-{{tab.id}}">
                     <fa [name]="'ellipsis-h'"></fa>
@@ -122,7 +96,7 @@
       </div>
       <div class="modal-body">
           <h3>{{lastMessage.header}}</h3>
-          <p class="message-content">{{lastMessage.content}}</p>
+          <p class="message-content">{{lastMessage.body}}</p>
       </div>
     </div>
   </div>
@@ -140,11 +114,9 @@
       </div>
       <div class="modal-body">
           <h3>{{lastMessage.header}}</h3>
-          <p class="message-content">{{lastMessage.content}}</p>
+          <p class="message-content">{{lastMessage.body}}</p>
       </div>
     </div>
   </div>
 </div>
 
-<github-modal #gitHubModal (fileFetched)="onGitHubFileFetched($event)">
-</github-modal>
