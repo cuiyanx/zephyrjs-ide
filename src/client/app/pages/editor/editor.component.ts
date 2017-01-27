@@ -13,9 +13,10 @@ import {
 import { ModalDirective } from 'ng2-bootstrap/components/modal/modal.component';
 
 // Own
-import { GitHubModalComponent } from '../github/github.modal.component';
-import { WebUsbService } from '../shared/webusb/webusb.service';
-import { WebUsbPort } from '../shared/webusb/webusbport';
+import { GitHubModalComponent } from './components/github/github.modal.component';
+import { WebUsbService } from '../../shared/webusb/webusb.service';
+import { WebUsbPort } from '../../shared/webusb/webusbport';
+
 
 enum STATUS {
     NOT_STARTED,

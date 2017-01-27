@@ -9,10 +9,10 @@ import { routes } from './app.routes';
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 // This app
-import { AboutModule } from './pages/about/about.module';
-import { EditorModule } from './editor/editor.module';
-import { GitHubModule } from './github/github.module';
 import { HomeModule } from './pages/home/home.module';
+import { AboutModule } from './pages/about/about.module';
+import { EditorModule } from './pages/editor/editor.module';
+
 import { SharedModule } from './shared/shared.module';
 
 
@@ -24,7 +24,6 @@ import { SharedModule } from './shared/shared.module';
       Ng2BootstrapModule,
       AboutModule,
       EditorModule,
-      GitHubModule,
       HomeModule,
       SharedModule.forRoot()],
   declarations: [AppComponent],
