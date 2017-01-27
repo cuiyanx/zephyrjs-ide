@@ -1,0 +1,22 @@
+@import '../../../../../scss/main';
+
+:host {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+
+    .statusbar {
+        font-size: 11px;
+        color: darken($text-color, 10%);
+        background-color: $panel-bg-color;
+        padding-left: 52px;
+
+        &.warning {
+            color: $warning-color;
+        }
+
+        &.error {
+            color: $error-color;
+        }
+    }
+}

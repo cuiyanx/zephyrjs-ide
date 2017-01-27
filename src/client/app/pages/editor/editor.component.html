@@ -42,13 +42,7 @@
                 </div>
 
                 <sd-console [tab]="tab"></sd-console>
-
-                <div
-                    #statusBar
-                    id='statusbar-{{tab.id}}'
-                    [ngClass]="['statusbar', getEditorStatus(tab.id).cls]">
-                    {{getEditorStatus(tab.id).msg}}
-                </div>
+                <sd-statusbar [tab]="tab"></sd-statusbar>
             </div> <!-- ./tab-pane -->
         </div> <!-- ./tab-content -->
 

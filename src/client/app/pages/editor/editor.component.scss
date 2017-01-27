@@ -2,7 +2,7 @@
 
 :host {
   display: block;
-  height: calc(100% - 50px - 60px); // 60px for the footer
+  height: calc(100% - 50px - 60px); // header and footer
   overflow: hidden;
 }
 
@@ -154,25 +154,6 @@
         line-height: 0;
         cursor: ns-resize;
         color: $text-color;
-    }
-
-    .statusbar {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        font-size: 11px;
-        color: darken($text-color, 10%);
-        background-color: $panel-bg-color;
-        padding: 5px;
-        padding-left: 52px;
-
-        &.warning {
-            color: $warning-color;
-        }
-
-        &.error {
-            color: $error-color;
-        }
     }
 
     .buttons {

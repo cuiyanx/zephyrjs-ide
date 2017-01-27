@@ -15,19 +15,23 @@ $active-link-border-width: 4px;
         padding-left: 12px;
     }
 
-    .navbar-nav > li > a {
-        color: $text-color;
+    .navbar-nav > li {
+         margin-top: 0;
 
-        &.router-link-active {
-            padding-bottom: 15px - $active-link-border-width;
-            border-bottom: $active-link-border-width solid $accent-color;
-        }
+         > a {
+             color: $text-color;
 
-        &:focus, &:hover {
-            color: $text-highlight-color;
-            padding-bottom: 15px - $active-link-border-width;
-            border-bottom: $active-link-border-width solid lighten($accent-color, 5%);
-        }
+             &.router-link-active {
+                 padding-bottom: 15px - $active-link-border-width;
+                 border-bottom: $active-link-border-width solid $accent-color;
+             }
+
+             &:focus, &:hover {
+                 color: $text-highlight-color;
+                 padding-bottom: 15px - $active-link-border-width;
+                 border-bottom: $active-link-border-width solid lighten($accent-color, 5%);
+             }
+         }
     }
 
     .navbar-toggle {

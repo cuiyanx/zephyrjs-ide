@@ -117,7 +117,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             tab: HTMLElement;
             editorContainer: HTMLElement;
             resizeHandle: HTMLElement;
-            consoleContainer: HTMLElement;
+            console: HTMLElement;
             consoleHeader: HTMLElement;
             statusBar: HTMLElement;
             footer: HTMLElement;
@@ -128,7 +128,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             tab: document.getElementById('tab-' + id),
             editorContainer: document.getElementById('monaco-container-' + id).parentElement,
             resizeHandle: document.getElementById('editor-resize-handle-' + id),
-            consoleContainer: document.getElementById('console-container-' + id),
+            console: document.getElementById('console-container-' + id).parentElement,
             consoleHeader: document.getElementById('console-header-' + id),
             statusBar: document.getElementById('statusbar-' + id),
             footer: document.getElementById('footer')
@@ -137,7 +137,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
         if (elems.tab === null ||
             elems.editorContainer === null ||
             elems.resizeHandle === null ||
-            elems.consoleContainer === null ||
+            elems.console=== null ||
             elems.consoleHeader === null ||
             elems.statusBar === null ||
             elems.footer === null) {
@@ -158,7 +158,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
                     elems.editorContainer.offsetTop -
                     elems.footer.clientHeight) + 'px';
 
-                elems.consoleContainer.style.height = (
+                elems.console.style.height = (
                     elems.tab.clientHeight -
                     elems.editorContainer.clientHeight -
                     elems.resizeHandle.clientHeight -
@@ -283,43 +283,6 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 0);
 
         return tab;
-    }
-
-    // tslint:disable-next-line:no-unused-variable
-    private getEditorStatus(id: number): {} {
-        let tab = this.getTabById(id);
-
-        if (tab !== null) {
-            let map: {[key:number]:{};} = {
-                [EDITOR_STATUS.WEBUSB_UNAVAILABLE]: {
-                    cls: 'error',
-                    msg: 'Your browser does not support WebUSB.'
-                },
-
-                [EDITOR_STATUS.READY]: {
-                    cls: 'info',
-                    msg: 'Ready.'
-                },
-
-                [EDITOR_STATUS.CONNECTING]: {
-                    cls: 'info',
-                    msg: 'Connecting...'
-                },
-
-                [EDITOR_STATUS.UPLOADING]: {
-                    cls: 'info',
-                    msg: 'Uploading...'
-                }
-            };
-
-            if (tab.editorStatus in map)
-                return map[tab.editorStatus];
-        }
-
-        return {
-            cls: 'error',
-            msg: 'Unknown status.'
-        };
     }
 
     // tslint:disable-next-line:no-unused-variable
