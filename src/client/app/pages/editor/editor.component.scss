@@ -162,12 +162,12 @@
         display: inline-block;
     }
 
-    #documentation-pane {
+    #board-explorer-pane {
         background-color: $panel-bg-color;
         height: 100%;
         width: 50%;
 
-        #documentation-resize-handle {
+        .vertical-resize-handle {
             position: absolute;
             top: 0;
             left: 0px;

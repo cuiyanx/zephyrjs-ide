@@ -80,7 +80,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
         window.onresize = () => {
             let editorPane = document.getElementById('editor-pane');
-            let docsPane = document.getElementById('documentation-pane');
+            let docsPane = document.getElementById('board-explorer-pane');
             let editors = document.getElementsByClassName('monaco-container');
             let consoles = document.getElementsByClassName('console-container');
 
@@ -181,9 +181,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private initDocsResizeHandle() {
-        let docsHandleEl = document.getElementById('documentation-resize-handle');
+        let docsHandleEl = document.getElementById('board-explorer-resize-handle');
         let editorEl = document.getElementById('editor-pane');
-        let docsEl = document.getElementById('documentation-pane');
+        let docsEl = document.getElementById('board-explorer-pane');
 
         let doDocsResize = (ev: any) => {
             if (window.innerWidth - ev.clientX > 30) {
