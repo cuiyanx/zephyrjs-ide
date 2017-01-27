@@ -1,15 +1,15 @@
 @import "../../../scss/main";
 
 :host {
-  display: block;
-  height: calc(100% - 50px - 60px); // header and footer
-  overflow: hidden;
-}
-
-.editor-container {
-    height: 100%;
+    display: block;
+    height: calc(100% - 50px - 60px); // header and footer
     overflow: hidden;
-    padding: 0 15px;
+
+    > .row {
+        height: 100%;
+        overflow: hidden;
+        margin: 0;
+    }
 
     .pane {
         height: 100%;
@@ -29,138 +29,128 @@
     #editor-pane {
         min-width: 360px;
 
-        .pane-header {
-            display: inline-block;
-        }
-    }
-
-    .nav-tabs  {
-        margin-top: 0;
-        padding-left: 52px;
-        border: 0;
-        background-color: $panel-bg-color;
-        height: 40px;
-        overflow: hidden;
-
-        li {
-            padding: 10px 0;
-            padding-left: 10px;
+        .nav-tabs  {
+            margin-top: 0;
+            padding-left: 52px;
+            border: 0;
+            background-color: $panel-bg-color;
+            height: 40px;
             overflow: hidden;
-            max-width: 140px;
 
-            &.active > a {
-                color: $secondary-accent-color;
-            }
-
-            &:first-child {
-                padding-left: 0;
-            }
-
-            &:last-child  {
-                > a {
-                    // No border for the penultimate child, i.e. the last tab.
-                    border-right: 1px solid transparent;
-                }
-            }
-
-            > a {
-                padding: 0;
-                margin: 0;
-
-                border: none;
-                border-right: 1px solid lighten($panel-bg-color, 5%);
-                border-radius: 0;
-
-                background-color: inherit;
-                color: $text-color;
-
+            li {
+                padding: 10px 0;
+                padding-left: 10px;
                 overflow: hidden;
-                white-space: nowrap;
+                max-width: 140px;
 
-                &:hover:not(.active) {
-                    color: white;
-                    font-weight: bold;
+                &.active > a {
+                    color: $secondary-accent-color;
                 }
 
-                .tab-title {
-                    width: calc(100% - 24px);
-                    text-transform: uppercase;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
+                &:first-child {
+                    padding-left: 0;
                 }
 
-                .close-tab {
-                    color: $text-color;
-                    position: absolute;
-                    top: 0px;
-                    right: 8px;
-                    width: 16px;
-                    text-align: center;
+                &:last-child  {
+                    > a {
+                        // No border for the penultimate child, i.e. the last tab.
+                        border-right: 1px solid transparent;
+                    }
+                }
+
+                > a {
                     padding: 0;
+                    margin: 0;
 
-                    &:hover {
-                        color: red;
+                    border: none;
+                    border-right: 1px solid lighten($panel-bg-color, 5%);
+                    border-radius: 0;
+
+                    background-color: inherit;
+                    color: $text-color;
+
+                    overflow: hidden;
+                    white-space: nowrap;
+
+                    &:hover:not(.active) {
+                        color: white;
+                        font-weight: bold;
+                    }
+
+                    .tab-title {
+                        width: calc(100% - 24px);
+                        text-transform: uppercase;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+
+                    .close-tab {
+                        color: $text-color;
+                        position: absolute;
+                        top: 0px;
+                        right: 8px;
+                        width: 16px;
+                        text-align: center;
+                        padding: 0;
+
+                        &:hover {
+                            color: red;
+                        }
                     }
                 }
             }
-        }
 
-        @for $i from 1 through 20 {
-            li:first-child:nth-last-child(#{$i}),
-            li:first-child:nth-last-child(#{$i}) ~ li {
-                width: 100% / $i;
+            @for $i from 1 through 20 {
+                li:first-child:nth-last-child(#{$i}),
+                li:first-child:nth-last-child(#{$i}) ~ li {
+                    width: 100% / $i;
+                }
             }
         }
-    }
 
-    .tab-content {
-        height: calc(100% - 40px);
-        overflow: hidden;
-
-        .tab-pane {
-            height: 100%;
+        .tab-content {
+            height: calc(100% - 40px);
             overflow: hidden;
-        }
-    }
 
-    #new-tab-button {
-        position: absolute;
-        top: 12px;
-        right: 2px;
-        max-height: 20px;
-
-        padding: 2px 10px;
-        font-size: 11px;
-        color: $panel-bg-color;
-        background: $accent-color;
-        border: none;
-        border-radius: 15px;
-        text-align: center;
-
-        fa {
-            margin-right: 4px;
-            font-weight: normal;
+            .tab-pane {
+                height: 100%;
+                overflow: hidden;
+            }
         }
 
-        &:hover {
-            background: lighten($accent-color, 5%);
+        #new-tab-button {
+            position: absolute;
+            top: 12px;
+            right: 2px;
+            max-height: 20px;
+
+            padding: 2px 10px;
+            font-size: 11px;
+            color: $panel-bg-color;
+            background: $accent-color;
+            border: none;
+            border-radius: 15px;
+            text-align: center;
+
+            fa {
+                margin-right: 4px;
+                font-weight: normal;
+            }
+
+            &:hover {
+                background: lighten($accent-color, 5%);
+            }
         }
-    }
 
-    .horizontal-resize-handle {
-        width: 100%;
-        text-align: center;
-        line-height: 0;
-        cursor: ns-resize;
-        color: $text-color;
-    }
-
-    .buttons {
-        float: right;
-        padding: 15px;
-        display: inline-block;
-    }
+        .horizontal-resize-handle {
+            width: 100%;
+            text-align: center;
+            line-height: 0;
+            cursor: ns-resize;
+            color: $text-color;
+        }
+    } // ./editor-pane
 
     #board-explorer-pane {
         background-color: $panel-bg-color;
@@ -182,5 +172,5 @@
                 left: 6px;
             }
         }
-    }
+    } // ./board-explorer-pane
 }
