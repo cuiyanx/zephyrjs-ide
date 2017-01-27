@@ -1,6 +1,10 @@
 @import '../../../../../scss/main';
 
 :host {
+    height: calc(60% - 14px - 20px);
+    display: block;
+    overflow: hidden;
+
     .monaco-toolbar {
         background-color: $code-bg-color;
         padding: 5px 15px 30px 42px;
@@ -22,11 +26,11 @@
     }
 
     .monaco-container {
-        height: 60%;
+        height: 100%;
         min-height: 250px;
 
         .monaco-editor {
-            height: calc(100% - 75px);
+            height: calc(100% - 62px); // 62px for the toolbar
             background-color: $code-bg-color;
 
             /deep/ {

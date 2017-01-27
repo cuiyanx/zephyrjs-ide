@@ -15,10 +15,6 @@ import { ModalDirective } from 'ng2-bootstrap/components/modal/modal.component';
 import { EditorTab, OPERATION_STATUS, EDITOR_STATUS } from './editor.tab';
 import { EditorModalMessage } from './editor.modal.message';
 import { WebUsbService } from '../../shared/webusb/webusb.service';
-import { WebUsbPort } from '../../shared/webusb/webusbport';
-
-
-declare const require: any;
 
 
 @Component({
@@ -26,7 +22,7 @@ declare const require: any;
   selector: 'sd-editor',
   templateUrl: 'editor.component.html',
   styleUrls: ['editor.component.css'],
-  providers: [WebUsbService, ModalDirective]
+  providers: [ModalDirective]
 })
 export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     public lastMessage: EditorModalMessage = {
@@ -35,6 +31,8 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     private readonly MAX_TABS: number = 10;
+
+    private webusbService: WebUsbService = undefined;
 
     // Childen
 
@@ -49,9 +47,6 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Variables
 
-    private webusbService: WebUsbService = undefined;
-    private hterm: any = undefined;
-
     private tabs: Array<EditorTab> = [{
         id: 1,
         active: true,
@@ -65,10 +60,6 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(webusbService: WebUsbService) {
         this.webusbService = webusbService;
-
-        let htermUMDjs = require('hterm-umdjs/dist/index');
-        this.hterm = htermUMDjs.hterm;
-        this.hterm.defaultStorage = new htermUMDjs.lib.Storage.Memory();
     }
 
     public ngOnInit() {
@@ -83,7 +74,6 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
         setTimeout(() => {
             this.setDefaultTabStatuses(1);
             this.computeTabMenuWidth();
-            this.initTerminal(1);
             this.initEditorResizeHandle(1);
             this.initDocsResizeHandle();
         }, 0);
@@ -122,50 +112,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
         this.tabMenu.nativeElement.style.width = width + 'px';
     }
 
-    private initTerminal(id: number) {
-        let tab = this.getTabById(id);
-
-        if (tab !== null && tab.term === null) {
-            tab.term = new this.hterm.Terminal();
-
-            tab.term.onTerminalReady = () => {
-                let io = tab.term.io.push();
-
-                let send = (port: WebUsbPort, str: string) => {
-                    if (tab.port !== null) {
-                        this.webusbService.send(tab.port, str)
-                        .catch((error: string) => {
-                            io.println('Send error: ' + error);
-                        });
-                    } else {
-                        io.println('Not connected to a device yet');
-                    }
-                };
-
-                io.onVTKeystroke = (str: string) => {
-                    send(tab.port, str);
-                };
-
-                io.sendString = (str: string) => {
-                    send(tab.port, str);
-                };
-            };
-
-            // TODO: replace these colors at build time, so they are always
-            // in sync with src/client/scss/colors.scss.
-            tab.term.prefs_.set('background-color', '#22252e');
-            tab.term.prefs_.set('foreground-color', '#d9d9d9');
-            tab.term.prefs_.set('cursor-color', 'rgba(100, 100, 10, 0.5)');
-            tab.term.prefs_.set('font-size', 13);
-            tab.term.prefs_.set('cursor-blink', true);
-
-            tab.term.decorate(document.getElementById('console-' + id));
-            tab.term.installKeyboard();
-        }
-    }
-
     private initEditorResizeHandle(id: number) {
         interface IElements {
+            tab: HTMLElement;
             editorContainer: HTMLElement;
             resizeHandle: HTMLElement;
             consoleContainer: HTMLElement;
@@ -174,8 +123,10 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             footer: HTMLElement;
         };
 
+        // TODO: use ViewChild where possible
         let elems: IElements = {
-            editorContainer: document.getElementById('monaco-container-' + id),
+            tab: document.getElementById('tab-' + id),
+            editorContainer: document.getElementById('monaco-container-' + id).parentElement,
             resizeHandle: document.getElementById('editor-resize-handle-' + id),
             consoleContainer: document.getElementById('console-container-' + id),
             consoleHeader: document.getElementById('console-header-' + id),
@@ -183,7 +134,8 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             footer: document.getElementById('footer')
         };
 
-        if (elems.editorContainer === null ||
+        if (elems.tab === null ||
+            elems.editorContainer === null ||
             elems.resizeHandle === null ||
             elems.consoleContainer === null ||
             elems.consoleHeader === null ||
@@ -207,7 +159,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
                     elems.footer.clientHeight) + 'px';
 
                 elems.consoleContainer.style.height = (
-                    elems.consoleContainer.parentElement.clientHeight -
+                    elems.tab.clientHeight -
                     elems.editorContainer.clientHeight -
                     elems.resizeHandle.clientHeight -
                     elems.statusBar.clientHeight) + 'px';
@@ -327,7 +279,6 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
         setTimeout(() => {
             this.setDefaultTabStatuses(tab.id);
-            this.initTerminal(tab.id);
             this.initEditorResizeHandle(tab.id);
         }, 0);
 

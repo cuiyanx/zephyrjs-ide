@@ -8,18 +8,21 @@
 
 .editor-container {
     height: 100%;
+    overflow: hidden;
     padding: 0 15px;
 
     .pane {
         height: 100%;
+        overflow: hidden;
         padding: 0;
 
-        .pane-header {
+        /deep/ .pane-header {
             margin: 0;
-            padding: 15px;
+            padding: 12px;
             font-family: $bold-font;
             font-size: 15px;
             text-transform: uppercase;
+            background-color: $panel-bg-color;
         }
     }
 
@@ -27,10 +30,6 @@
         min-width: 360px;
 
         .pane-header {
-            margin-top: 0;
-            margin-bottom: 0;
-            padding: 8px;
-            padding-left: 52px;
             display: inline-block;
         }
     }
@@ -117,9 +116,11 @@
 
     .tab-content {
         height: calc(100% - 40px);
+        overflow: hidden;
 
         .tab-pane {
             height: 100%;
+            overflow: hidden;
         }
     }
 
@@ -153,26 +154,6 @@
         line-height: 0;
         cursor: ns-resize;
         color: $text-color;
-    }
-
-    .console-container {
-        position: relative;
-        height: calc(40% - 40px);
-        overflow: hidden;
-
-        .pane-header {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            background-color: $panel-bg-color;
-        }
-
-        .console {
-            position: absolute;
-            top: 32px;
-            width: 100%;
-            height: calc(100% - 32px);
-        }
     }
 
     .statusbar {

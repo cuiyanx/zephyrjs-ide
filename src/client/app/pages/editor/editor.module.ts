@@ -9,6 +9,7 @@ import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawe
 
 // Own modules
 import { MonacoModule } from './components/monaco/monaco.module';
+import { ConsoleModule } from './components/console/console.module';
 
 // This module
 import { EditorComponent } from './editor.component';
@@ -21,7 +22,8 @@ import { EditorComponent } from './editor.component';
         FormsModule,
         ModalModule,
 
-        MonacoModule
+        MonacoModule,
+        ConsoleModule
     ],
     declarations: [EditorComponent],
     exports: [EditorComponent]

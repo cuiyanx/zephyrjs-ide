@@ -41,19 +41,7 @@
                     <fa [name]="'ellipsis-h'"></fa>
                 </div>
 
-                <div
-                    id="console-container-{{tab.id}}"
-                    class="console-container">
-                    <h2
-                        id="console-header-{{tab.id}}"
-                        class="pane-header">
-                        Console
-                    </h2>
-                    <div
-                        id="console-{{tab.id}}"
-                        class="console">
-                    </div>
-                </div> <!-- ./console-container -->
+                <sd-console [tab]="tab"></sd-console>
 
                 <div
                     #statusBar
