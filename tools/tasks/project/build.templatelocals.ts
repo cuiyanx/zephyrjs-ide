@@ -9,7 +9,7 @@ const plugins = <any>gulpLoadPlugins();
 
 export = () => {
   let files = [
-      { path: 'app/about/', name: 'about.component.html'},
+      { path: 'app/pages/about/', name: 'about.component.html'},
       { path: 'app/shared/footer/', name: 'footer.component.html'}
   ];
 

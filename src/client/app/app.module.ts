@@ -9,7 +9,7 @@ import { routes } from './app.routes';
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 // This app
-import { AboutModule } from './about/about.module';
+import { AboutModule } from './pages/about/about.module';
 import { EditorModule } from './editor/editor.module';
 import { GitHubModule } from './github/github.module';
 import { HomeModule } from './home/home.module';

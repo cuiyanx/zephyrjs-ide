@@ -158,15 +158,16 @@ file for guidelines.
 ├── src                        <- source code of the application
 │   └── client
 │       ├── app
-│       │   ├── +about
-│       │   │   ├── about.component.css
-│       │   │   ├── about.component.e2e-spec.ts
-│       │   │   ├── about.component.html
-│       │   │   ├── about.component.spec.ts
-│       │   │   ├── about.component.ts
-│       │   │   ├── about.module.ts
-│       │   │   ├── about.routes.ts
-│       │   │   └── index.ts
+│       │   ├── pages
+│       │   │   ├── +about
+│       │   │   │   ├── about.component.css
+│       │   │   │   ├── about.component.e2e-spec.ts
+│       │   │   │   ├── about.component.html
+│       │   │   │   ├── about.component.spec.ts
+│       │   │   │   ├── about.component.ts
+│       │   │   │   ├── about.module.ts
+│       │   │   │   ├── about.routes.ts
+│       │   │   │   └── index.ts
 │       │   ├── +home
 │       │   │   ├── home.component.css
 │       │   │   ├── home.component.e2e-spec.ts

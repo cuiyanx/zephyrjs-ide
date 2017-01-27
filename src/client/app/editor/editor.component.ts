@@ -330,7 +330,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
         let docsEl = document.getElementById('documentation-pane');
 
         let doDocsResize = (ev: any) => {
-            if (window.innerWidth - ev.clientX > 300) {
+            if (window.innerWidth - ev.clientX > 30) {
                 editorEl.style.width = (ev.clientX + editorEl.offsetLeft) + 'px';
                 docsEl.style.width = (docsEl.parentElement.offsetWidth - editorEl.offsetWidth - 45) + 'px';
                 this.computeTabMenuWidth();

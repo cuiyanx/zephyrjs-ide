@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { AboutRoutes } from './about/index';
+import { AboutRoutes } from './pages/about/index';
 import { EditorRoutes } from './editor/index';
 import { HomeRoutes } from './home/index';
 
