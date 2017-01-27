@@ -8,7 +8,7 @@ import {
 
 import { EditorTab } from '../../editor.tab';
 import { WebUsbService } from '../../../../shared/webusb/webusb.service';
-import { WebUsbPort } from '../../../../shared/webusb/webusbport';
+import { WebUsbPort } from '../../../../shared/webusb/webusb.port';
 
 
 declare const require: any;

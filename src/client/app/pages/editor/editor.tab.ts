@@ -1,4 +1,4 @@
-import { WebUsbPort } from '../../shared/webusb/webusbport';
+import { WebUsbPort } from '../../shared/webusb/webusb.port';
 
 export enum OPERATION_STATUS {
     NOT_STARTED,

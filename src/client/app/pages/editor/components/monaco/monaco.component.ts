@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 
 import { GitHubModalComponent } from '../github/github.modal.component';
-import { WebUsbPort } from '../../../../shared/webusb/webusbport';
+import { WebUsbPort } from '../../../../shared/webusb/webusb.port';
 import { WebUsbService } from '../../../../shared/webusb/webusb.service';
 import { EditorTab, OPERATION_STATUS, EDITOR_STATUS } from '../../editor.tab';
 import { EditorModalMessage } from '../../editor.modal.message';

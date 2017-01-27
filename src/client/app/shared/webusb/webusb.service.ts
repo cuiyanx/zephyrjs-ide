@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { WebUsbPort } from './webusbport';
+import { WebUsbPort } from './webusb.port';
 
 /**
  * This class provides the WebUsb service.
