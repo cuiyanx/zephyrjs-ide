@@ -11,6 +11,7 @@ import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawe
 import { MonacoModule } from './components/monaco/monaco.module';
 import { ConsoleModule } from './components/console/console.module';
 import { StatusBarModule } from './components/statusbar/statusbar.module';
+import { BoardExplorerModule } from './components/board-explorer/board-explorer.module';
 
 // This module
 import { EditorComponent } from './editor.component';
@@ -25,7 +26,8 @@ import { EditorComponent } from './editor.component';
 
         MonacoModule,
         ConsoleModule,
-        StatusBarModule
+        StatusBarModule,
+        BoardExplorerModule
     ],
     declarations: [EditorComponent],
     exports: [EditorComponent]
