@@ -168,16 +168,15 @@ file for guidelines.
 │       │   │   │   ├── about.module.ts
 │       │   │   │   ├── about.routes.ts
 │       │   │   │   └── index.ts
-│       │   ├── +home
-│       │   │   ├── home.component.css
-│       │   │   ├── home.component.e2e-spec.ts
-│       │   │   ├── home.component.html
-│       │   │   ├── home.component.spec.ts
-│       │   │   ├── home.component.ts
-│       │   │   ├── home.module.ts
-│       │   │   ├── home.routes.ts
-│       │   │   └── index.ts
-│       │   ├── app.component.e2e-spec.ts
+│       │   │   ├── +home
+│       │   │   │   ├── home.component.css
+│       │   │   │   ├── home.component.e2e-spec.ts
+│       │   │   │   ├── home.component.html
+│       │   │   │   ├── home.component.spec.ts
+│       │   │   │   ├── home.component.ts
+│       │   │   │   ├── home.module.ts
+│       │   │   │   ├── home.routes.ts
+│       │   │   │   └── index.ts
 │       │   ├── app.component.html
 │       │   ├── app.component.spec.ts
 │       │   ├── app.component.ts

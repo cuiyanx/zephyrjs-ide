@@ -12,7 +12,7 @@ import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { AboutModule } from './pages/about/about.module';
 import { EditorModule } from './editor/editor.module';
 import { GitHubModule } from './github/github.module';
-import { HomeModule } from './home/home.module';
+import { HomeModule } from './pages/home/home.module';
 import { SharedModule } from './shared/shared.module';
 
 
