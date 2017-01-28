@@ -12,7 +12,11 @@ export class ProjectConfig extends SeedConfig {
   PROJECT_TASKS_DIR = join(process.cwd(), this.TOOLS_DIR, 'tasks', 'project');
   GIT_REV: string = '';
   FONTS_DEST = `${this.APP_DEST}/fonts`;
-  FONTS_SRC = [`${this.APP_SRC}/assets/fonts/**`];
+  FONTS_SRC = [
+      `${this.APP_SRC}/assets/fonts/**`,
+      'node_modules/bootstrap/dist/fonts/**',
+      'node_modules/font-awesome/fonts/**'
+  ];
 
   constructor() {
     super();
