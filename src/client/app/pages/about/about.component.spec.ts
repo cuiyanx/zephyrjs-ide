@@ -26,7 +26,8 @@ export function main() {
             let fixture = TestBed.createComponent(TestComponent);
             let aboutDOMEl = fixture.debugElement.children[0].nativeElement;
 
-            expect(aboutDOMEl.querySelectorAll('h2')[0].textContent).toEqual('About Zephyr.js IDE');
+            expect(aboutDOMEl.querySelectorAll('h2')[0].textContent).toContain('About');
+            expect(aboutDOMEl.querySelectorAll('h3')[0].textContent).toContain('Features');
           });
         }));
     });
