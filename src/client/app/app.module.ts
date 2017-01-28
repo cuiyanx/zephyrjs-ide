@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
-import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 // This app
 import { HomeModule } from './pages/home/home.module';
@@ -21,7 +20,6 @@ import { SharedModule } from './shared/shared.module';
       BrowserModule,
       HttpModule,
       RouterModule.forRoot(routes, {useHash: true}),
-      Ng2BootstrapModule,
       AboutModule,
       EditorModule,
       HomeModule,

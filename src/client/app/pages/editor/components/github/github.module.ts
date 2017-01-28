@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 
 // 3rd party modules
 import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome';
-import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 // This module
 import { GitHubModalComponent } from './github.modal.component';
@@ -15,8 +14,7 @@ import { GitHubModalComponent } from './github.modal.component';
     imports: [
         Angular2FontawesomeModule,
         CommonModule,
-        FormsModule,
-        ModalModule
+        FormsModule
     ],
     declarations: [GitHubModalComponent],
     exports: [GitHubModalComponent]

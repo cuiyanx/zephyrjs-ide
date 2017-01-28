@@ -1,8 +1,15 @@
 // Core
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Output,
+    ViewChild
+} from '@angular/core';
 
-// 3rd party
-import { ModalDirective } from 'ng2-bootstrap/components/modal/modal.component';
+
+declare var $: any;
 
 
 enum WIZARD_STEP {
@@ -27,13 +34,13 @@ interface Repository {
     templateUrl: 'github.modal.component.html',
     styleUrls: ['github.modal.component.css']
 })
-export class GitHubModalComponent {
+export class GitHubModalComponent implements AfterViewInit {
     @Output() fileFetched = new EventEmitter();
 
     // Children
 
     @ViewChild('gitHubModal')
-    private gitHubModal: ModalDirective;
+    private gitHubModal: ElementRef;
 
     // Types
 
@@ -92,6 +99,16 @@ export class GitHubModalComponent {
         }
     };
 
+    public ngAfterViewInit() {
+        $(this.gitHubModal.nativeElement).on('shown.bs.modal', () => {
+            this.onShown();
+        });
+
+        $(this.gitHubModal.nativeElement).on('hidden.bs.modal', () => {
+            this.onHidden();
+        });
+    }
+
     // API
 
     public show() {
@@ -99,11 +116,11 @@ export class GitHubModalComponent {
         (el as any).bootstrapToggle().change(() => {
             this.gitHub.user.remember = (el as any).prop('checked');
         });
-        this.gitHubModal.show();
+        $(this.gitHubModal.nativeElement).modal('show');
     }
 
     public hide() {
-        this.gitHubModal.hide();
+        $(this.gitHubModal.nativeElement).modal('hide');
     }
 
     // Functions

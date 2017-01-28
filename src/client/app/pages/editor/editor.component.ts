@@ -8,21 +8,18 @@ import {
     ViewChild
 } from '@angular/core';
 
-// 3rd party
-import { ModalDirective } from 'ng2-bootstrap/components/modal/modal.component';
-
 // Own
 import { EditorTab, OPERATION_STATUS, EDITOR_STATUS } from './editor.tab';
 import { EditorModalMessage } from './editor.modal.message';
 import { WebUsbService } from '../../shared/webusb/webusb.service';
 
+declare var $: any;
 
 @Component({
   moduleId: module.id,
   selector: 'sd-editor',
   templateUrl: 'editor.component.html',
-  styleUrls: ['editor.component.css'],
-  providers: [ModalDirective]
+  styleUrls: ['editor.component.css']
 })
 export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     public lastMessage: EditorModalMessage = {
@@ -40,10 +37,10 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     private tabMenu: ElementRef;
 
     @ViewChild('warningModal')
-    private warningModal: ModalDirective;
+    private warningModal: ElementRef;
 
     @ViewChild('errorModal')
-    private errorModal: ModalDirective;
+    private errorModal: ElementRef;
 
     // Variables
 
@@ -288,12 +285,12 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     // tslint:disable-next-line:no-unused-variable
     private onWarning(message: EditorModalMessage) {
         this.lastMessage = message;
-        this.warningModal.show();
+        $(this.warningModal.nativeElement).modal('show');
     }
 
     // tslint:disable-next-line:no-unused-variable
     private onError(message: EditorModalMessage) {
         this.lastMessage = message;
-        this.errorModal.show();
+        $(this.errorModal.nativeElement).modal('show');
     }
 }
