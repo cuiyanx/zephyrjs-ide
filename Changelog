@@ -1,3 +1,9 @@
+2017-01-30 Salvatore Iovene <salvatore.iovene@intel.com>
+	* Release 0.5.0
+	* Major restructuring of pages/components
+	* Production build working
+	* Minor UI fixes
+
 2017-01-26 Salvatore Iovene <salvatore.iovene@intel.com>
 	* Release 0.4.0
 	* Fix vertical resizing issues
