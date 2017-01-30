@@ -57,6 +57,15 @@ export class ProjectConfig extends SeedConfig {
       {src: `${this.APP_SRC}/app/shared/webusb/ihex.js`, inject: true, vendor: false}
     ];
 
+    this.addPackageBundles({
+        name: 'ng2-resource-rest',
+        path: 'node_modules/ng2-resource-rest/bundles/ng2-resource-rest.umd.js',
+        packageMeta: {
+            main: 'index.js',
+            defaultExtension: 'js'
+        }
+    });
+
     /* Add to or override NPM module configurations: */
     // this.mergeObject(this.PLUGIN_CONFIGS['browser-sync'], { ghostMode: false });
 

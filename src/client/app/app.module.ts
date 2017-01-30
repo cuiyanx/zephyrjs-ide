@@ -7,6 +7,9 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 
+// Third party
+import { ResourceModule } from 'ng2-resource-rest';
+
 // This app
 import { HomeModule } from './pages/home/home.module';
 import { AboutModule } from './pages/about/about.module';
@@ -20,10 +23,15 @@ import { SharedModule } from './shared/shared.module';
       BrowserModule,
       HttpModule,
       RouterModule.forRoot(routes, {useHash: true}),
+
+      ResourceModule.forRoot(),
+
       AboutModule,
       EditorModule,
       HomeModule,
-      SharedModule.forRoot()],
+
+      SharedModule.forRoot()
+  ],
   declarations: [AppComponent],
   providers: [
       {

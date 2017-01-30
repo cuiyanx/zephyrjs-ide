@@ -71,22 +71,22 @@
               gitHub.ui.wizardStep === wizardStep.CHOOSE_FILE ||
               gitHub.ui.wizardStep === wizardStep.DOWNLOADING
           ">
-              <div *ngIf="gitHub.user.profile !== null" class="login-info well">
+              <div *ngIf="gitHub.user.object !== null" class="login-info well">
                   <div class="avatar">
-                      <a href="{{gitHub.user.profile.home_url}}" target="_blank">
-                          <img src="{{gitHub.user.profile.avatar_url}}"
-                               alt="{{gitHub.user.profile.login}}"/>
+                      <a href="{{gitHub.user.object.hhtml_url}}" target="_blank">
+                          <img src="{{gitHub.user.object.avatar_url}}"
+                               alt="{{gitHub.user.object.login}}"/>
                       </a>
                   </div>
 
                   <div class="info">
                       You are currently logged in as
-                      <a href="{{gitHub.user.profile.home_url}}" target="_blank">
-                          <span *ngIf="gitHub.user.profile.name">
-                              {{gitHub.user.profile.name}}.
+                      <a href="{{gitHub.user.object.html_url}}" target="_blank">
+                          <span *ngIf="gitHub.user.object.name">
+                              {{gitHub.user.object.name}}.
                           </span>
-                          <span *ngIf="!gitHub.user.profile.name">
-                              {{gitHub.user.profile.login}}.
+                          <span *ngIf="!gitHub.user.object.name">
+                              {{gitHub.user.object.login}}.
                           </span>
                       </a>
                   </div>
@@ -101,8 +101,8 @@
                       [ngModel]="gitHub.repos.selected"
                       [disabled]="gitHub.repos.objects.length === 0"
                       (ngModelChange)="onRepoChanged($event)">
-                      <option *ngFor="let repo of gitHub.repos.objects" [value]="repo.__fullname">
-                          {{repo.__fullname}}
+                      <option *ngFor="let repo of gitHub.repos.objects" [value]="repo.full_name">
+                          {{repo.full_name}}
                       </option>
                   </select>
               </div> <!-- /.form-group -->

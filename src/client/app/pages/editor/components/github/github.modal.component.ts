@@ -8,6 +8,8 @@ import {
     ViewChild
 } from '@angular/core';
 
+import { RepoService, UserService } from './github.api.services';
+
 
 declare var $: any;
 
@@ -19,14 +21,6 @@ enum WIZARD_STEP {
     DOWNLOADING
 }
 
-interface Response {
-    status: number;
-    data: any;
-};
-
-interface Repository {
-    __fullname: string;
-};
 
 @Component({
     moduleId: module.id,
@@ -50,11 +44,6 @@ export class GitHubModalComponent implements AfterViewInit {
     // Variables
 
     private gitHub: any = {
-        api: {
-            cls: null,
-            ref: null,
-        },
-
         ui: {
             wizardStep: WIZARD_STEP.LOGIN
         },
@@ -63,7 +52,6 @@ export class GitHubModalComponent implements AfterViewInit {
             token: '',
             remember: false,
             object: null,
-            profile: null,
             ui: {
                 hasError: false
             }
@@ -125,10 +113,9 @@ export class GitHubModalComponent implements AfterViewInit {
 
     // Functions
 
-    public constructor() {
-        System.import('github-api').then((GitHub: any) => {
-            this.gitHub.api.cls = GitHub;
-        });
+    public constructor(
+        private repoService: RepoService,
+        private userService: UserService) {
     }
 
     private resetUI() {
@@ -139,7 +126,6 @@ export class GitHubModalComponent implements AfterViewInit {
         this.gitHub.user.token = '';
         this.gitHub.user.remember = false;
         this.gitHub.user.object = null;
-        this.gitHub.user.profile = null;
         this.gitHub.user.ui.hasError = false;
     }
 
@@ -202,47 +188,46 @@ export class GitHubModalComponent implements AfterViewInit {
 
     // tslint:disable-next-line:no-unused-variable
     private onLoginClicked() {
+        function onError(error: any) {
+            if (error.status === 401) {
+                this.reset();
+            } else {
+                console.error(error.message);
+            }
+            this.gitHub.user.ui.hasError = true;
+        }
+
         this.gitHub.ui.wizardStep = WIZARD_STEP.LOGGING_IN;
         setTimeout(() => {
-            this.gitHub.api.ref = new this.gitHub.api.cls({
-                token: this.gitHub.user.token
-            });
-            this.gitHub.user.object = this.gitHub.api.ref.getUser();
-            this.gitHub.user.object.getProfile()
-            .then((response: Response) => {
-                this.gitHub.user.profile = response.data;
-                this.gitHub.user.ui.hasError = false;
+            this.userService.setToken(this.gitHub.user.token);
+            this.repoService.setToken(this.gitHub.user.token);
 
-                this.gitHub.user.object.listRepos()
-                .then((response: Response) => {
-                    if (response.status === 200) {
-                        this.gitHub.repos.objects = response.data.sort((a: any, b: any) => {
-                            if (a.full_name.toLowerCase() < b.full_name.toLowerCase()) return -1;
-                            if (a.full_name.toLowerCase() > b.full_name.toLowerCase()) return 1;
-                            return 0;
-                        }).map((repo: any) => {
-                            return this.gitHub.api.ref.getRepo(repo.full_name);
-                        });
-                        this.gitHub.ui.wizardStep = WIZARD_STEP.CHOOSE_FILE;
-                    }
-                });
-            })
-            .catch((err: any) => {
-                if (err.status === 401) {
-                    this.reset();
-                    this.gitHub.user.ui.hasError = true;
-                } else {
-                    console.error(err.message);
-                }
-            });
-        }, 1);
+            this.userService.getUser().$observable.subscribe(
+                (user: any) => {
+                    this.gitHub.user.object = user;
+                },
+                (error: any) => { onError(error); }
+            );
+
+            this.userService.getRepos().$observable.subscribe(
+                (repos: any[]) => {
+                    this.gitHub.repos.objects = repos.sort((a: any, b: any) => {
+                        if (a.full_name.toLowerCase() < b.full_name.toLowerCase()) return -1;
+                        if (a.full_name.toLowerCase() > b.full_name.toLowerCase()) return 1;
+                        return 0;
+                    });
+                    this.gitHub.ui.wizardStep = WIZARD_STEP.CHOOSE_FILE;
+                },
+                (error: any) => { onError(error); }
+            );
+        }, 0);
     }
 
     // tslint:disable-next-line:no-unused-variable
     private onRepoChanged(name: string) {
-        let getRepoByName = (name: string) => {
-            return this.gitHub.repos.objects.find((repo: Repository) => {
-                return repo.__fullname === name;
+        let getRepoByName = (name: string): any => {
+            return this.gitHub.repos.objects.find((repo: any) => {
+                return repo.full_name === name;
             });
         };
         let repo = getRepoByName(name);
@@ -253,57 +238,62 @@ export class GitHubModalComponent implements AfterViewInit {
         this.gitHub.repos.current = repo;
         if (repo !== null) {
             this.gitHub.branches.ui.loading = true;
-            repo.listBranches().then((response: Response) => {
-                if (response.status === 200) {
+            this.repoService.getBranches({
+                owner: this.gitHub.repos.current.owner.login,
+                repo: this.gitHub.repos.current.name
+            }).$observable.subscribe(
+                (branches: any[]) => {
                     this.gitHub.branches.ui.loading = false;
-                    this.gitHub.branches.objects = response.data;
+                    this.gitHub.branches.objects = branches;
                 }
-            });
+            );
         }
-    }
-
-    private fetchFiles(sha: string) {
-        let repo = this.gitHub.repos.current;
-        repo.getTree(sha).then((response: Response) => {
-            this.gitHub.files.objects = response.data.tree.sort((a: any, b: any) => {
-                // Directories first, then names.
-                if (a.type === b.type) {
-                    if (a.path.toLowerCase() < b.path.toLowerCase()) return -1;
-                    if (a.path.toLowerCase() > b.path.toLowerCase()) return 1;
-                    return 0;
-                }
-
-                if (a.type === 'tree') return -1;
-                return 1;
-            });
-            this.gitHub.files.currentSha = sha;
-            this.gitHub.files.ui.loading = false;
-        });
-
-        return false;
     }
 
     // tslint:disable-next-line:no-unused-variable
     private onBranchChanged(name: string) {
+        let getBranchByName = (name: string): any => {
+            return this.gitHub.branches.objects.find((branch: any) => {
+                return branch.name === name;
+            });
+        };
+
         let repo = this.gitHub.repos.current;
+        let branch = this.gitHub.branches.selected = getBranchByName(name);
 
         this.resetFiles();
 
-        if (repo.getBranch === undefined) {
-            // GitHub API < 2.4
-            repo.getBranch = (branch: string) => {
-                let fullname = repo.__fullname;
-                return repo._request(
-                    'GET', `/repos/${fullname}/branches/${branch}`,
-                    null, null);
-            };
+        if (repo !== null && branch !== null) {
+            this.gitHub.files.rootSha = branch.commit.sha;
+            this.fetchFiles(branch.commit.sha);
         }
+    }
 
+    private fetchFiles(sha: string) {
         this.gitHub.files.ui.loading = true;
-        repo.getBranch(name).then((response: Response) => {
-            this.gitHub.files.rootSha = response.data.commit.sha;
-            this.fetchFiles(response.data.commit.sha);
-        });
+        this.repoService.getTree({
+            owner: this.gitHub.repos.current.owner.login,
+            repo: this.gitHub.repos.current.name,
+            sha: sha
+        }).$observable.subscribe(
+            (data: any) => {
+                this.gitHub.files.ui.loading = false;
+                this.gitHub.files.currentSha = sha;
+                this.gitHub.files.objects = data.tree.sort((a: any, b: any) => {
+                    // Directories first, then names.
+                    if (a.type === b.type) {
+                        if (a.path.toLowerCase() < b.path.toLowerCase()) return -1;
+                        if (a.path.toLowerCase() > b.path.toLowerCase()) return 1;
+                        return 0;
+                    }
+
+                    if (a.type === 'tree') return -1;
+                    return 1;
+                });
+            }
+        );
+
+        return false;
     }
 
     // tslint:disable-next-line:no-unused-variable
@@ -329,10 +319,15 @@ export class GitHubModalComponent implements AfterViewInit {
         let repo = this.gitHub.repos.current;
 
         this.gitHub.ui.wizardStep = WIZARD_STEP.DOWNLOADING;
-        repo.getBlob(this.gitHub.files.selected.sha)
-        .then((response: Response) => {
-            this.fileFetched.emit(response.data);
-            this.hide();
-        });
+        this.repoService.getBlob({
+            owner: repo.owner.login,
+            repo: repo.name,
+            sha: this.gitHub.files.selected.sha
+        }).$observable.subscribe(
+            (response: any) => {
+                this.fileFetched.emit(atob(response.content));
+                this.hide();
+            }
+        );
     }
 }
