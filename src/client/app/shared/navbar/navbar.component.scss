@@ -38,3 +38,17 @@ $active-link-border-width: 4px;
         margin-bottom: 0;
     }
 }
+
+@media screen and (max-width: 767px) {
+    .navbar-default .navbar-nav > li > a {
+        &.router-link-active, &:focus, &:hover {
+            padding-bottom: 10px;
+            border-bottom: none;
+            color: $accent-color;
+        }
+
+        &:focus, &:hover {
+            color: lighten($accent-color, 5%);
+        }
+    }
+}
