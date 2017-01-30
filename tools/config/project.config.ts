@@ -11,12 +11,18 @@ export class ProjectConfig extends SeedConfig {
 
   PROJECT_TASKS_DIR = join(process.cwd(), this.TOOLS_DIR, 'tasks', 'project');
   GIT_REV: string = '';
+
   FONTS_DEST = `${this.APP_DEST}/fonts`;
   FONTS_SRC = [
       `${this.APP_SRC}/assets/fonts/**`,
       'node_modules/bootstrap/dist/fonts/**',
       'node_modules/font-awesome/fonts/**'
   ];
+
+  // Monaco must be copied to the deployed up because it needs to be loaded
+  // lazily.
+  MONACO_DEST = `${this.APP_DEST}/libs/monaco`;
+  MONACO_SRC = ['node_modules/monaco-editor/min/**/*'];
 
   constructor() {
     super();
@@ -35,6 +41,7 @@ export class ProjectConfig extends SeedConfig {
       {src: 'jquery/dist/jquery.min.js', inject: 'libs'},
       {src: 'bootstrap/dist/js/bootstrap.min.js', inject: 'libs'},
       {src: 'bootstrap-toggle/js/bootstrap-toggle.min.js', inject: 'libs'},
+      {src: 'requirejs/require.js', inject: 'libs'},
 
       {src: 'bootstrap/dist/css/bootstrap.min.css', inject: true}, // `true` injects into the css section
       {src: 'bootstrap/dist/css/bootstrap-theme.min.css', inject: true},

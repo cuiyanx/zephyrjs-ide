@@ -61,7 +61,7 @@ export class MonacoComponent implements AfterViewInit {
     public ngAfterViewInit() {
         var onGotAmdLoader = () => {
             // Load monaco
-            (<any>window).require.config({ paths: { 'vs': 'node_modules/monaco-editor/min/vs' } });
+            (<any>window).require.config({ paths: { 'vs': 'libs/monaco/vs' } });
             (<any>window).require(['vs/editor/editor.main'], () => {
                 this.initMonaco();
             });
@@ -71,7 +71,7 @@ export class MonacoComponent implements AfterViewInit {
         if (!(<any>window).require) {
             var loaderScript = document.createElement('script');
             loaderScript.type = 'text/javascript';
-            loaderScript.src = 'node_modules/monaco-editor/min/vs/loader.js';
+            loaderScript.src = 'libs/monaco/vs/loader.js';
             loaderScript.addEventListener('load', onGotAmdLoader);
             document.body.appendChild(loaderScript);
         } else {

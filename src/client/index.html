@@ -21,8 +21,13 @@
   <sd-app>Loading...</sd-app>
 
   <script>
-  // Fixes undefined module function in SystemJS bundle
-  function module() {}
+    // Fixes undefined module function in SystemJS bundle
+    function module() {};
+
+    // Tricks Monaco loader into thinking we are in a node environment.
+    // This, in turns, makes it use its own 'require' function, as lazy
+    // loading is currently unavailable in angular-seed production builds.
+    module.exports = {};
   </script>
 
   <!-- shims:js -->
