@@ -268,6 +268,11 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             other.active = false;
         }
 
+        // Before creating the new tab (i.e. adding it to `this.tabs`, make
+        // the previously last tab active, to workaround bugs in Bootstrap:
+        // https://github.com/twbs/bootstrap/issues/21223
+        $(this.tabMenu.nativeElement).find('a:last').tab('show');
+
         this.tabs.push(tab);
 
         if (this.tabs.length === this.MAX_TABS) {
