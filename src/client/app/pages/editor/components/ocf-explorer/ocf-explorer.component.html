@@ -1,0 +1,36 @@
+<form id="connect-form" class="form-inline">
+    <div
+        class="form-group ip"
+        [class.has-error]="server.ip && !isValidIPAddress()">
+
+        <label class="sr-only" for="ocf-explorer-ip">IP address</label>
+        <input type="text"
+               class="form-control"
+               id="ocf-explorer-ip"
+               name="ocf-explorer-ip"
+               placeholder="IP address"
+               [(ngModel)]="server.ip"/>
+    </div> <!-- ./form-group -->
+
+    <div
+        class="form-group port"
+        [class.has-error]="server.port && !isValidPort()">
+
+        <label class="sr-only" for="ocf-explorer-port">Port</label>
+        <input type="number"
+               class="form-control"
+               id="ocf-explorer-port"
+               name="ocf-explorer-port"
+               placeholder="Port"
+               [(ngModel)]="server.port"/>
+    </div> <!-- ./form-group -->
+
+    <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!mayConnect()"
+        (click)="onConnectClicked($event)">
+        <fa [name]="'plug'"></fa>
+        Connect
+    </button>
+</form>

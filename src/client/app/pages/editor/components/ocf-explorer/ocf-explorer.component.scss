@@ -1,4 +1,29 @@
 @import '../../../../../scss/main';
 
 :host {
+    display: block;
+    padding: 10px;
+
+    #connect-form {
+        .form-group {
+            input {
+                width: 100%;
+            }
+
+            &.ip {
+                width: 60%;
+            }
+
+            &.port {
+                width: 20%;
+            }
+        }
+
+        button {
+            width: calc(20% - 24px);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
 }

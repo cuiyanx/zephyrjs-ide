@@ -40,7 +40,7 @@
   &.disabled,
   &[disabled],
   fieldset[disabled] & {
-    color: darken($color, 10%);
+    color: darken($background, 10%);
     border-color: darken($border, 25%);
     text-shadow: none;
 
