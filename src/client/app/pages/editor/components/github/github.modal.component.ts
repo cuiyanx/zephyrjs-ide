@@ -188,14 +188,14 @@ export class GitHubModalComponent implements AfterViewInit {
 
     // tslint:disable-next-line:no-unused-variable
     private onLoginClicked() {
-        function onError(error: any) {
+        let onError = (error: any) => {
             if (error.status === 401) {
                 this.reset();
             } else {
                 console.error(error.message);
             }
             this.gitHub.user.ui.hasError = true;
-        }
+        };
 
         this.gitHub.ui.wizardStep = WIZARD_STEP.LOGGING_IN;
         setTimeout(() => {
