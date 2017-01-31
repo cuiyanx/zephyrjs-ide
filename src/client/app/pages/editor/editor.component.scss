@@ -63,6 +63,7 @@
                 background-color: inherit;
                 color: $tab-color;
 
+                text-transform: uppercase;
                 line-height: 24px;
 
                 overflow: hidden;
@@ -74,7 +75,6 @@
 
                 > .tab-title {
                     width: calc(100% - 24px);
-                    text-transform: uppercase;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
@@ -175,12 +175,6 @@
 
     .nav-tabs {
             padding-left: 10px;
-
-            li > a {
-                border-right: none;
-                text-transform: uppercase;
-                font-family: $bold-font;
-            }
         }
     } // ./explorer-pane
 }
