@@ -205,18 +205,18 @@ export class GitHubModalComponent implements AfterViewInit {
             this.userService.getUser().$observable.subscribe(
                 (user: any) => {
                     this.gitHub.user.object = user;
-                },
-                (error: any) => { onError(error); }
-            );
 
-            this.userService.getRepos().$observable.subscribe(
-                (repos: any[]) => {
-                    this.gitHub.repos.objects = repos.sort((a: any, b: any) => {
-                        if (a.full_name.toLowerCase() < b.full_name.toLowerCase()) return -1;
-                        if (a.full_name.toLowerCase() > b.full_name.toLowerCase()) return 1;
-                        return 0;
-                    });
-                    this.gitHub.ui.wizardStep = WIZARD_STEP.CHOOSE_FILE;
+                    this.userService.getRepos().$observable.subscribe(
+                        (repos: any[]) => {
+                            this.gitHub.repos.objects = repos.sort((a: any, b: any) => {
+                                if (a.full_name.toLowerCase() < b.full_name.toLowerCase()) return -1;
+                                if (a.full_name.toLowerCase() > b.full_name.toLowerCase()) return 1;
+                                return 0;
+                            });
+                            this.gitHub.ui.wizardStep = WIZARD_STEP.CHOOSE_FILE;
+                        },
+                        (error: any) => { onError(error); }
+                    );
                 },
                 (error: any) => { onError(error); }
             );
