@@ -68,17 +68,17 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             this.setDefaultTabStatuses(1);
             this.computeTabMenuWidth();
             this.initEditorResizeHandle(1);
-            this.initDocsResizeHandle();
+            this.initExplorerResizeHandle();
         }, 0);
 
         window.onresize = () => {
             let editorPane = document.getElementById('editor-pane');
-            let docsPane = document.getElementById('board-explorer-pane');
+            let explorerPane = document.getElementById('explorer-pane');
             let editors = document.getElementsByClassName('monaco-container');
             let consoles = document.getElementsByClassName('console-container');
 
             editorPane.style.width = '';
-            docsPane.style.width = '';
+            explorerPane.style.width = '';
 
             for (let i = 0; i < editors.length; i++) {
                 (editors[i].parentElement as HTMLElement).style.height = '';
@@ -173,31 +173,31 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
         elems.resizeHandle.addEventListener('mousedown', startEditorResize, false);
     }
 
-    private initDocsResizeHandle() {
-        let docsHandleEl = document.getElementById('board-explorer-resize-handle');
+    private initExplorerResizeHandle() {
+        let explorerHandleEl = document.getElementById('explorer-resize-handle');
         let editorEl = document.getElementById('editor-pane');
-        let docsEl = document.getElementById('board-explorer-pane');
+        let explorerEl = document.getElementById('explorer-pane');
 
-        let doDocsResize = (ev: any) => {
+        let doExplorerResize = (ev: any) => {
             if (window.innerWidth - ev.clientX > 30) {
                 editorEl.style.width = (ev.clientX + editorEl.offsetLeft) + 'px';
-                docsEl.style.width = (docsEl.parentElement.offsetWidth - editorEl.offsetWidth - 45) + 'px';
+                explorerEl.style.width = (explorerEl.parentElement.offsetWidth - editorEl.offsetWidth) + 'px';
                 this.computeTabMenuWidth();
             }
             ev.preventDefault();
         };
 
-        let stopDocsResize = () => {
-            window.removeEventListener('mousemove', doDocsResize, false);
-            window.removeEventListener('mouseup', stopDocsResize, false);
+        let stopExplorerResize = () => {
+            window.removeEventListener('mousemove', doExplorerResize, false);
+            window.removeEventListener('mouseup', stopExplorerResize, false);
         };
 
-        let startDocsResize = () => {
-            window.addEventListener('mousemove', doDocsResize, false);
-            window.addEventListener('mouseup', stopDocsResize, false);
+        let startExplorerResize = () => {
+            window.addEventListener('mousemove', doExplorerResize, false);
+            window.addEventListener('mouseup', stopExplorerResize, false);
         };
 
-       docsHandleEl.addEventListener('mousedown', startDocsResize, false);
+       explorerHandleEl.addEventListener('mousedown', startExplorerResize, false);
     }
 
     private getTabById(id: number): EditorTab {
