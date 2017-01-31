@@ -7,5 +7,5 @@ import { EditorRoutes } from './pages/editor/index';
 export const routes: Routes = [
   ...HomeRoutes,
   ...AboutRoutes,
-  ...EditorRoutes
+  ...EditorRoutes,
 ];

@@ -56,12 +56,35 @@
         </button>
     </div> <!-- /col pane -->
 
-    <div class="col-md-6 pane" id="board-explorer-pane">
-        <div class="vertical-resize-handle" id="board-explorer-resize-handle">
+    <div class="col-md-6 pane" id="explorer-pane">
+        <div class="vertical-resize-handle" id="explorer-resize-handle">
             <fa [name]="'ellipsis-v'"></fa>
         </div>
 
-        <sd-board-explorer></sd-board-explorer>
+        <ul #explorerMenu class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="nav-item active">
+                <a class="nav-link" href="#board-explorer" role="tab"
+                   data-toggle="tab">
+                    Board schematic
+                </a>
+            </li>
+
+            <li role="presentation" class="nav-item">
+                <a class="nav-link" href="#ocf-explorer" role="tab"
+                   data-toggle="tab">
+                    OCF Explorer
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="board-explorer">
+                <sd-board-explorer></sd-board-explorer>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="ocf-explorer">
+                <sd-ocf-explorer></sd-ocf-explorer>
+            </div>
+        </div> <!-- ./tab-content -->
     </div>
 </div> <!-- ./row -->
 

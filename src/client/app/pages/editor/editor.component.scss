@@ -26,93 +26,94 @@
         }
     }
 
-    #editor-pane {
-        min-width: 360px;
+    .nav-tabs  {
+        $tab-color: #abacaf;
+        $active-tab-color: #ffffff;
 
-        .nav-tabs  {
-            $tab-color: #abacaf;
-            $active-tab-color: #ffffff;
+        margin-top: 0;
+        padding: 8px 0;
+        padding-left: 36px;
+        border: 0;
+        background-color: $panel-bg-color;
+        height: 40px;
+        overflow: hidden;
 
-            margin-top: 0;
-            padding: 8px 0;
-            padding-left: 36px;
-            border: 0;
-            background-color: $panel-bg-color;
-            height: 40px;
+        > li {
+            padding: 0;
+            padding-left: 16px;
             overflow: hidden;
+            max-width: 140px;
+            font-size: 12px;
 
-            li {
+            &.active > a, &.active .close-tab {
+                color: $active-tab-color;
+            }
+
+            &:last-child  {
+                > a {
+                    // No border for last tab.
+                    border-right: 1px solid transparent;
+                }
+            }
+
+            > a {
                 padding: 0;
-                padding-left: 16px;
-                overflow: hidden;
-                max-width: 140px;
-                font-size: 12px;
+                margin: 0;
 
-                &.active > a, &.active .close-tab {
+                border: none;
+                border-right: 1px solid lighten($panel-bg-color, 10%);
+                border-radius: 0;
+
+                background-color: inherit;
+                color: $tab-color;
+
+                line-height: 24px;
+
+                overflow: hidden;
+                white-space: nowrap;
+
+                &:hover:not(.active) {
                     color: $active-tab-color;
                 }
 
-                &:last-child  {
-                    > a {
-                        // No border for last tab.
-                        border-right: 1px solid transparent;
-                    }
-                }
-
-                > a {
-                    padding: 0;
-                    margin: 0;
-
-                    border: none;
-                    border-right: 1px solid lighten($panel-bg-color, 10%);
-                    border-radius: 0;
-
-                    background-color: inherit;
-                    color: $tab-color;
-
-                    line-height: 24px;
+                > .tab-title {
+                    width: calc(100% - 24px);
+                    text-transform: uppercase;
                     overflow: hidden;
+                    text-overflow: ellipsis;
                     white-space: nowrap;
-
-                    &:hover:not(.active) {
-                        color: $active-tab-color;
-                    }
-
-                    .tab-title {
-                        width: calc(100% - 24px);
-                        text-transform: uppercase;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                    }
-
-                    .close-tab {
-                        position: absolute;
-                        top: 0px;
-                        right: 16px;
-                        width: 16px;
-                        padding: 0;
-
-                        font-family: $thin-font;
-                        font-size: 16px;
-                        color: $tab-color;
-                        text-align: center;
-
-                        &:hover {
-                            color: #e67171;
-                            text-decoration: none;
-                        }
-                    }
                 }
-            }
 
-            @for $i from 1 through 20 {
-                li:first-child:nth-last-child(#{$i}),
-                li:first-child:nth-last-child(#{$i}) ~ li {
-                    width: 100% / $i;
+                > .close-tab {
+                    position: absolute;
+                    top: 0px;
+                    right: 16px;
+                    width: 16px;
+                    padding: 0;
+
+                    font-family: $thin-font;
+                    font-size: 16px;
+                    color: $tab-color;
+                    text-align: center;
+
+                    &:hover {
+                        color: #e67171;
+                        text-decoration: none;
+                    }
                 }
             }
         }
+
+        @for $i from 1 through 20 {
+            li:first-child:nth-last-child(#{$i}),
+            li:first-child:nth-last-child(#{$i}) ~ li {
+                width: 100% / $i;
+            }
+        }
+    }
+
+    #editor-pane {
+        min-width: 360px;
 
         .tab-content {
             height: calc(100% - 40px);
@@ -157,7 +158,7 @@
         }
     } // ./editor-pane
 
-    #board-explorer-pane {
+    #explorer-pane {
         background-color: $panel-bg-color;
         height: 100%;
         width: 50%;
@@ -177,5 +178,15 @@
                 left: 6px;
             }
         }
-    } // ./board-explorer-pane
+
+        .nav-tabs {
+            padding-left: 10px;
+
+            li > a {
+                border-right: none;
+                text-transform: uppercase;
+                font-family: $bold-font;
+            }
+        }
+    } // ./explorer-pane
 }

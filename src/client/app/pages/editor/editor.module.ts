@@ -13,6 +13,7 @@ import { ConsoleModule } from './components/console/console.module';
 import { StatusBarModule } from './components/statusbar/statusbar.module';
 import { BoardExplorerModule } from './components/board-explorer/board-explorer.module';
 import { SharedModule } from '../../shared/shared.module';
+import { OcfExplorerModule } from './components/ocf-explorer/ocf-explorer.module';
 
 // This module
 import { EditorComponent } from './editor.component';
@@ -30,6 +31,8 @@ import { EditorComponent } from './editor.component';
         ConsoleModule,
         StatusBarModule,
         BoardExplorerModule,
+        OcfExplorerModule,
+
         SharedModule.forRoot()
     ],
     declarations: [EditorComponent],
