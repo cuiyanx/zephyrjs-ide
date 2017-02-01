@@ -13,6 +13,7 @@ $active-link-border-width: 4px;
         text-transform: uppercase;
         color: $text-color;
         padding-left: 12px;
+        text-shadow: none;
     }
 
     .navbar-nav > li {
@@ -20,6 +21,7 @@ $active-link-border-width: 4px;
 
          > a {
              color: $text-color;
+             text-shadow: none;
 
              &.router-link-active {
                  padding-bottom: 15px - $active-link-border-width;
