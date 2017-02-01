@@ -1,25 +1,25 @@
 @import '../../../../../scss/main';
 
 :host {
-    height: 40%;
+    height: calc(40% - 14px); // for the status bar
     display: block;
 
     .console-container {
         position: relative;
         height: 100%;
         overflow: hidden;
+        padding-left: 52px;
+        background-color: $code-bg-color;
 
         .pane-header {
-            position: absolute;
-            top: 0;
-            width: 100%;
             padding-left: 52px;
+            margin-left: -52px;
         }
 
         .console {
             position: absolute;
             top: 40px;
-            width: 100%;
+            width: calc(100% - 52px);
             height: calc(100% - 40px);
         }
     }

@@ -1,7 +1,7 @@
 @import '../../../../../scss/main';
 
 :host {
-    height: calc(60% - 16px); // 16px for the resize handle
+    height: calc(60% - 14px); // for the resize handle
     display: block;
     overflow: hidden;
 
