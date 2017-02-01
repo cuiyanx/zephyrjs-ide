@@ -71,7 +71,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="warningModal.hide()">
+        <button type="button" class="close" aria-label="Close" (click)="onCloseWarning()">
           <span aria-hidden="true">&times;</span>
         </button>
         <h4 class="modal-title">Warning</h4>
@@ -89,7 +89,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="errorModal.hide()">
+        <button type="button" class="close" aria-label="Close" (click)="onCloseError()">
           <span aria-hidden="true">&times;</span>
         </button>
         <h4 class="modal-title">Error</h4>

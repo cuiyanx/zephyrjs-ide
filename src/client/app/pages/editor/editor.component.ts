@@ -294,8 +294,18 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     // tslint:disable-next-line:no-unused-variable
+    private onCloseWarning(): void {
+        $(this.warningModal.nativeElement).modal('hide');
+    }
+
+    // tslint:disable-next-line:no-unused-variable
     private onError(message: EditorModalMessage) {
         this.lastMessage = message;
         $(this.errorModal.nativeElement).modal('show');
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    private onCloseError(): void {
+        $(this.errorModal.nativeElement).modal('hide');
     }
 }
