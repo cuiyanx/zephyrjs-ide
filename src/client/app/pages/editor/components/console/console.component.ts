@@ -34,6 +34,8 @@ export class ConsoleComponent implements AfterViewInit {
 
         let htermUMDjs = require('hterm-umdjs/dist/index');
         this.hterm = htermUMDjs.hterm;
+        // tslint:disable-next-line:no-empty
+        this.hterm.Terminal.prototype.showOverlay = () => {};
         this.hterm.defaultStorage = new htermUMDjs.lib.Storage.Memory();
     }
 
