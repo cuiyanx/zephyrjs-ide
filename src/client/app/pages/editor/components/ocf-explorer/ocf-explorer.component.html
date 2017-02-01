@@ -25,12 +25,44 @@
                [(ngModel)]="server.port"/>
     </div> <!-- ./form-group -->
 
+    <div
+        class="form-group path"
+        [class.has-error]="server.path && !isValidPath()">
+
+        <label class="sr-only" for="ocf-explorer-port">Path</label>
+        <input type="text"
+               class="form-control"
+               id="ocf-explorer-path"
+               name="ocf-explorer-path"
+               placeholder="Path"
+               [(ngModel)]="server.path"/>
+    </div> <!-- ./form-group -->
+
     <button
         type="submit"
         class="btn btn-primary"
-        [disabled]="!mayConnect()"
-        (click)="onConnectClicked($event)">
-        <fa [name]="'plug'"></fa>
-        Connect
+        [disabled]="!explorationEnabled()"
+        (click)="onExploreClicked($event)">
+
+        <span *ngIf="isExploring()">
+            <fa [name]="'spinner'" [spin]="true"></fa>
+        </span>
+        <span *ngIf="!isExploring()">
+            <fa [name]="'plug'"></fa>
+        </span>
+        Explore
+
     </button>
 </form>
+
+<div id="resources">
+    <ul class="list-group" *ngIf="resources.length > 0">
+        <li class="list-group-item" *ngFor="let resource of resources">
+            {{resource.path}}
+        </li>
+    </ul>
+
+    <p id="no-resources" class="text-center" *ngIf="resources.length === 0">
+        No resources.
+    </p>
+</div>

@@ -34,7 +34,7 @@ export interface IQueryInput {
 
 @Injectable()
 @ResourceParams({
-  url: '/api/oic'
+  url: ''
 })
 export class OcfApiService extends RestClient {
   @ResourceAction({
