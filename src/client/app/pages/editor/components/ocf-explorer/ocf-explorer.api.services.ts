@@ -7,7 +7,6 @@ import {
     ResourceParams
 } from 'ng2-resource-rest';
 
-
 export class RestClient extends Resource {
     private baseUrl = '';
 
@@ -30,6 +29,12 @@ export interface IQueryInput {
 };
 
 
+export interface IOcfResource {
+    di: string;
+    path: string;
+};
+
+
 // Services
 
 @Injectable()
@@ -42,4 +47,9 @@ export class OcfApiService extends RestClient {
     path: '/res'
   })
   getResources: ResourceMethod<IQueryInput, any[]>;
+
+  @ResourceAction({
+    path: '{!path}?di={!di}'
+  })
+  getResource: ResourceMethod<IOcfResource, any>;
 }

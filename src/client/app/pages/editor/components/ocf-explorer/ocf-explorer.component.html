@@ -58,7 +58,7 @@
 <div id="resources">
     <ul class="list-group" *ngIf="resources.length > 0">
         <li class="list-group-item" *ngFor="let resource of resources">
-            {{resource.path}}
+            <sd-ocf-resource [resource]="resource"></sd-ocf-resource>
         </li>
     </ul>
 
