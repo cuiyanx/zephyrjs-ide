@@ -11,19 +11,32 @@
             }
 
             &.ip {
-                width: 60%;
+                width: 20%;
             }
 
             &.port {
                 width: 20%;
             }
+
+            &.path {
+                width: 40%;
+            }
         }
 
         button {
-            width: calc(20% - 24px);
+            width: calc(20% - 12px);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+    }
+
+    #resources {
+        padding-top: 40px;
+
+        #no-resources {
+            font-size: 20px;
+            color: lighten($panel-bg-color, 10%);
         }
     }
 }

@@ -98,3 +98,11 @@ strong, .strong {
 .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
     border-color: lighten($panel-bg-color, 1%);
 }
+
+/* LISTS */
+.list-group-item {
+    background-color: transparent;
+    border-color: rgba(0,0,0,0.1);
+    padding-top: 15px;
+    padding-bottom: 15px;
+}

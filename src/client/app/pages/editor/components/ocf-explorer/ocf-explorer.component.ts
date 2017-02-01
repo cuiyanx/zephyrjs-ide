@@ -3,11 +3,20 @@ import { Component } from '@angular/core';
 import { OcfApiService } from './ocf.api.services';
 
 
-export interface OcfServer {
+interface OcfServer {
     ip: string;
     port: number;
+    path: string;
 };
 
+interface Resource {
+    path: string;
+};
+
+enum EXPLORE_STATUS {
+    NOT_EXPLORING,
+    EXPLORING
+};
 
 @Component({
     moduleId: module.id,
@@ -17,9 +26,15 @@ export interface OcfServer {
 })
 export class OcfExplorerComponent {
     public server: OcfServer = {
-        ip: '192.168.0.102',
-        port: 8000
+        ip: '127.0.0.1',
+        port: 1337,
+        path: '/192.168.0.102:8000/api/oic'
     };
+
+    public resources: Resource[] = [];
+
+    private exploreStatus: EXPLORE_STATUS = EXPLORE_STATUS.NOT_EXPLORING;
+
 
     public constructor(private ocfApiService: OcfApiService) {
     }
@@ -36,20 +51,71 @@ export class OcfExplorerComponent {
     }
 
     // tslint:disable-next-line:no-unused-variable
-    public mayConnect(): boolean {
-        return this.isValidIPAddress() && this.isValidPort();
+    public isValidPath(): boolean {
+        return this.server.path.startsWith('/');
     }
 
     // tslint:disable-next-line:no-unused-variable
-    public onConnectClicked(event: any): void {
+    public explorationEnabled(): boolean {
+        return this.isValidIPAddress() &&
+               this.isValidPort() &&
+               this.isValidPath() &&
+               this.exploreStatus === EXPLORE_STATUS.NOT_EXPLORING;
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    public isExploring(): boolean {
+        return this.exploreStatus === EXPLORE_STATUS.EXPLORING;
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    public onExploreClicked(event: any): void {
         event.preventDefault();
 
         this.ocfApiService.setBaseUrl(
             'http://' + this.server.ip +
-                  ':' + this.server.port);
+                  ':' + this.server.port +
+                        this.server.path);
+
+        this.exploreStatus = EXPLORE_STATUS.EXPLORING;
+        this.resources = [];
         this.ocfApiService.getResources().$observable.subscribe(
             (resources: any[]) => {
-                console.log(resources);
+                this.exploreStatus = EXPLORE_STATUS.NOT_EXPLORING;
+                this.resources = resources
+                    .filter((data: any) => {
+                        let ignoredPaths: string[] = [
+                            '/oic/sec/doxm',
+                            '/oic/sec/pstat',
+                            '/oic/d',
+                            '/oic/p'
+                        ];
+
+                        // Ignore resources with no links
+                        if (data.links === undefined ||
+                            data.links.length === 0) {
+                            return false;
+                        }
+
+                        // Ignore control resources
+                        if (ignoredPaths.indexOf(data.links[0].href) !== -1) {
+                            return false;
+                        }
+
+                        // Ignore duplicates
+                        if (this.resources.map((resource) => {
+                            return resource.path;
+                        }).indexOf(data.links[0].href) !== -1) {
+                            return false;
+                        }
+
+                        return true;
+                    })
+                    .map((data: any) => {
+                        return {
+                            path: data.links[0].href
+                        };
+                });
             }
         );
     }
