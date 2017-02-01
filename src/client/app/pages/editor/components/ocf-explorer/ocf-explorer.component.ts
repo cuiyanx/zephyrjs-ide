@@ -1,15 +1,12 @@
 import { Component } from '@angular/core';
 
-import { OcfApiService } from './ocf.api.services';
+import { OcfApiService } from './ocf-explorer.api.services';
+import { OcfResource } from './ocf-explorer.resource.component';
 
 
 interface OcfServer {
     ip: string;
     port: number;
-    path: string;
-};
-
-interface Resource {
     path: string;
 };
 
@@ -31,7 +28,7 @@ export class OcfExplorerComponent {
         path: '/192.168.0.102:8000/api/oic'
     };
 
-    public resources: Resource[] = [];
+    public resources: OcfResource[] = [];
 
     private exploreStatus: EXPLORE_STATUS = EXPLORE_STATUS.NOT_EXPLORING;
 
@@ -80,9 +77,9 @@ export class OcfExplorerComponent {
         this.exploreStatus = EXPLORE_STATUS.EXPLORING;
         this.resources = [];
         this.ocfApiService.getResources().$observable.subscribe(
-            (resources: any[]) => {
+            (response: any[]) => {
                 this.exploreStatus = EXPLORE_STATUS.NOT_EXPLORING;
-                this.resources = resources
+                this.resources = response
                     .filter((data: any) => {
                         let ignoredPaths: string[] = [
                             '/oic/sec/doxm',
@@ -112,10 +109,25 @@ export class OcfExplorerComponent {
                         return true;
                     })
                     .map((data: any) => {
-                        return {
+                        let resource: OcfResource = {
+                            di: data.di,
                             path: data.links[0].href
                         };
-                });
+
+                        this.ocfApiService.getResource(resource)
+                        .$observable.subscribe(
+                            (response: any) => {
+                                for (let resource_ of this.resources) {
+                                    if (resource_.di === resource.di &&
+                                        resource_.path === resource.path) {
+                                        resource.properties = response.properties;
+                                    }
+                                }
+                            }
+                        );
+
+                        return resource;
+                    });
             }
         );
     }

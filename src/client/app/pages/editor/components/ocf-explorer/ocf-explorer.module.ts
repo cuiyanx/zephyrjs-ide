@@ -8,11 +8,12 @@ import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawe
 
 // This module
 import { OcfExplorerComponent } from './ocf-explorer.component';
+import { OcfResourceComponent } from './ocf-explorer.resource.component';
 
 
 @NgModule({
     imports: [CommonModule, FormsModule, Angular2FontawesomeModule],
-    declarations: [OcfExplorerComponent],
-    exports: [OcfExplorerComponent]
+    declarations: [OcfExplorerComponent, OcfResourceComponent],
+    exports: [OcfExplorerComponent, OcfResourceComponent]
 })
 export class OcfExplorerModule { }
