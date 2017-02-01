@@ -214,7 +214,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private getFirstAvailableTabId(): number {
-        let max = 1;
+        let max = 0;
         for (let tab of this.tabs) {
             if (tab.id > max) {
                 max = tab.id;
@@ -228,7 +228,12 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
         let tab = this.getTabById(id);
         let index = this.tabs.indexOf(tab);
         this.tabs.splice(index, 1);
-        this.tabs[this.tabs.length - 1].active = true;
+
+        if (this.tabs.length > 0) {
+            this.tabs[this.tabs.length - 1].active = true;
+        } else {
+            this.newTab();
+        }
 
         if (this.tabs.length === this.MAX_TABS - 1) {
             this.computeTabMenuWidth();

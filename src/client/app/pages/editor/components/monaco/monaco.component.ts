@@ -38,21 +38,7 @@ export class MonacoComponent implements AfterViewInit {
 
     private webusbService: WebUsbService = undefined;
 
-    private initialCode: string = [
-        'var gpio = require("gpio");',
-        'var pins = require("arduino101_pins");',
-        '',
-        'var pin = gpio.open({',
-        '   pin: pins.LED2,',
-        '   direction: "out"',
-        '});',
-        '',
-        'var toggle = false;',
-        'var handle = setInterval(function () {',
-        '    toggle = !toggle;',
-        '    pin.write(toggle);',
-        '}, 1000);'].join('\n');
-
+    private initialCode: string = '';
 
     constructor(webusbService: WebUsbService) {
         this.webusbService = webusbService;
