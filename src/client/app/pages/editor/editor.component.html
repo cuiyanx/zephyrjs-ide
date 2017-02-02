@@ -82,7 +82,10 @@
                 <sd-board-explorer></sd-board-explorer>
             </div>
             <div role="tabpanel" class="tab-pane" id="ocf-explorer">
-                <sd-ocf-explorer></sd-ocf-explorer>
+                <sd-ocf-explorer
+                    (onWarning)="onWarning($event)"
+                    (onError)="onError($event)">
+                </sd-ocf-explorer>
             </div>
         </div> <!-- ./tab-content -->
     </div>
