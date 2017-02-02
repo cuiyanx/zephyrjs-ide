@@ -40,7 +40,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     private tabs: Array<EditorTab> = [{
         id: 1,
         active: true,
-        title: 'Sketch # 1',
+        title: 'Tab # 1',
         editor: null,
         port: null,
         term: null
@@ -257,7 +257,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
         let tab: EditorTab = {
             id: id,
             active: true,
-            title: 'Sketch # ' + id,
+            title: 'Tab # ' + id,
             editor: null,
             port: null,
             term: null
