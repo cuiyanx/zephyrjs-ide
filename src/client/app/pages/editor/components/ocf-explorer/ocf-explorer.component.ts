@@ -128,6 +128,9 @@ export class OcfExplorerComponent {
 
                         return resource;
                     });
+            },
+            (error: string) => {
+                this.exploreStatus = EXPLORE_STATUS.NOT_EXPLORING;
             }
         );
     }
