@@ -8,7 +8,7 @@ import { SeedConfig } from './seed.config';
  * below.
  */
 export class ProjectConfig extends SeedConfig {
-
+  APP_TITLE_HTML: string = '';
   PROJECT_TASKS_DIR = join(process.cwd(), this.TOOLS_DIR, 'tasks', 'project');
   GIT_REV: string = '';
 
@@ -27,6 +27,7 @@ export class ProjectConfig extends SeedConfig {
   constructor() {
     super();
     this.APP_TITLE = 'Zephyr.js IDE';
+    this.APP_TITLE_HTML = 'Zephyr.js <strong>IDE</strong>';
 
     this.PORT = argv['port'] || 8000;
     this.PLUGIN_CONFIGS['browser-sync']['port'] = this.PORT;

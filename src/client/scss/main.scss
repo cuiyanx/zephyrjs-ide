@@ -6,6 +6,11 @@
 
 /* MISC */
 
+strong, .strong {
+    font-family: $bold-font;
+    font-weight: bold;
+}
+
 .well {
     background: lighten($panel-bg-color, 10%);
     border-color: lighten($panel-bg-color, 5%);
