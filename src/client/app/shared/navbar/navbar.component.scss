@@ -10,6 +10,7 @@ $active-link-border-width: 4px;
     border-radius: 0;
 
     .navbar-brand {
+        font-family: $thin-font;
         text-transform: uppercase;
         color: $text-color;
         padding-left: 12px;
