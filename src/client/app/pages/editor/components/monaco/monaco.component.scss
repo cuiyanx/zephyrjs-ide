@@ -9,6 +9,10 @@
         background-color: $code-bg-color;
         padding: 5px 15px 30px 42px;
 
+        fa {
+            color: $accent-color;
+        }
+
         button {
             background: none;
             border: 0;
