@@ -30,30 +30,31 @@
         min-width: 360px;
 
         .nav-tabs  {
+            $tab-color: #abacaf;
+            $active-tab-color: #ffffff;
+
             margin-top: 0;
-            padding-left: 52px;
+            padding: 8px 0;
+            padding-left: 36px;
             border: 0;
             background-color: $panel-bg-color;
             height: 40px;
             overflow: hidden;
 
             li {
-                padding: 10px 0;
-                padding-left: 10px;
+                padding: 0;
+                padding-left: 16px;
                 overflow: hidden;
                 max-width: 140px;
+                font-size: 12px;
 
-                &.active > a {
-                    color: $secondary-accent-color;
-                }
-
-                &:first-child {
-                    padding-left: 0;
+                &.active > a, &.active .close-tab {
+                    color: $active-tab-color;
                 }
 
                 &:last-child  {
                     > a {
-                        // No border for the penultimate child, i.e. the last tab.
+                        // No border for last tab.
                         border-right: 1px solid transparent;
                     }
                 }
@@ -63,18 +64,18 @@
                     margin: 0;
 
                     border: none;
-                    border-right: 1px solid lighten($panel-bg-color, 5%);
+                    border-right: 1px solid lighten($panel-bg-color, 10%);
                     border-radius: 0;
 
                     background-color: inherit;
-                    color: $text-color;
+                    color: $tab-color;
 
+                    line-height: 24px;
                     overflow: hidden;
                     white-space: nowrap;
 
                     &:hover:not(.active) {
-                        color: white;
-                        font-weight: bold;
+                        color: $active-tab-color;
                     }
 
                     .tab-title {
@@ -86,16 +87,20 @@
                     }
 
                     .close-tab {
-                        color: $text-color;
                         position: absolute;
                         top: 0px;
-                        right: 8px;
+                        right: 16px;
                         width: 16px;
-                        text-align: center;
                         padding: 0;
 
+                        font-family: $thin-font;
+                        font-size: 16px;
+                        color: $tab-color;
+                        text-align: center;
+
                         &:hover {
-                            color: red;
+                            color: #e67171;
+                            text-decoration: none;
                         }
                     }
                 }
