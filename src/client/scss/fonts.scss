@@ -5,10 +5,18 @@
 }
 
 @font-face {
+  font-family: 'ClearSansThin';
+  src: url('fonts/ClearSans/WOFF/ClearSans-Thin.woff') format('woff'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+       url('fonts/ClearSans/TTF/ClearSans-Thin.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}
+
+
+@font-face {
   font-family: 'ClearSansBold';
   src: url('fonts/ClearSans/WOFF/ClearSans-Bold.woff') format('woff'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
        url('fonts/ClearSans/TTF/ClearSans-Bold.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
 }
 
 $default-font: 'ClearSansRegular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$thin-font: 'ClearSansThin', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $bold-font: 'ClearSansBold', 'Helvetica Neue', Helvetica, Arial, sans-serif;
