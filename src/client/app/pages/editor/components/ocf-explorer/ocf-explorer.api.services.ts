@@ -32,6 +32,7 @@ export interface IQueryInput {
 export interface IOcfResource {
     di: string;
     path: string;
+    rt?: string;
 };
 
 
