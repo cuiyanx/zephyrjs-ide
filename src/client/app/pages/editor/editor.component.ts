@@ -8,9 +8,11 @@ import {
     ViewChild
 } from '@angular/core';
 
+// Third party
+import { NotificationsService } from 'angular2-notifications';
+
 // Own
 import { EditorTab, OPERATION_STATUS, EDITOR_STATUS } from './editor.tab';
-import { EditorModalMessage } from './editor.modal.message';
 import { WebUsbService } from '../../shared/webusb/webusb.service';
 
 declare var $: any;
@@ -22,25 +24,16 @@ declare var $: any;
   styleUrls: ['editor.component.css']
 })
 export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
-    public lastMessage: EditorModalMessage = {
-        header: '',
-        body: ''
+    public notificationOptions = {
+        timeOut: 5000
     };
 
     private readonly MAX_TABS: number = 10;
-
-    private webusbService: WebUsbService = undefined;
 
     // Childen
 
     @ViewChild('tabMenu')
     private tabMenu: ElementRef;
-
-    @ViewChild('warningModal')
-    private warningModal: ElementRef;
-
-    @ViewChild('errorModal')
-    private errorModal: ElementRef;
 
     // Variables
 
@@ -55,8 +48,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Methods
 
-    constructor(webusbService: WebUsbService) {
-        this.webusbService = webusbService;
+    constructor(
+        private notificationsService: NotificationsService,
+        private webusbService: WebUsbService) {
     }
 
     public ngOnInit() {
@@ -293,24 +287,12 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     // tslint:disable-next-line:no-unused-variable
-    private onWarning(message: EditorModalMessage) {
-        this.lastMessage = message;
-        $(this.warningModal.nativeElement).modal('show');
+    private onWarning(message: any) {
+        this.notificationsService.alert(message.header, message.body);
     }
 
     // tslint:disable-next-line:no-unused-variable
-    private onCloseWarning(): void {
-        $(this.warningModal.nativeElement).modal('hide');
-    }
-
-    // tslint:disable-next-line:no-unused-variable
-    private onError(message: EditorModalMessage) {
-        this.lastMessage = message;
-        $(this.errorModal.nativeElement).modal('show');
-    }
-
-    // tslint:disable-next-line:no-unused-variable
-    private onCloseError(): void {
-        $(this.errorModal.nativeElement).modal('hide');
+    private onError(message: any) {
+        this.notificationsService.error(message.header, message.body);
     }
 }

@@ -12,7 +12,6 @@ import { GitHubModalComponent } from '../github/github.modal.component';
 import { WebUsbPort } from '../../../../shared/webusb/webusb.port';
 import { WebUsbService } from '../../../../shared/webusb/webusb.service';
 import { EditorTab, OPERATION_STATUS, EDITOR_STATUS } from '../../editor.tab';
-import { EditorModalMessage } from '../../editor.modal.message';
 
 
 declare const monaco: any;
@@ -27,8 +26,8 @@ declare const monaco: any;
 })
 export class MonacoComponent implements AfterViewInit {
     @Input('tab') tab: EditorTab;
-    @Output() onWarning = new EventEmitter<EditorModalMessage>();
-    @Output() onError = new EventEmitter<EditorModalMessage>();
+    @Output() onWarning = new EventEmitter();
+    @Output() onError = new EventEmitter();
 
     @ViewChild('editor')
     private editorView: ElementRef;
@@ -121,8 +120,9 @@ export class MonacoComponent implements AfterViewInit {
             .catch((error: DOMException) => {
                 this.tab.connectionStatus = OPERATION_STATUS.ERROR;
                 this.onError.emit({
-                    header: 'Unable to connect to the device',
-                    body: error.message});
+                    header: 'Connection failed',
+                    body: error.message
+                });
             });
         };
 
@@ -137,8 +137,9 @@ export class MonacoComponent implements AfterViewInit {
             .catch((error: DOMException) => {
                 this.tab.connectionStatus = OPERATION_STATUS.NOT_STARTED;
                 this.onError.emit({
-                    header: 'Unable to connect to the device',
-                    body: error.message});
+                    header: 'Conneciton failed',
+                    body: error.message
+                });
             });
         }
     }
@@ -164,8 +165,9 @@ export class MonacoComponent implements AfterViewInit {
 
             if (warning !== undefined) {
                 this.onWarning.emit({
-                    header: 'There were problems uploading your file',
-                    body: warning});
+                    header: 'Upload failed',
+                    body: warning
+                });
             }
         })
         .catch((error: DOMException) => {
@@ -173,8 +175,9 @@ export class MonacoComponent implements AfterViewInit {
             this.tab.uploadStatus = OPERATION_STATUS.NOT_STARTED;
             this.tab.editorStatus = EDITOR_STATUS.READY;
             this.onError.emit({
-                header: 'Unable to upload file',
-                body: error.message});
+                header: 'Upload failed',
+                body: error.message
+            });
         });
     }
 

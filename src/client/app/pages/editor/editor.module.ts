@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 
 // 3rd party modules
 import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome';
+import { SimpleNotificationsModule } from 'angular2-notifications';
 
 // Own modules
 import { MonacoModule } from './components/monaco/monaco.module';
@@ -19,9 +20,11 @@ import { EditorComponent } from './editor.component';
 
 @NgModule({
     imports: [
-        Angular2FontawesomeModule,
         CommonModule,
         FormsModule,
+
+        Angular2FontawesomeModule,
+        SimpleNotificationsModule,
 
         MonacoModule,
         ConsoleModule,

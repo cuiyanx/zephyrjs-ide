@@ -65,43 +65,5 @@
     </div>
 </div> <!-- ./row -->
 
-
-<!-- MODALS -->
-
-<div #warningModal class="modal modal-warning fade" tabindex="-1"
-     role="dialog" aria-labelledby="warningModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="onCloseWarning()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title">Warning</h4>
-      </div>
-      <div class="modal-body">
-          <h3>{{lastMessage.header}}</h3>
-          <p class="message-content">{{lastMessage.body}}</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div #errorModal class="modal modal-error fade" tabindex="-1"
-     role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="onCloseError()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title">Error</h4>
-      </div>
-      <div class="modal-body">
-          <h3>{{lastMessage.header}}</h3>
-          <p class="message-content">{{lastMessage.body}}</p>
-      </div>
-    </div>
-  </div>
-</div>
-
+<simple-notifications [options]="notificationOptions"></simple-notifications>
 <sd-footer id="footer"></sd-footer>
