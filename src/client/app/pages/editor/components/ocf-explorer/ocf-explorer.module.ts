@@ -9,11 +9,23 @@ import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawe
 // This module
 import { OcfExplorerComponent } from './ocf-explorer.component';
 import { OcfResourceComponent } from './ocf-explorer.resource.component';
+import { OcfResourceValueFanComponent } from './ocf-explorer.resource.value.fan.component';
+import { OcfResourceValueRgbLedComponent } from './ocf-explorer.resource.value.rgbled.component';
 
 
 @NgModule({
     imports: [CommonModule, FormsModule, Angular2FontawesomeModule],
-    declarations: [OcfExplorerComponent, OcfResourceComponent],
-    exports: [OcfExplorerComponent, OcfResourceComponent]
+    declarations: [
+        OcfExplorerComponent,
+        OcfResourceComponent,
+        OcfResourceValueFanComponent,
+        OcfResourceValueRgbLedComponent
+    ],
+    exports: [
+        OcfExplorerComponent,
+        OcfResourceComponent,
+        OcfResourceValueFanComponent,
+        OcfResourceValueRgbLedComponent
+    ]
 })
 export class OcfExplorerModule { }

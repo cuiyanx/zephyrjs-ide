@@ -1,1 +1,19 @@
-{{resource.path}}
+<div class="path">
+    {{resource.path}}
+</div>
+
+<div class="value" *ngIf="resource.properties !== undefined">
+    <sd-ocf-resource-fan
+        [resource]="resource"
+        *ngIf="resource.rt === 'oic.r.fan'">
+    </sd-ocf-resource-fan>
+
+    <sd-ocf-resource-rgbled
+        [resource]="resource"
+        *ngIf="resource.rt === 'oic.r.colour.rgb'">
+    </sd-ocf-resource-rgbled>
+</div>
+
+<div class="value" *ngIf="resource.properties === undefined">
+    <fa [name]="'spinner'" [spin]="true"></fa>
+</div>

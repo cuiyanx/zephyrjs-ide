@@ -84,11 +84,9 @@ export class OcfExplorerComponent {
                 this.exploreStatus = EXPLORE_STATUS.NOT_EXPLORING;
                 this.resources = response
                     .filter((data: any) => {
-                        let ignoredPaths: string[] = [
-                            '/oic/sec/doxm',
-                            '/oic/sec/pstat',
-                            '/oic/d',
-                            '/oic/p'
+                        let supportedTypes: string[] = [
+                            'oic.r.fan',
+                            'oic.r.colour.rgb'
                         ];
 
                         // Ignore resources with no links
@@ -97,8 +95,8 @@ export class OcfExplorerComponent {
                             return false;
                         }
 
-                        // Ignore control resources
-                        if (ignoredPaths.indexOf(data.links[0].href) !== -1) {
+                        // Filter only supported resource types
+                        if (supportedTypes.indexOf(data.links[0].rt) === -1) {
                             return false;
                         }
 
@@ -114,7 +112,8 @@ export class OcfExplorerComponent {
                     .map((data: any) => {
                         let resource: OcfResource = {
                             di: data.di,
-                            path: data.links[0].href
+                            path: data.links[0].href,
+                            rt: data.links[0].rt
                         };
 
                         this.ocfApiService.getResource(resource)
