@@ -1,8 +1,39 @@
 <div id="landing-page" class="absolutely-centered">
     <div class="container">
-        <h1>Hello!</h1>
-        <h2>
-            Welcome to Zephyr.js IDE.
-        </h2>
+        <div id="app-name"><%= APP_TITLE %></div>
+        <div id="hello">Hello!</div>
+
+        <ul id="navbar">
+            <li>
+                <a [routerLink]="['/about']">
+                    About
+                    <fa [name]="'chevron-right'" style="color:#46D7E8"></fa>
+                </a>
+            </li>
+            <li>
+                <a [routerLink]="['/editor']">
+                    Editor
+                    <fa [name]="'chevron-right'" style="color:#00E185"></fa>
+                </a>
+            </li>
+        </ul>
+
+        <div id="about">
+            <p>
+                Welcome to the Web Based JS Editor for Zephyr OS,
+                a creative computing tool for makers to build their projects,
+                apps, and more.
+            </p>
+            <p>
+                This editor is web plug-and-play ready, with integrating USB APIs
+                that let you use your board instantaneusly, and start coding as
+                soon as you plug it in.
+            </p>
+        </div>
+
+        <a class="btn" id="get-started"
+           [routerLink]="['/editor']">
+            Let's get started!
+        </a>
     </div>
 </div>

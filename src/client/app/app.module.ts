@@ -15,8 +15,6 @@ import { HomeModule } from './pages/home/home.module';
 import { AboutModule } from './pages/about/about.module';
 import { EditorModule } from './pages/editor/editor.module';
 
-import { SharedModule } from './shared/shared.module';
-
 
 @NgModule({
   imports: [
@@ -28,9 +26,7 @@ import { SharedModule } from './shared/shared.module';
 
       AboutModule,
       EditorModule,
-      HomeModule,
-
-      SharedModule.forRoot()
+      HomeModule
   ],
   declarations: [AppComponent],
   providers: [

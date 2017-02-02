@@ -2,11 +2,11 @@
 
 :host {
     display: block;
-    height: calc(100% - 50px - 60px); // header and footer
+    height: 100%;
     overflow: hidden;
 
-    > .row {
-        height: 100%;
+    > #editor-page-container {
+        height: calc(100% - 50px - 60px); // navbar and footer
         overflow: hidden;
         margin: 0;
     }

@@ -1,3 +1,5 @@
+@import '../../../scss/main';
+
 :host {
     background: url('../assets/images/landing-bg.jpg') no-repeat 50% 50% fixed;
     background-size: cover;
@@ -5,23 +7,68 @@
     -o-background-size: cover;
     -webkit-background-size: cover;
     display: block;
-    height: calc(100% - 50px - 60px); // navbar and footer
+    height: 100%;
 
     #landing-page {
-        text-shadow: 1px 1px 3px black;
         color: white !important;
 
         .container {
-            padding: 50px;
-            background: rgba(0, 0, 0, 0.25);
+            width: 450px;
         }
     }
 
-    h1 {
-        font-size: 60px;
+    #app-name {
+        font-size: 24px;
+        margin-bottom: -24px;
+        padding-left: 85px;
+        text-transform: uppercase;
     }
 
-    h2 {
-        font-size: 20px;
+    #hello {
+        font-size: 180px;
+    }
+
+    #navbar {
+        > li {
+            display: inline-block;
+            padding: 0 35px;
+
+            > a {
+                text-transform: uppercase;
+                font-size: 14px;
+                color: white;
+
+                &:hover {
+                    text-decoration: none;
+                    font-weight: bold;
+                }
+
+                > fa {
+                    margin-left: 40px;
+                    padding-top: 2px;
+                }
+            }
+        }
+
+        margin-bottom: 40px;
+    }
+
+    #about {
+        p {
+            color: #e0e0e0;
+        }
+    }
+
+    #get-started {
+        $bg: #ff545c;
+
+        margin-top: 30px;
+        background-color: $bg;
+        color: $panel-bg-color;
+        text-shadow: none;
+
+        &:hover {
+            background-color: lighten($bg, 5%);
+        }
     }
 }
