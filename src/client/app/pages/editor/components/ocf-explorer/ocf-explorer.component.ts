@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 import { OcfApiService } from './ocf-explorer.api.services';
 import { OcfResource } from './ocf-explorer.resource.component';
@@ -22,6 +22,9 @@ enum EXPLORE_STATUS {
     styleUrls: ['ocf-explorer.component.css']
 })
 export class OcfExplorerComponent {
+    @Output() onWarning = new EventEmitter();
+    @Output() onError = new EventEmitter();
+
     public server: OcfServer = {
         ip: '127.0.0.1',
         port: 1337,
@@ -129,7 +132,11 @@ export class OcfExplorerComponent {
                         return resource;
                     });
             },
-            (error: string) => {
+            (error: any) => {
+                this.onError.emit({
+                    header: 'Connection failed',
+                    body: 'There was an error connecting to the OCF server'
+                });
                 this.exploreStatus = EXPLORE_STATUS.NOT_EXPLORING;
             }
         );
