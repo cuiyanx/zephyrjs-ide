@@ -102,7 +102,7 @@ strong, .strong {
 /* LISTS */
 .list-group-item {
     background-color: transparent;
-    border-color: rgba(0,0,0,0.1);
+    border-color: lighten($panel-bg-color, 5%);
     padding-top: 15px;
     padding-bottom: 15px;
 }
