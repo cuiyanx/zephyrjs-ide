@@ -66,11 +66,14 @@
                     <fa [name]="'spinner'" [spin]="true"></fa>
                 </span>
 
-                <a
-                    href="" (click)="onCloseServer(s)" class="close"
-                    *ngIf="!s.isExploring">
-                    &times;
-                </a>
+                <span class="tools" *ngIf="!s.isExploring">
+                    <a href="" (click)="onRefreshServer(s)">
+                        <fa [name]="'refresh'"></fa>
+                    </a>
+                    <a href="" (click)="onCloseServer(s)">
+                        <fa [name]="'close'"></fa>
+                    </a>
+                </span>
             </li>
 
             <li

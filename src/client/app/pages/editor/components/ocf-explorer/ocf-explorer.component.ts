@@ -72,6 +72,76 @@ export class OcfExplorerComponent {
         return false;
     }
 
+    public explore(server: OcfServer): void {
+        this.ocfApiService.setBaseUrl(
+            'http://' + server.ip +
+                  ':' + server.port +
+                        server.path);
+
+        server.isExploring = true;
+        server.resources = [];
+        this.ocfApiService.getResources().$observable.subscribe(
+            (response: any[]) => {
+                server.isExploring = false;
+                server.resources = response
+                    .filter((data: any) => {
+                        let supportedTypes: string[] = [
+                            'oic.r.fan',
+                            'oic.r.colour.rgb'
+                        ];
+
+                        // Ignore resources with no links
+                        if (data.links === undefined ||
+                            data.links.length === 0) {
+                            return false;
+                        }
+
+                        // Filter only supported resource types
+                        if (supportedTypes.indexOf(data.links[0].rt) === -1) {
+                            return false;
+                        }
+
+                        // Ignore duplicates
+                        if (server.resources.map((resource) => {
+                            return resource.path;
+                        }).indexOf(data.links[0].href) !== -1) {
+                            return false;
+                        }
+
+                        return true;
+                    })
+                    .map((data: any) => {
+                        let resource: OcfResource = {
+                            di: data.di,
+                            path: data.links[0].href,
+                            rt: data.links[0].rt
+                        };
+
+                        this.ocfApiService.getResource(resource)
+                        .$observable.subscribe(
+                            (response: any) => {
+                                for (let resource_ of server.resources) {
+                                    if (resource_.di === resource.di &&
+                                        resource_.path === resource.path) {
+                                        resource.properties = response.properties;
+                                    }
+                                }
+                            }
+                        );
+
+                        return resource;
+                    });
+            },
+            (error: any) => {
+                this.onError.emit({
+                    header: 'Connection failed',
+                    body: 'There was an error connecting to the OCF server'
+                });
+                server.isExploring = false;
+            }
+        );
+    }
+
     // tslint:disable-next-line:no-unused-variable
     public onExploreClicked(event: any): void {
         event.preventDefault();
@@ -93,73 +163,13 @@ export class OcfExplorerComponent {
             this.connectedServers.push(connectToServer);
         }
 
-        this.ocfApiService.setBaseUrl(
-            'http://' + connectToServer.ip +
-                  ':' + connectToServer.port +
-                        connectToServer.path);
+        this.explore(connectToServer);
+    }
 
-        connectToServer.isExploring = true;
-        connectToServer.resources = [];
-        this.ocfApiService.getResources().$observable.subscribe(
-            (response: any[]) => {
-                connectToServer.isExploring = false;
-                connectToServer.resources = response
-                    .filter((data: any) => {
-                        let supportedTypes: string[] = [
-                            'oic.r.fan',
-                            'oic.r.colour.rgb'
-                        ];
-
-                        // Ignore resources with no links
-                        if (data.links === undefined ||
-                            data.links.length === 0) {
-                            return false;
-                        }
-
-                        // Filter only supported resource types
-                        if (supportedTypes.indexOf(data.links[0].rt) === -1) {
-                            return false;
-                        }
-
-                        // Ignore duplicates
-                        if (connectToServer.resources.map((resource) => {
-                            return resource.path;
-                        }).indexOf(data.links[0].href) !== -1) {
-                            return false;
-                        }
-
-                        return true;
-                    })
-                    .map((data: any) => {
-                        let resource: OcfResource = {
-                            di: data.di,
-                            path: data.links[0].href,
-                            rt: data.links[0].rt
-                        };
-
-                        this.ocfApiService.getResource(resource)
-                        .$observable.subscribe(
-                            (response: any) => {
-                                for (let resource_ of connectToServer.resources) {
-                                    if (resource_.di === resource.di &&
-                                        resource_.path === resource.path) {
-                                        resource.properties = response.properties;
-                                    }
-                                }
-                            }
-                        );
-
-                        return resource;
-                    });
-            },
-            (error: any) => {
-                this.onError.emit({
-                    header: 'Connection failed',
-                    body: 'There was an error connecting to the OCF server'
-                });
-                connectToServer.isExploring = false;
-            }
-        );
+    // tslint:disable-next-line:no-unused-variable
+    public onRefreshServer(server: OcfServer): boolean {
+        this.explore(server);
+        return false;
     }
 
     // tslint:disable-next-line:no-unused-variable
