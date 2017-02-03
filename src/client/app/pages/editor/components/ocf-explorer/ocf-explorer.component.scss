@@ -31,10 +31,38 @@
         }
     }
 
-    #resources {
+    #servers {
         padding-top: 40px;
 
-        #no-resources {
+        .server {
+            fa {
+                display: inline-block;
+                margin-right: 10px;
+            }
+
+            sd-ocf-resource {
+                display: inline-block;
+            }
+
+            .list-group-item:first-child {
+                background-color: $navbar-bg-color;
+                font-family: $bold-font;
+
+                .exploring, .close {
+                    position: absolute;
+                    top: 15px;
+                    right: 15px;
+                    color: $text-color;
+                    text-shadow: none;
+                }
+            }
+
+            .no-resources {
+                color: lighten($panel-bg-color, 10%);
+            }
+        }
+
+        #no-servers {
             font-size: 20px;
             color: lighten($panel-bg-color, 10%);
         }

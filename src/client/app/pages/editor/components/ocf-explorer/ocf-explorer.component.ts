@@ -8,12 +8,10 @@ interface OcfServer {
     ip: string;
     port: number;
     path: string;
+    resources?: OcfResource[];
+    isExploring?: boolean;
 };
 
-enum EXPLORE_STATUS {
-    NOT_EXPLORING,
-    EXPLORING
-};
 
 @Component({
     moduleId: module.id,
@@ -25,15 +23,15 @@ export class OcfExplorerComponent {
     @Output() onWarning = new EventEmitter();
     @Output() onError = new EventEmitter();
 
-    public server: OcfServer = {
+    // Model for connection form
+    public inputServer: OcfServer = {
         ip: '127.0.0.1',
         port: 1337,
         path: '/192.168.0.102:8000/api/oic'
     };
 
-    public resources: OcfResource[] = [];
-
-    private exploreStatus: EXPLORE_STATUS = EXPLORE_STATUS.NOT_EXPLORING;
+    // Servers that are explored
+    public connectedServers: OcfServer[] = [];
 
 
     public constructor(private ocfApiService: OcfApiService) {
@@ -41,18 +39,18 @@ export class OcfExplorerComponent {
 
     // tslint:disable-next-line:no-unused-variable
     public isValidIPAddress(): boolean {
-        let ip = this.server.ip;
+        let ip = this.inputServer.ip;
         return /^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/.test(ip);
     }
 
     // tslint:disable-next-line:no-unused-variable
     public isValidPort(): boolean {
-        return this.server.port > 0 && this.server.port < 65536;
+        return this.inputServer.port > 0 && this.inputServer.port < 65536;
     }
 
     // tslint:disable-next-line:no-unused-variable
     public isValidPath(): boolean {
-        return this.server.path.startsWith('/');
+        return this.inputServer.path[0] === '/';
     }
 
     // tslint:disable-next-line:no-unused-variable
@@ -60,29 +58,52 @@ export class OcfExplorerComponent {
         return this.isValidIPAddress() &&
                this.isValidPort() &&
                this.isValidPath() &&
-               this.exploreStatus === EXPLORE_STATUS.NOT_EXPLORING;
+               !this.isExploring();
     }
 
     // tslint:disable-next-line:no-unused-variable
     public isExploring(): boolean {
-        return this.exploreStatus === EXPLORE_STATUS.EXPLORING;
+        for(let server of this.connectedServers) {
+            if (server.isExploring) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     // tslint:disable-next-line:no-unused-variable
     public onExploreClicked(event: any): void {
         event.preventDefault();
 
-        this.ocfApiService.setBaseUrl(
-            'http://' + this.server.ip +
-                  ':' + this.server.port +
-                        this.server.path);
+        let connectToServer: OcfServer = null;
+        let existingServers: OcfServer[] = this.connectedServers.filter(
+            (s: OcfServer) => {
+                return (
+                    this.inputServer.ip === s.ip &&
+                    this.inputServer.port === s.port &&
+                    this.inputServer.path === s.path);
+            }
+        );
 
-        this.exploreStatus = EXPLORE_STATUS.EXPLORING;
-        this.resources = [];
+        if (existingServers.length > 0) {
+            connectToServer = existingServers[0];
+        } else {
+            connectToServer = Object.assign({}, this.inputServer);
+            this.connectedServers.push(connectToServer);
+        }
+
+        this.ocfApiService.setBaseUrl(
+            'http://' + connectToServer.ip +
+                  ':' + connectToServer.port +
+                        connectToServer.path);
+
+        connectToServer.isExploring = true;
+        connectToServer.resources = [];
         this.ocfApiService.getResources().$observable.subscribe(
             (response: any[]) => {
-                this.exploreStatus = EXPLORE_STATUS.NOT_EXPLORING;
-                this.resources = response
+                connectToServer.isExploring = false;
+                connectToServer.resources = response
                     .filter((data: any) => {
                         let supportedTypes: string[] = [
                             'oic.r.fan',
@@ -101,7 +122,7 @@ export class OcfExplorerComponent {
                         }
 
                         // Ignore duplicates
-                        if (this.resources.map((resource) => {
+                        if (connectToServer.resources.map((resource) => {
                             return resource.path;
                         }).indexOf(data.links[0].href) !== -1) {
                             return false;
@@ -119,7 +140,7 @@ export class OcfExplorerComponent {
                         this.ocfApiService.getResource(resource)
                         .$observable.subscribe(
                             (response: any) => {
-                                for (let resource_ of this.resources) {
+                                for (let resource_ of connectToServer.resources) {
                                     if (resource_.di === resource.di &&
                                         resource_.path === resource.path) {
                                         resource.properties = response.properties;
@@ -136,8 +157,23 @@ export class OcfExplorerComponent {
                     header: 'Connection failed',
                     body: 'There was an error connecting to the OCF server'
                 });
-                this.exploreStatus = EXPLORE_STATUS.NOT_EXPLORING;
+                connectToServer.isExploring = false;
             }
         );
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    public onCloseServer(server: OcfServer): boolean {
+        this.connectedServers = this.connectedServers.filter(
+            (s: OcfServer) => {
+                return (
+                    server.ip !== s.ip ||
+                    server.port !== s.port ||
+                    server.path !== s.path
+                );
+            }
+        );
+
+        return false;
     }
 }

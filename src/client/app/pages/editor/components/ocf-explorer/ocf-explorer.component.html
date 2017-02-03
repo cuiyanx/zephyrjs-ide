@@ -1,7 +1,7 @@
 <form id="connect-form" class="form-inline">
     <div
         class="form-group ip"
-        [class.has-error]="server.ip && !isValidIPAddress()">
+        [class.has-error]="inputServer.ip && !isValidIPAddress()">
 
         <label class="sr-only" for="ocf-explorer-ip">IP address</label>
         <input type="text"
@@ -9,12 +9,12 @@
                id="ocf-explorer-ip"
                name="ocf-explorer-ip"
                placeholder="IP address"
-               [(ngModel)]="server.ip"/>
+               [(ngModel)]="inputServer.ip"/>
     </div> <!-- ./form-group -->
 
     <div
         class="form-group port"
-        [class.has-error]="server.port && !isValidPort()">
+        [class.has-error]="inputServer.port && !isValidPort()">
 
         <label class="sr-only" for="ocf-explorer-port">Port</label>
         <input type="number"
@@ -22,12 +22,12 @@
                id="ocf-explorer-port"
                name="ocf-explorer-port"
                placeholder="Port"
-               [(ngModel)]="server.port"/>
+               [(ngModel)]="inputServer.port"/>
     </div> <!-- ./form-group -->
 
     <div
         class="form-group path"
-        [class.has-error]="server.path && !isValidPath()">
+        [class.has-error]="inputServer.path && !isValidPath()">
 
         <label class="sr-only" for="ocf-explorer-port">Path</label>
         <input type="text"
@@ -35,7 +35,7 @@
                id="ocf-explorer-path"
                name="ocf-explorer-path"
                placeholder="Path"
-               [(ngModel)]="server.path"/>
+               [(ngModel)]="inputServer.path"/>
     </div> <!-- ./form-group -->
 
     <button
@@ -55,14 +55,47 @@
     </button>
 </form>
 
-<div id="resources">
-    <ul class="list-group" *ngIf="resources.length > 0">
-        <li class="list-group-item" *ngFor="let resource of resources">
-            <sd-ocf-resource [resource]="resource"></sd-ocf-resource>
-        </li>
-    </ul>
+<div id="servers">
+    <div *ngFor="let s of connectedServers" class="server">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <fa [name]="'server'"></fa>
+                {{s.ip}}:{{s.port}}{{s.path}}
 
-    <p id="no-resources" class="text-center" *ngIf="resources.length === 0">
-        No resources.
+                <span class="exploring" *ngIf="s.isExploring">
+                    <fa [name]="'spinner'" [spin]="true"></fa>
+                </span>
+
+                <a
+                    href="" (click)="onCloseServer(s)" class="close"
+                    *ngIf="!s.isExploring">
+                    &times;
+                </a>
+            </li>
+
+            <li
+                class="list-group-item"
+                *ngFor="let resource of s.resources">
+
+                <fa [name]="'feed'"></fa>
+                <sd-ocf-resource [resource]="resource"></sd-ocf-resource>
+            </li>
+
+            <li
+                class="list-group-item no-resources"
+                *ngIf="s.resources.length === 0 && s.isExploring">
+                Please wait...
+            </li>
+
+            <li
+                class="list-group-item no-resources"
+                *ngIf="s.resources.length === 0 && !s.isExploring">
+                No resources found on this server.
+            </li>
+        </ul>
+    </div>
+
+    <p id="no-servers" class="text-center" *ngIf="connectedServers.length === 0">
+        No servers connected. Please use the form above to add one.
     </p>
 </div>
