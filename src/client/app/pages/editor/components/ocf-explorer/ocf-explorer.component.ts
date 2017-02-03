@@ -87,7 +87,8 @@ export class OcfExplorerComponent {
                     .filter((data: any) => {
                         let supportedTypes: string[] = [
                             'oic.r.fan',
-                            'oic.r.colour.rgb'
+                            'oic.r.colour.rgb',
+                            'oic.r.temperature'
                         ];
 
                         // Ignore resources with no links

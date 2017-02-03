@@ -12,6 +12,11 @@
         [resource]="resource"
         *ngIf="resource.rt === 'oic.r.colour.rgb'">
     </sd-ocf-resource-rgbled>
+
+    <sd-ocf-resource-temperature
+        [resource]="resource"
+        *ngIf="resource.rt === 'oic.r.temperature'">
+    </sd-ocf-resource-temperature>
 </div>
 
 <div class="value" *ngIf="resource.properties === undefined">

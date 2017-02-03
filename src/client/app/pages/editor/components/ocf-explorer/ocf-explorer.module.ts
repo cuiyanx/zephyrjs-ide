@@ -11,6 +11,7 @@ import { OcfExplorerComponent } from './ocf-explorer.component';
 import { OcfResourceComponent } from './ocf-explorer.resource.component';
 import { OcfResourceValueFanComponent } from './ocf-explorer.resource.value.fan.component';
 import { OcfResourceValueRgbLedComponent } from './ocf-explorer.resource.value.rgbled.component';
+import { OcfResourceValueTemperatureComponent } from './ocf-explorer.resource.value.temperature.component';
 
 
 @NgModule({
@@ -19,13 +20,15 @@ import { OcfResourceValueRgbLedComponent } from './ocf-explorer.resource.value.r
         OcfExplorerComponent,
         OcfResourceComponent,
         OcfResourceValueFanComponent,
-        OcfResourceValueRgbLedComponent
+        OcfResourceValueRgbLedComponent,
+        OcfResourceValueTemperatureComponent
     ],
     exports: [
         OcfExplorerComponent,
         OcfResourceComponent,
         OcfResourceValueFanComponent,
-        OcfResourceValueRgbLedComponent
+        OcfResourceValueRgbLedComponent,
+        OcfResourceValueTemperatureComponent
     ]
 })
 export class OcfExplorerModule { }
