@@ -48,12 +48,15 @@
                 background-color: $navbar-bg-color;
                 font-family: $bold-font;
 
-                .exploring, .close {
+                .exploring, .tools {
                     position: absolute;
                     top: 15px;
                     right: 15px;
-                    color: $text-color;
-                    text-shadow: none;
+
+                    fa {
+                        color: $text-color;
+                        text-shadow: none;
+                    }
                 }
             }
 
