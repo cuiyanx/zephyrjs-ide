@@ -87,6 +87,8 @@ export class OcfExplorerComponent {
                     .filter((data: any) => {
                         let supportedTypes: string[] = [
                             'oic.r.fan',
+                            'oic.r.sensor.illuminance',
+                            'oic.r.led',
                             'oic.r.colour.rgb',
                             'oic.r.temperature'
                         ];
