@@ -118,18 +118,6 @@ export class OcfExplorerComponent {
                             rt: data.links[0].rt
                         };
 
-                        this.ocfApiService.getResource(resource)
-                        .$observable.subscribe(
-                            (response: any) => {
-                                for (let resource_ of server.resources) {
-                                    if (resource_.di === resource.di &&
-                                        resource_.path === resource.path) {
-                                        resource.properties = response.properties;
-                                    }
-                                }
-                            }
-                        );
-
                         return resource;
                     });
             },
