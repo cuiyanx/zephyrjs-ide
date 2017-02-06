@@ -8,6 +8,16 @@
         *ngIf="resource.rt === 'oic.r.fan'">
     </sd-ocf-resource-fan>
 
+    <sd-ocf-resource-illuminance
+        [resource]="resource"
+        *ngIf="resource.rt === 'oic.r.illuminance'">
+    </sd-ocf-resource-illuminance>
+
+    <sd-ocf-resource-led
+        [resource]="resource"
+        *ngIf="resource.rt === 'oic.r.led'">
+    </sd-ocf-resource-led>
+
     <sd-ocf-resource-rgbled
         [resource]="resource"
         *ngIf="resource.rt === 'oic.r.colour.rgb'">
