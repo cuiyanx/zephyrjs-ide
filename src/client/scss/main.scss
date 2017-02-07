@@ -96,13 +96,14 @@ strong, .strong {
 /* TABLES */
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td,
 .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
-    border-color: lighten($panel-bg-color, 1%);
+    border-color: lighten($panel-bg-color, 5%);
 }
 
-/* LISTS */
-.list-group-item {
-    background-color: transparent;
-    border-color: lighten($panel-bg-color, 5%);
+.table>thead>tr>th {
+    background-color: lighten($panel-bg-color, 5%);
     padding-top: 15px;
     padding-bottom: 15px;
+    color: white;
+    font: $bold-font;
+    font-weight: bold;
 }

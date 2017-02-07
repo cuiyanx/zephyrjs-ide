@@ -56,47 +56,80 @@
 </form>
 
 <div id="servers">
-    <div *ngFor="let s of connectedServers" class="server">
-        <ul class="list-group">
-            <li class="list-group-item">
-                <fa [name]="'server'"></fa>
-                {{s.ip}}:{{s.port}}{{s.path}}
+    <table *ngFor="let server of connectedServers" class="server table">
+        <thead>
+            <tr>
+                <th class="icon">
+                    <fa [name]="'server'"></fa>
+                </th>
+                <th class="name">
+                    {{server.ip}}:{{server.port}}{{server.path}}
+                </th>
+                <th class="value">
+                    &nbsp;
+                </th>
+                <th class="refresh-action">
+                    <fa
+                        *ngIf="server.isExploring"
+                        [name]="'spinner'"
+                        [spin]="true">
+                    </fa>
 
-                <span class="exploring" *ngIf="s.isExploring">
-                    <fa [name]="'spinner'" [spin]="true"></fa>
-                </span>
-
-                <span class="tools" *ngIf="!s.isExploring">
-                    <a href="" (click)="onRefreshServer(s)">
+                    <a
+                        *ngIf="!server.isExploring"
+                        href="#"
+                        (click)="onRefreshServer(server)">
                         <fa [name]="'refresh'"></fa>
                     </a>
-                    <a href="" (click)="onCloseServer(s)">
+                </th>
+                <th class="close-action">
+                    <a href="#" (click)="onCloseServer(server)">
                         <fa [name]="'close'"></fa>
                     </a>
-                </span>
-            </li>
+                </th>
+            </tr>
+        </thead>
 
-            <li
-                class="list-group-item"
-                *ngFor="let resource of s.resources">
+        <tbody>
+            <tr *ngFor="let resource of server.resources">
+                <td class="icon">
+                    <!-- TODO: sensor specific icons -->
+                    <fa [name]="'feed'"></fa>
+                </td>
+                <td class="name">
+                    {{resource.path}}
+                </td>
+                <td class="value">
+                    <sd-ocf-resource [resource]="resource"></sd-ocf-resource>
+                </td>
+                <td class="refresh-action" colspan="2">
+                    <fa
+                        *ngIf="resource.isGettingProperties"
+                        [name]="'spinner'"
+                        [spin]="true">
+                    </fa>
 
-                <fa [name]="'feed'"></fa>
-                <sd-ocf-resource [resource]="resource"></sd-ocf-resource>
-            </li>
+                    <a
+                        *ngIf="!resource.isGettingProperties"
+                        href="#"
+                        (click)="onRefreshResource(resource)">
+                        <fa [name]="'refresh'"></fa>
+                    </a>
+                </td>
+            </tr>
 
-            <li
-                class="list-group-item no-resources"
-                *ngIf="s.resources.length === 0 && s.isExploring">
-                Please wait...
-            </li>
-
-            <li
-                class="list-group-item no-resources"
-                *ngIf="s.resources.length === 0 && !s.isExploring">
-                No resources found on this server.
-            </li>
-        </ul>
-    </div>
+            <tr class="no-resources" *ngIf="server.resources.length === 0">
+                <td colspan="5">
+                    <span *ngIf="server.isExploring">
+                        Please wait...
+                    </span>
+                    <span *ngIf="!server.isExploring">
+                        No resources found on this server.
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
     <p id="no-servers" class="text-center" *ngIf="connectedServers.length === 0">
         No servers connected. Please use the form above to add one.

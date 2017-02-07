@@ -34,32 +34,32 @@
     #servers {
         padding-top: 40px;
 
-        .server {
-            fa {
-                display: inline-block;
-                margin-right: 10px;
-            }
+        .table.server {
+            table-layout: fixes;
 
-            sd-ocf-resource {
-                display: inline-block;
-            }
+            tr > th, tr > td {
+                &.icon {
+                    width: 40px;
+                    text-align: center;
+                }
 
-            .list-group-item:first-child {
-                background-color: $navbar-bg-color;
-                font-family: $bold-font;
+                &.name {
+                    width: calc(70% - 40px);
+                }
 
-                .exploring, .tools {
-                    position: absolute;
-                    top: 15px;
-                    right: 15px;
+                &.value {
+                    width: calc(30% - 80px);
+                    text-align: right;
+                }
 
-                    fa {
-                        color: $text-color;
-                        text-shadow: none;
-                    }
+                &.refresh-action, &.close-action {
+                    width: 40px;
+                }
+
+                fa {
+                    margin: 0;
                 }
             }
-
             .no-resources {
                 color: lighten($panel-bg-color, 10%);
             }
