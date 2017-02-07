@@ -29,7 +29,7 @@ export interface IQueryInput {
 };
 
 
-export interface IOcfResource {
+export interface IOcfResourceApi {
     di: string;
     path: string;
     rt?: string;
@@ -52,5 +52,5 @@ export class OcfApiService extends RestClient {
   @ResourceAction({
     path: '{!path}?di={!di}'
   })
-  getResource: ResourceMethod<IOcfResource, any>;
+  getResource: ResourceMethod<IOcfResourceApi, any>;
 }

@@ -1,8 +1,4 @@
-<div class="path">
-    {{resource.path}}
-</div>
-
-<div class="value" *ngIf="resource.properties !== null">
+<span class="resource-value" *ngIf="resource.properties !== null">
     <sd-ocf-resource-fan
         [resource]="resource"
         *ngIf="resource.rt === 'oic.r.fan'">
@@ -27,25 +23,14 @@
         [resource]="resource"
         *ngIf="resource.rt === 'oic.r.temperature'">
     </sd-ocf-resource-temperature>
-</div>
+</span>
 
-<div
-    class="value"
-    *ngIf="resource.properties === null && resource.error == null">
-
-    <fa [name]="'spinner'" [spin]="true"></fa>
-</div>
-
-<div
-    class="value"
+<span
+    class="resource-value"
     *ngIf="resource.properties === null && resource.error !== null">
 
-    <fa [name]="'error'"></fa>
+    <fa [name]="'exclamation-triangle'"></fa>
     <span *ngIf="resource.error === 'TIMEOUT'">
         Timeout.
     </span>
-
-    <a href="#" (click)="onRetryClicked()">
-        Retry?
-    </a>
-</div>
+</span>

@@ -1,8 +1,16 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Output,
+    QueryList,
+    ViewChildren
+} from '@angular/core';
 
 import { OcfApiService } from './ocf-explorer.api.services';
-import { OcfResource } from './ocf-explorer.resource.component';
-
+import {
+    OcfResource,
+    OcfResourceComponent
+} from './ocf-explorer.resource.component';
 
 interface OcfServer {
     ip: string;
@@ -32,6 +40,9 @@ export class OcfExplorerComponent {
 
     // Servers that are explored
     public connectedServers: OcfServer[] = [];
+
+    @ViewChildren(OcfResourceComponent)
+    private resourceComponents: QueryList<OcfResourceComponent>;
 
 
     public constructor(private ocfApiService: OcfApiService) {
@@ -114,11 +125,11 @@ export class OcfExplorerComponent {
                         return true;
                     })
                     .map((data: any) => {
-                        let resource: OcfResource = {
-                            di: data.di,
-                            path: data.links[0].href,
-                            rt: data.links[0].rt
-                        };
+                        let resource: OcfResource = new OcfResource(
+                            data.di,
+                            data.links[0].href,
+                            data.links[0].rt
+                        );
 
                         return resource;
                     });
@@ -174,6 +185,20 @@ export class OcfExplorerComponent {
                 );
             }
         );
+
+        return false;
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    public onRefreshResource(resource: OcfResource): boolean {
+        let resourceComponent = this.resourceComponents
+            .find((component: OcfResourceComponent) => {
+                return component.resource.equals(resource);
+            });
+
+        if (resourceComponent !== null) {
+            resourceComponent.getProperties();
+        }
 
         return false;
     }
