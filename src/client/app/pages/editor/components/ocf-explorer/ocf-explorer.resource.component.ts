@@ -26,7 +26,8 @@ export class OcfResource implements IOcfResource {
     public equals(other: OcfResource): boolean {
         return (
             this.di === other.di &&
-            this.path === other.path
+            this.path === other.path &&
+            this.rt === other.rt
         );
     }
 }
