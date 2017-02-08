@@ -133,7 +133,7 @@
     "@angular/router": "~3.4.5",
     "angular2-api": "^0.2.0",
     "angular2-fontawesome": "^0.8.0",
-    "angular2-notifications": "^0.4.49",
+    "angular2-notifications": "0.4.49",
     "bootstrap": "^3.3.7",
     "bootstrap-toggle": "^2.2.2",
     "core-js": "^2.4.1",
