@@ -9,21 +9,21 @@
         </button>
 
         <h4 class="modal-title"
-            *ngIf="gitHub.ui.wizardStep === wizardStep.LOGIN ||
-                   gitHub.ui.wizardStep === wizardStep.LOGGING_IN">
+            *ngIf="gitHubService.wizardStep === wizardStepEnum.LOGIN ||
+                   gitHubService.wizardStep === wizardStepEnum.LOGGING_IN">
             Login with GitHub
         </h4>
 
         <h4 class="modal-title"
-            *ngIf="gitHub.ui.wizardStep === wizardStep.CHOOSE_FILE ||
-                   gitHub.ui.wizardStep === wizardStep.DOWNLOADING">
+            *ngIf="gitHubService.wizardStep === wizardStepEnum.CHOOSE_FILE ||
+                   gitHubService.wizardStep === wizardStepEnum.DOWNLOADING">
             Pick a file from one of your repositories
         </h4>
       </div> <!--/.modal-header -->
 
       <div class="modal-body">
-          <form *ngIf="gitHub.ui.wizardStep === wizardStep.LOGIN || gitHub.ui.wizardStep === wizardStep.LOGGING_IN">
-              <div class="form-group" [class.has-error]="gitHub.user.ui.hasError">
+          <form *ngIf="gitHubService.wizardStep === wizardStepEnum.LOGIN || gitHubService.wizardStep === wizardStepEnum.LOGGING_IN">
+              <div class="form-group" [class.has-error]="gitHubService.data.user.ui.hasError">
                   <label class="sr-only" for="github_token">API token</label>
                   <div class="input-group">
                       <span class="input-group-addon">
@@ -36,7 +36,7 @@
                           id="github_token"
                           name="github_token"
                           placeholder="GitHub API token"
-                          [(ngModel)]="gitHub.user.token"/>
+                          [(ngModel)]="gitHubService.data.user.token"/>
                   </div> <!-- /.input-group -->
 
                   <span id="token-help-block" class="help-block">
@@ -61,32 +61,32 @@
                           data-offstyle="danger"
                           id="github_remember_me"
                           name="github_remember_me"
-                          [(ngModel)]="gitHub.user.remember"/>
+                          [(ngModel)]="gitHubService.data.user.remember"/>
                       Remember me during this session
                   </label>
               </div> <!-- /.form-group -->
           </form>
 
           <form *ngIf="
-              gitHub.ui.wizardStep === wizardStep.CHOOSE_FILE ||
-              gitHub.ui.wizardStep === wizardStep.DOWNLOADING
+              gitHubService.wizardStep === wizardStepEnum.CHOOSE_FILE ||
+              gitHubService.wizardStep === wizardStepEnum.DOWNLOADING
           ">
-              <div *ngIf="gitHub.user.object !== null" class="login-info well">
+              <div *ngIf="gitHubService.data.user.object !== null" class="login-info well">
                   <div class="avatar">
-                      <a href="{{gitHub.user.object.hhtml_url}}" target="_blank">
-                          <img src="{{gitHub.user.object.avatar_url}}"
-                               alt="{{gitHub.user.object.login}}"/>
+                      <a href="{{gitHubService.data.user.object.hhtml_url}}" target="_blank">
+                          <img src="{{gitHubService.data.user.object.avatar_url}}"
+                               alt="{{gitHubService.data.user.object.login}}"/>
                       </a>
                   </div>
 
                   <div class="info">
                       You are currently logged in as
-                      <a href="{{gitHub.user.object.html_url}}" target="_blank">
-                          <span *ngIf="gitHub.user.object.name">
-                              {{gitHub.user.object.name}}.
+                      <a href="{{gitHubService.data.user.object.html_url}}" target="_blank">
+                          <span *ngIf="gitHubService.data.user.object.name">
+                              {{gitHubService.data.user.object.name}}.
                           </span>
-                          <span *ngIf="!gitHub.user.object.name">
-                              {{gitHub.user.object.login}}.
+                          <span *ngIf="!gitHubService.data.user.object.name">
+                              {{gitHubService.data.user.object.login}}.
                           </span>
                       </a>
                   </div>
@@ -98,10 +98,10 @@
                       class="form-control"
                       id="github_repository"
                       name="github_repository"
-                      [ngModel]="gitHub.repos.selected"
-                      [disabled]="gitHub.repos.objects.length === 0"
+                      [ngModel]="gitHubService.data.repos.selected"
+                      [disabled]="gitHubService.data.repos.objects.length === 0"
                       (ngModelChange)="onRepoChanged($event)">
-                      <option *ngFor="let repo of gitHub.repos.objects" [value]="repo.full_name">
+                      <option *ngFor="let repo of gitHubService.data.repos.objects" [value]="repo.full_name">
                           {{repo.full_name}}
                       </option>
                   </select>
@@ -113,36 +113,36 @@
                       class="form-control"
                       id="github_branch"
                       name="github_branch"
-                      [ngModel]="gitHub.branches.selected"
-                      [disabled]="gitHub.branches.objects.length === 0"
+                      [ngModel]="gitHubService.data.branches.selected"
+                      [disabled]="gitHubService.data.branches.objects.length === 0"
                       (ngModelChange)="onBranchChanged($event)">
-                      <option *ngFor="let branch of gitHub.branches.objects" [value]="branch.name">
+                      <option *ngFor="let branch of gitHubService.data.branches.objects" [value]="branch.name">
                         {{branch.name}}
                       </option>
                   </select>
-                  <fa class="loading" [name]="'spinner'" [spin]="true" *ngIf="gitHub.branches.ui.loading"></fa>
+                  <fa class="loading" [name]="'spinner'" [spin]="true" *ngIf="gitHubService.data.branches.ui.loading"></fa>
               </div> <!-- /.form-group -->
 
               <div class="form-group">
                   <label for="github_file">File</label>
-                  <table *ngIf="gitHub.files.objects.length > 0"
+                  <table *ngIf="gitHubService.data.files.objects.length > 0"
                          class="table table-condensed tree-browser">
                       <tbody>
-                          <tr *ngIf="gitHub.files.currentSha !== gitHub.files.rootSha">
+                          <tr *ngIf="gitHubService.data.files.currentSha !== gitHubService.data.files.rootSha">
                               <td class="icon">
                                   <fa [name]="'long-arrow-up'"></fa>
                               </td>
                               <td>
                                   <a href="#"
-                                     (click)="fetchFiles(gitHub.files.rootSha)">
+                                     (click)="fetchFiles(gitHubService.data.files.rootSha)">
                                       Back to top
                                   </a>
                           </tr>
-                          <tr *ngFor="let file of gitHub.files.objects"
+                          <tr *ngFor="let file of gitHubService.data.files.objects"
                               [ngClass]="{
                                   directory: file.type === 'tree',
-                                  selected: gitHub.files.selected !== null &&
-                                            gitHub.files.selected.sha === file.sha
+                                  selected: gitHubService.data.files.selected !== null &&
+                                            gitHubService.data.files.selected.sha === file.sha
                               }">
                               <td class="icon">
                                   <fa *ngIf="file.type === 'blob'" [name]="'file-o'"></fa>
@@ -156,10 +156,10 @@
                           </tr>
                       </tbody>
                   </table>
-                  <p *ngIf="gitHub.files.objects.length === 0">
+                  <p *ngIf="gitHubService.data.files.objects.length === 0">
                     Please select a repository and a branch first.
                   </p>
-                  <fa class="loading" [name]="'spinner'" [spin]="true" *ngIf="gitHub.files.ui.loading"></fa>
+                  <fa class="loading" [name]="'spinner'" [spin]="true" *ngIf="gitHubService.data.files.ui.loading"></fa>
               </div> <!-- /.form-group -->
           </form>
       </div> <!-- /.modal-body -->
@@ -172,7 +172,7 @@
           </button>
 
           <button class="btn btn-primary"
-                  *ngIf="gitHub.ui.wizardStep === wizardStep.LOGIN"
+                  *ngIf="gitHubService.wizardStep === wizardStepEnum.LOGIN"
                   (click)="onLoginClicked()"
                   [disabled]="!mayLogin()">
               Login
@@ -180,26 +180,26 @@
 
           <button class="btn btn-danger"
                   *ngIf="
-                      gitHub.user.remember && (
-                        gitHub.ui.wizardStep === wizardStep.CHOOSE_FILE ||
-                        gitHub.ui.wizardStep === wizardStep.DOWNLOADING)"
+                      gitHubService.data.user.remember && (
+                        gitHubService.wizardStep === wizardStepEnum.CHOOSE_FILE ||
+                        gitHubService.wizardStep === wizardStepEnum.DOWNLOADING)"
                   (click)="onLogoutClicked()"
-                  [disabled]="gitHub.ui.wizardStep === wizardStep.DOWNLOADING">
+                  [disabled]="gitHubService.wizardStep === wizardStepEnum.DOWNLOADING">
               Logout
           </button>
 
 
           <button class="btn btn-primary"
-                  *ngIf="gitHub.ui.wizardStep === wizardStep.CHOOSE_FILE"
+                  *ngIf="gitHubService.wizardStep === wizardStepEnum.CHOOSE_FILE"
                   (click)="onDownloadClicked()"
-                  [disabled]="gitHub.files.selected === null">
+                  [disabled]="gitHubService.data.files.selected === null">
               Download
           </button>
 
           <button class="btn btn-primary"
                   *ngIf="
-                      gitHub.ui.wizardStep === wizardStep.LOGGING_IN ||
-                      gitHub.ui.wizardStep === wizardStep.DOWNLOADING"
+                      gitHubService.wizardStep === wizardStepEnum.LOGGING_IN ||
+                      gitHubService.wizardStep === wizardStepEnum.DOWNLOADING"
                   [disabled]="true">
               <fa [name]="'spinner'" [spin]="true"></fa>
           </button>

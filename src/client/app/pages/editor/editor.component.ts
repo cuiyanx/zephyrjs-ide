@@ -13,6 +13,7 @@ import { NotificationsService } from 'angular2-notifications';
 
 // Own
 import { EditorTab, OPERATION_STATUS, EDITOR_STATUS } from './editor.tab';
+import { GitHubService } from './components/github/github.service';
 import { WebUsbService } from '../../shared/webusb/webusb.service';
 
 declare var $: any;
@@ -21,7 +22,8 @@ declare var $: any;
   moduleId: module.id,
   selector: 'sd-editor',
   templateUrl: 'editor.component.html',
-  styleUrls: ['editor.component.css']
+  styleUrls: ['editor.component.css'],
+  providers: [GitHubService]
 })
 export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     public notificationOptions = {

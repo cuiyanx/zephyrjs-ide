@@ -8,18 +8,11 @@ import {
     ViewChild
 } from '@angular/core';
 
+import { GitHubService, WIZARD_STEP } from './github.service';
 import { RepoService, UserService } from './github.api.services';
 
 
 declare var $: any;
-
-
-enum WIZARD_STEP {
-    LOGIN,
-    LOGGING_IN,
-    CHOOSE_FILE,
-    DOWNLOADING
-}
 
 
 @Component({
@@ -39,70 +32,14 @@ export class GitHubModalComponent implements AfterViewInit {
     // Types
 
     // tslint:disable-next-line:no-unused-variable (used in template)
-    private wizardStep = WIZARD_STEP;
-
-    // Variables
-
-    private gitHub: any = {
-        ui: {
-            wizardStep: WIZARD_STEP.LOGIN
-        },
-
-        user: {
-            token: '',
-            remember: false,
-            object: null,
-            ui: {
-                hasError: false
-            }
-        },
-
-        gists: {
-            objects: [],
-            selected: null
-        },
-
-        repos: {
-            objects: [],
-            selected: null,
-            current: null
-        },
-
-        branches: {
-            objects: [],
-            selected: null,
-            ui: {
-                loading: false
-            }
-        },
-
-        files: {
-            objects: [],
-            selected: null,
-            currentSha: null,
-            rootSha: null,
-            ui: {
-                loading: false
-            }
-        }
-    };
-
-    public ngAfterViewInit() {
-        $(this.gitHubModal.nativeElement).on('shown.bs.modal', () => {
-            this.onShown();
-        });
-
-        $(this.gitHubModal.nativeElement).on('hidden.bs.modal', () => {
-            this.onHidden();
-        });
-    }
+    private wizardStepEnum = WIZARD_STEP;
 
     // API
 
     public show() {
         let el = $('#github_remember_me');
         (el as any).bootstrapToggle().change(() => {
-            this.gitHub.user.remember = (el as any).prop('checked');
+            this.gitHubService.data.user.remember = (el as any).prop('checked');
         });
         $(this.gitHubModal.nativeElement).modal('show');
     }
@@ -115,43 +52,61 @@ export class GitHubModalComponent implements AfterViewInit {
 
     public constructor(
         private repoService: RepoService,
-        private userService: UserService) {
+        private userService: UserService,
+        private gitHubService: GitHubService) {
+    }
+
+    public ngAfterViewInit() {
+        $(this.gitHubModal.nativeElement).on('shown.bs.modal', () => {
+            this.onShown();
+        });
+
+        $(this.gitHubModal.nativeElement).on('hidden.bs.modal', () => {
+            this.onHidden();
+        });
     }
 
     private resetUI() {
-        this.gitHub.ui.wizardStep = WIZARD_STEP.LOGIN;
+        this.gitHubService.wizardStep = WIZARD_STEP.LOGIN;
+
+        setTimeout(() => {
+            let el = document.getElementById('github_remember_me');
+            if (el !== null) {
+                $(el).bootstrapToggle();
+            }
+        }, 0);
     }
 
     private resetUser() {
-        this.gitHub.user.token = '';
-        this.gitHub.user.remember = false;
-        this.gitHub.user.object = null;
-        this.gitHub.user.ui.hasError = false;
+        this.gitHubService.data.user.token = '';
+        this.gitHubService.data.user.remember = false;
+        this.gitHubService.data.user.object = null;
+        this.gitHubService.data.user.ui.hasError = false;
     }
 
     private resetGists() {
-        this.gitHub.gists.objects = [];
-        this.gitHub.gists.selected = null;
+        this.gitHubService.data.gists.objects = [];
+        this.gitHubService.data.gists.selected = null;
     }
 
     private resetRepos() {
-        this.gitHub.repos.objects = [];
-        this.gitHub.repos.selected = null;
-        this.gitHub.repos.current = null;
+        this.gitHubService.data.repos.objects = [];
+        this.gitHubService.data.repos.selected = null;
+        this.gitHubService.data.repos.current = null;
     }
 
     private resetBranches() {
-        this.gitHub.branches.objects = [];
-        this.gitHub.branches.selected = null;
-        this.gitHub.branches.ui.loading = false;
+        this.gitHubService.data.branches.objects = [];
+        this.gitHubService.data.branches.selected = null;
+        this.gitHubService.data.branches.ui.loading = false;
     }
 
     private resetFiles() {
-        this.gitHub.files.objects = [];
-        this.gitHub.files.selected = null;
-        this.gitHub.files.currentSha = null;
-        this.gitHub.files.rootSha = null;
-        this.gitHub.files.ui.loading = false;
+        this.gitHubService.data.files.objects = [];
+        this.gitHubService.data.files.selected = null;
+        this.gitHubService.data.files.currentSha = null;
+        this.gitHubService.data.files.rootSha = null;
+        this.gitHubService.data.files.ui.loading = false;
     }
 
     private reset() {
@@ -173,7 +128,7 @@ export class GitHubModalComponent implements AfterViewInit {
 
     // tslint:disable-next-line:no-unused-variable
     private onHidden() {
-        if (!this.gitHub.user.remember) {
+        if (!this.gitHubService.data.user.remember) {
             this.reset();
         }
     }
@@ -181,8 +136,8 @@ export class GitHubModalComponent implements AfterViewInit {
     // tslint:disable-next-line:no-unused-variable
     private mayLogin() {
         return (
-            this.gitHub.ui.wizardStep === WIZARD_STEP.LOGIN &&
-            this.gitHub.user.token.length > 0
+            this.gitHubService.wizardStep === WIZARD_STEP.LOGIN &&
+            this.gitHubService.data.user.token.length > 0
         );
     }
 
@@ -194,26 +149,26 @@ export class GitHubModalComponent implements AfterViewInit {
             } else {
                 console.error(error.message);
             }
-            this.gitHub.user.ui.hasError = true;
+            this.gitHubService.data.user.ui.hasError = true;
         };
 
-        this.gitHub.ui.wizardStep = WIZARD_STEP.LOGGING_IN;
+        this.gitHubService.wizardStep = WIZARD_STEP.LOGGING_IN;
         setTimeout(() => {
-            this.userService.setToken(this.gitHub.user.token);
-            this.repoService.setToken(this.gitHub.user.token);
+            this.userService.setToken(this.gitHubService.data.user.token);
+            this.repoService.setToken(this.gitHubService.data.user.token);
 
             this.userService.getUser().$observable.subscribe(
                 (user: any) => {
-                    this.gitHub.user.object = user;
+                    this.gitHubService.data.user.object = user;
 
                     this.userService.getRepos().$observable.subscribe(
                         (repos: any[]) => {
-                            this.gitHub.repos.objects = repos.sort((a: any, b: any) => {
+                            this.gitHubService.data.repos.objects = repos.sort((a: any, b: any) => {
                                 if (a.full_name.toLowerCase() < b.full_name.toLowerCase()) return -1;
                                 if (a.full_name.toLowerCase() > b.full_name.toLowerCase()) return 1;
                                 return 0;
                             });
-                            this.gitHub.ui.wizardStep = WIZARD_STEP.CHOOSE_FILE;
+                            this.gitHubService.wizardStep = WIZARD_STEP.CHOOSE_FILE;
                         },
                         (error: any) => { onError(error); }
                     );
@@ -226,7 +181,7 @@ export class GitHubModalComponent implements AfterViewInit {
     // tslint:disable-next-line:no-unused-variable
     private onRepoChanged(name: string) {
         let getRepoByName = (name: string): any => {
-            return this.gitHub.repos.objects.find((repo: any) => {
+            return this.gitHubService.data.repos.objects.find((repo: any) => {
                 return repo.full_name === name;
             });
         };
@@ -235,16 +190,16 @@ export class GitHubModalComponent implements AfterViewInit {
         this.resetBranches();
         this.resetFiles();
 
-        this.gitHub.repos.current = repo;
+        this.gitHubService.data.repos.current = repo;
         if (repo !== null) {
-            this.gitHub.branches.ui.loading = true;
+            this.gitHubService.data.branches.ui.loading = true;
             this.repoService.getBranches({
-                owner: this.gitHub.repos.current.owner.login,
-                repo: this.gitHub.repos.current.name
+                owner: this.gitHubService.data.repos.current.owner.login,
+                repo: this.gitHubService.data.repos.current.name
             }).$observable.subscribe(
                 (branches: any[]) => {
-                    this.gitHub.branches.ui.loading = false;
-                    this.gitHub.branches.objects = branches;
+                    this.gitHubService.data.branches.ui.loading = false;
+                    this.gitHubService.data.branches.objects = branches;
                 }
             );
         }
@@ -253,33 +208,33 @@ export class GitHubModalComponent implements AfterViewInit {
     // tslint:disable-next-line:no-unused-variable
     private onBranchChanged(name: string) {
         let getBranchByName = (name: string): any => {
-            return this.gitHub.branches.objects.find((branch: any) => {
+            return this.gitHubService.data.branches.objects.find((branch: any) => {
                 return branch.name === name;
             });
         };
 
-        let repo = this.gitHub.repos.current;
-        let branch = this.gitHub.branches.selected = getBranchByName(name);
+        let repo = this.gitHubService.data.repos.current;
+        let branch = this.gitHubService.data.branches.selected = getBranchByName(name);
 
         this.resetFiles();
 
         if (repo !== null && branch !== null) {
-            this.gitHub.files.rootSha = branch.commit.sha;
+            this.gitHubService.data.files.rootSha = branch.commit.sha;
             this.fetchFiles(branch.commit.sha);
         }
     }
 
     private fetchFiles(sha: string) {
-        this.gitHub.files.ui.loading = true;
+        this.gitHubService.data.files.ui.loading = true;
         this.repoService.getTree({
-            owner: this.gitHub.repos.current.owner.login,
-            repo: this.gitHub.repos.current.name,
+            owner: this.gitHubService.data.repos.current.owner.login,
+            repo: this.gitHubService.data.repos.current.name,
             sha: sha
         }).$observable.subscribe(
             (data: any) => {
-                this.gitHub.files.ui.loading = false;
-                this.gitHub.files.currentSha = sha;
-                this.gitHub.files.objects = data.tree.sort((a: any, b: any) => {
+                this.gitHubService.data.files.ui.loading = false;
+                this.gitHubService.data.files.currentSha = sha;
+                this.gitHubService.data.files.objects = data.tree.sort((a: any, b: any) => {
                     // Directories first, then names.
                     if (a.type === b.type) {
                         if (a.path.toLowerCase() < b.path.toLowerCase()) return -1;
@@ -301,7 +256,7 @@ export class GitHubModalComponent implements AfterViewInit {
         if (file.type === 'tree') {
             this.fetchFiles(file.sha);
         } else {
-            this.gitHub.files.selected = file;
+            this.gitHubService.data.files.selected = file;
         }
 
         return false;
@@ -316,13 +271,13 @@ export class GitHubModalComponent implements AfterViewInit {
 
     // tslint:disable-next-line:no-unused-variable
     private onDownloadClicked() {
-        let repo = this.gitHub.repos.current;
+        let repo = this.gitHubService.data.repos.current;
 
-        this.gitHub.ui.wizardStep = WIZARD_STEP.DOWNLOADING;
+        this.gitHubService.wizardStep = WIZARD_STEP.DOWNLOADING;
         this.repoService.getBlob({
             owner: repo.owner.login,
             repo: repo.name,
-            sha: this.gitHub.files.selected.sha
+            sha: this.gitHubService.data.files.selected.sha
         }).$observable.subscribe(
             (response: any) => {
                 this.fileFetched.emit(atob(response.content));
