@@ -72,17 +72,16 @@ export class WebUsbPort {
                         readLoop();
                         resolve();
                     })
-                    .catch((error: string) => {
-                        reject('Unable to send control data to the device: ' +
-                               error);
+                    .catch((error: DOMException) => {
+                        reject('Unable to send control data to the device');
                     });
                 })
-                .catch((error: string) => {
-                    reject('Unable to claim device interface: ' + error);
+                .catch((error: DOMException) => {
+                    reject('Unable to claim device interface');
                 });
              })
-             .catch((error: string) => {
-                 reject('Unable to open the device: ' + error);
+             .catch((error: DOMException) => {
+                 reject('Unable to open the device');
              });
         });
     }
