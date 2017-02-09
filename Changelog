@@ -1,4 +1,9 @@
 2017-02-09 Salvatore Iovene <salvatore.iovene@intel.com>
+	* Release 0.6.2-alpha
+	* Add WebUSB origin trial token
+	* Prevent router links from usin APP_BASE as leading path
+
+2017-02-09 Salvatore Iovene <salvatore.iovene@intel.com>
 	* Release 0.6.1-alpha
 	* Fix location of landing page bg image to work in all build configs
 
