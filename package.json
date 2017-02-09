@@ -38,7 +38,7 @@
     "webdriver-update": "webdriver-manager update"
   },
   "author": "Salvatore Iovene <salvatore.iovene@intel.com>",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "devDependencies": {
     "@angular/compiler-cli": "~2.4.0",
     "@angular/platform-server": "~2.4.0",
