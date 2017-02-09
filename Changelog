@@ -1,3 +1,14 @@
+2017-02-09 Salvatore Iovene <salvatore.iovene@intel.com>
+	* Release 0.6.0-alpha
+	* Fix tab active status when opening new tab and a tab other than the last
+	was selected
+	* Implement landing page
+	* Disable terminal overlay when resizing it
+	* Remove default code and add ability to close single remaining tab
+	* Use bubble style notifications instead of modals
+	* Share github data (user, token, repos...) across multiple editor tabs
+	* Various UI/UX improvements
+
 2017-01-30 Salvatore Iovene <salvatore.iovene@intel.com>
 	* Release 0.5.0
 	* Major restructuring of pages/components
