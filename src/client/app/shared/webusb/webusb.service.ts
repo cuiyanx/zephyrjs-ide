@@ -10,10 +10,6 @@ export class WebUsbService {
 
     constructor() {
         this.usb = (navigator as any).usb;
-
-        if(this.usb === undefined) {
-            console.error('WebUSB not available');
-        }
     }
 
     public onReceive(data: string) {
