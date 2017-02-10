@@ -31,6 +31,10 @@ export class WebUsbService {
                 'productId': 0xF8A1
             }];
 
+            if (this.usb === undefined) {
+                reject('WebUSB not available');
+            }
+
             this.usb.requestDevice({'filters': filters})
             .then((device: any) => {
                 resolve(new WebUsbPort(device));
