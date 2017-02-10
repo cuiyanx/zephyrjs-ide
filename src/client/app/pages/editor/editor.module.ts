@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-// 3rd party modules
+// Third-party modules
 import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 

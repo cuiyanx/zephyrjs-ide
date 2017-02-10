@@ -69,6 +69,14 @@ export class ProjectConfig extends SeedConfig {
             }
         },
         {
+            name: 'angular2-fontawesome',
+            path: 'node_modules/angular2-fontawesome/angular2-fontawesome.js',
+            packageMeta: {
+                main: 'angular2-fontawesome.js',
+                defaultExtension: 'js'
+            }
+        },
+        {
             name: 'angular2-notifications',
             path: 'node_modules/angular2-notifications/components.js',
             packageMeta: {

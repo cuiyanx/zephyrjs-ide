@@ -54,6 +54,9 @@ module.exports = function (config) {
       { pattern: 'dist/dev/assets/**/*', watched: false, included: false, served: true },
 
       { pattern: 'node_modules/angular2-fontawesome/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/angular2-notifications/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/hterm-umdjs/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/ng2-resource-rest/**/*.js', included: false, watched: false },
 
       'test-config.js',
       'dist/dev/app/system-config.js',
