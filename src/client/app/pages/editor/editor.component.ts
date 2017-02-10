@@ -81,11 +81,11 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             docsPane.style.width = '';
 
             for (let i = 0; i < editors.length; i++) {
-                (editors[i] as HTMLElement).style.height = '';
+                (editors[i].parentElement as HTMLElement).style.height = '';
             }
 
             for (let i = 0; i < consoles.length; i++ ) {
-                (consoles[i] as HTMLElement).style.height = '';
+                (consoles[i].parentElement as HTMLElement).style.height = '';
             }
 
             this.computeTabMenuWidth();
