@@ -130,7 +130,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
         if (elems.tab === null ||
             elems.editorContainer === null ||
             elems.resizeHandle === null ||
-            elems.console=== null ||
+            elems.console === null ||
             elems.consoleHeader === null ||
             elems.statusBar === null ||
             elems.footer === null) {
