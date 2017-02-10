@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+
 /**
  * This class represents the lazy loaded HomeComponent.
  */
@@ -9,10 +10,4 @@ import { Component } from '@angular/core';
   templateUrl: 'home.component.html',
   styleUrls: ['home.component.css'],
 })
-
-export class HomeComponent {
-
-  newName: string = '';
-  errorMessage: string;
-  names: any[] = [];
-}
+export class HomeComponent { }
