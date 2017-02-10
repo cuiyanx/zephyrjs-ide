@@ -1,6 +1,4 @@
 import { ReflectiveInjector } from '@angular/core';
-import { async } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
 
 import { WebUsbService } from './webusb.service';
 
