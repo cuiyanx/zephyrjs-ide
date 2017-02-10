@@ -11,7 +11,6 @@
 
     .pane {
         height: 100%;
-        overflow: hidden;
         padding: 0;
 
         /deep/ .pane-header {
@@ -37,7 +36,6 @@
             border: 0;
             background-color: $panel-bg-color;
             height: 40px;
-            overflow: hidden;
 
             li {
                 padding: 0;
@@ -114,11 +112,9 @@
 
         .tab-content {
             height: calc(100% - 40px);
-            overflow: hidden;
 
             .tab-pane {
                 height: 100%;
-                overflow: hidden;
             }
         }
 

@@ -3,7 +3,6 @@
 :host {
     height: calc(60% - 14px); // for the resize handle
     display: block;
-    overflow: hidden;
 
     .monaco-toolbar {
         background-color: $code-bg-color;
