@@ -1,3 +1,8 @@
+2017-02-13 Salvatore Iovene <salvatore.iovene@intel.com>
+	* Release 0.7.0-alpha
+	* Fix and add unit tests
+	* Add "OCF Explorer" functionality
+
 2017-02-09 Salvatore Iovene <salvatore.iovene@intel.com>
 	* Release 0.6.2-alpha
 	* Add WebUSB origin trial token
