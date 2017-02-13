@@ -1,4 +1,19 @@
 <form id="connect-form" class="form-inline">
+    <div class="form-group protocol">
+        <label class="sr-only" for="ocf-explorer-protocol">Protocol</label>
+        <input #httpsToggle
+               type="checkbox"
+               data-toggle="toggle"
+               data-onstyle="success"
+               data-offstyle="danger"
+               data-on="HTTPS"
+               data-off="HTTP"
+               data-width="80"
+               class="form-control"
+               id="ocf-explorer-protocol"
+               name="ocf-explorer-protocol"/>
+    </div> <!-- ./form-group -->
+
     <div
         class="form-group ip"
         [class.has-error]="inputServer.ip && !isValidIPAddress()">
@@ -63,6 +78,8 @@
                     <fa [name]="'server'"></fa>
                 </th>
                 <th class="name">
+                    <span *ngIf="server.https">https://</span>
+                    <span *ngIf="!server.https">http://</span>
                     {{server.ip}}:{{server.port}}{{server.path}}
                 </th>
                 <th class="value">

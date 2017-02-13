@@ -1,8 +1,11 @@
 import {
     Component,
+    ElementRef,
     EventEmitter,
     Output,
+    OnInit,
     QueryList,
+    ViewChild,
     ViewChildren
 } from '@angular/core';
 
@@ -13,12 +16,16 @@ import {
 } from './ocf-explorer.resource.component';
 
 interface OcfServer {
+    https: boolean;
     ip: string;
     port: number;
     path: string;
     resources?: OcfResource[];
     isExploring?: boolean;
 };
+
+
+declare var $: any;
 
 
 @Component({
@@ -28,12 +35,13 @@ interface OcfServer {
     styleUrls: ['ocf-explorer.component.css'],
     providers: [OcfApiService]
 })
-export class OcfExplorerComponent {
+export class OcfExplorerComponent implements OnInit {
     @Output() onWarning = new EventEmitter();
     @Output() onError = new EventEmitter();
 
     // Model for connection form
     public inputServer: OcfServer = {
+        https: false,
         ip: '127.0.0.1',
         port: 1337,
         path: '/192.168.0.102:8000/api/oic'
@@ -45,8 +53,18 @@ export class OcfExplorerComponent {
     @ViewChildren(OcfResourceComponent)
     private resourceComponents: QueryList<OcfResourceComponent>;
 
+    @ViewChild('httpsToggle')
+    private httpsToggle: ElementRef;
+
 
     public constructor(private ocfApiService: OcfApiService) {
+    }
+
+    public ngOnInit() {
+        let httpsToggleEl = $(this.httpsToggle.nativeElement);
+        httpsToggleEl.bootstrapToggle().change(() => {
+            this.inputServer.https = httpsToggleEl.prop('checked');
+        });
     }
 
     // tslint:disable-next-line:no-unused-variable
@@ -85,10 +103,15 @@ export class OcfExplorerComponent {
     }
 
     public explore(server: OcfServer): void {
+        let protocol = 'http://';
+        if (server.https) {
+            protocol = 'https://';
+        }
+
         this.ocfApiService.setBaseUrl(
-            'http://' + server.ip +
-                  ':' + server.port +
-                        server.path);
+            protocol + server.ip +
+                 ':' + server.port +
+                       server.path);
 
         server.isExploring = true;
         server.resources = [];
