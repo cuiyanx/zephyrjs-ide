@@ -23,6 +23,19 @@ import { ConsoleComponent } from './pages/editor/components/console/console.comp
 import { GitHubModalComponent } from './pages/editor/components/github/github.modal.component';
 import { MonacoComponent } from './pages/editor/components/monaco/monaco.component';
 import { StatusBarComponent } from './pages/editor/components/statusbar/statusbar.component';
+import { OcfExplorerComponent } from './pages/editor/components/ocf-explorer/ocf-explorer.component';
+import { OcfResourceComponent } from './pages/editor/components/ocf-explorer/ocf-explorer.resource.component';
+
+import { OcfResourceValueFanComponent }
+    from './pages/editor/components/ocf-explorer/ocf-explorer.resource.value.fan.component';
+import { OcfResourceValueIlluminanceComponent }
+    from './pages/editor/components/ocf-explorer/ocf-explorer.resource.value.illuminance.component';
+import { OcfResourceValueLedComponent }
+    from './pages/editor/components/ocf-explorer/ocf-explorer.resource.value.led.component';
+import { OcfResourceValueRgbLedComponent }
+    from './pages/editor/components/ocf-explorer/ocf-explorer.resource.value.rgbled.component';
+import { OcfResourceValueTemperatureComponent }
+    from './pages/editor/components/ocf-explorer/ocf-explorer.resource.value.temperature.component';
 
 // Shared
 import { NavbarComponent } from './shared/navbar/navbar.component';
@@ -56,6 +69,13 @@ export function main() {
                         GitHubModalComponent,
                         MonacoComponent,
                         StatusBarComponent,
+                        OcfExplorerComponent,
+                        OcfResourceComponent,
+                            OcfResourceValueFanComponent,
+                            OcfResourceValueIlluminanceComponent,
+                            OcfResourceValueLedComponent,
+                            OcfResourceValueRgbLedComponent,
+                            OcfResourceValueTemperatureComponent,
                     NavbarComponent,
                     FooterComponent
                 ],

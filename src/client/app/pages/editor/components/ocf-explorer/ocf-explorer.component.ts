@@ -25,7 +25,8 @@ interface OcfServer {
     moduleId: module.id,
     selector: 'sd-ocf-explorer',
     templateUrl: 'ocf-explorer.component.html',
-    styleUrls: ['ocf-explorer.component.css']
+    styleUrls: ['ocf-explorer.component.css'],
+    providers: [OcfApiService]
 })
 export class OcfExplorerComponent {
     @Output() onWarning = new EventEmitter();
