@@ -1,4 +1,4 @@
-import { Http } from '@angular/http';
+import { Http, RequestMethod } from '@angular/http';
 import { Injectable, Injector } from '@angular/core';
 
 
@@ -19,6 +19,15 @@ export class RestClient extends Resource {
     public getUrl(methodOptions?: any): string | Promise<string> {
         let resPath = super.getUrl();
         return this.baseUrl + resPath;
+    }
+
+    public getHeaders(methodOptions?: any): any {
+        let headers = super.getHeaders();
+        if (methodOptions !== undefined && methodOptions.method > 0) {
+            headers['Content-Type'] =
+                'application/x-www-form-urlencoded; charset=UTF-8';
+        }
+        return headers;
     }
 }
 
@@ -55,6 +64,12 @@ export class OcfApiService extends RestClient {
         path: '{!path}?di={!di}'
     })
     getResource: ResourceMethod<IOcfResourceApi, any>;
+
+    @ResourceAction({
+        method: RequestMethod.Post,
+        path: '{!path}?di={!di}'
+    })
+    updateResource: ResourceMethod<any, any>;
 
     constructor(public http: Http, public injector: Injector) {
         super(http, injector);

@@ -1,2 +1,9 @@
-<span *ngIf="resource.properties.value === true">ON</span>
-<span *ngIf="resource.properties.value === false">OFF</span>
+<input #toggle
+       type="checkbox"
+       data-toggle="toggle"
+       data-on="ON"
+       data-off="OFF"
+       data-size="mini"
+       data-onstyle="success"
+       data-offstyle="danger"
+       [(ngModel)]="resource.properties.value" />
