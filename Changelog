@@ -1,4 +1,8 @@
 2017-02-13 Salvatore Iovene <salvatore.iovene@intel.com>
+	* Release 0.7.1-alpha
+	* Add support for HTTPS OCF requests
+
+2017-02-13 Salvatore Iovene <salvatore.iovene@intel.com>
 	* Release 0.7.0-alpha
 	* Fix and add unit tests
 	* Add "OCF Explorer" functionality
