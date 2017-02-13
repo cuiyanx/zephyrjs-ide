@@ -68,7 +68,7 @@ export class OcfResourceComponent implements OnInit {
 
         request.$observable.subscribe((response: any) => {
             clearTimeout(timeout);
-            this.resource.properties = response.properties;
+            this.resource.properties = response;
             this.resource.error = null;
             this.resource.isGettingProperties = false;
         });
