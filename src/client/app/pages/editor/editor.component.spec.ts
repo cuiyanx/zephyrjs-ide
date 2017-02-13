@@ -1,7 +1,13 @@
+// Core
 import { Component } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 
+// Third-party
+import { ResourceModule } from 'ng2-resource-rest';
+
+// Own
 import { EditorModule } from './editor.module';
+
 
 export function main() {
    describe('Editor component', () => {
@@ -11,7 +17,7 @@ export function main() {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [TestComponent],
-        imports: [EditorModule]
+        imports: [EditorModule, ResourceModule]
       });
     });
 

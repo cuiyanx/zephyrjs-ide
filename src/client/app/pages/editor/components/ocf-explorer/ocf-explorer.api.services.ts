@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
+import { Injectable, Injector } from '@angular/core';
+
 
 import {
     Resource,
@@ -43,14 +45,18 @@ export interface IOcfResourceApi {
   url: ''
 })
 export class OcfApiService extends RestClient {
-  @ResourceAction({
-    isArray: true,
-    path: '/res'
-  })
-  getResources: ResourceMethod<IQueryInput, any[]>;
+    @ResourceAction({
+        isArray: true,
+        path: '/res'
+    })
+    getResources: ResourceMethod<IQueryInput, any[]>;
 
-  @ResourceAction({
-    path: '{!path}?di={!di}'
-  })
-  getResource: ResourceMethod<IOcfResourceApi, any>;
+    @ResourceAction({
+        path: '{!path}?di={!di}'
+    })
+    getResource: ResourceMethod<IOcfResourceApi, any>;
+
+    constructor(public http: Http, public injector: Injector) {
+        super(http, injector);
+    }
 }
