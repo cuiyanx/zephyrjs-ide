@@ -172,6 +172,13 @@ export class OcfExplorerComponent implements OnInit {
     public onExploreClicked(event: any): void {
         event.preventDefault();
 
+        // Always remove trailing slashes from the path, because the API
+        // service assumes so. Let's also remove multiple consecutives
+        // slashes since we're sanitizing anyway.
+        this.inputServer.path = this.inputServer.path
+            .replace(/\/+/g, '/')
+            .replace(/\/+$/, '');
+
         let connectToServer: OcfServer = null;
         let existingServers: OcfServer[] = this.connectedServers.filter(
             (s: OcfServer) => {
