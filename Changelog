@@ -1,4 +1,8 @@
 2017-02-14 Salvatore Iovene <salvatore.iovene@intel.com>
+	* Release 0.8.1-alpha
+	* webusb: remove stripping of 'console.log' statements
+
+2017-02-14 Salvatore Iovene <salvatore.iovene@intel.com>
 	* Release 0.8.0-alpha
 	* ocf-explorer: sanitize user input for path
 	* ocf-explorer: implement sending fan sensor updates
