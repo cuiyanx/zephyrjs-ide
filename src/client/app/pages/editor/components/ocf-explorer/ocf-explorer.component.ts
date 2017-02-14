@@ -44,7 +44,7 @@ export class OcfExplorerComponent implements OnInit {
         https: false,
         ip: '127.0.0.1',
         port: 8000,
-        path: '/api/oic/res'
+        path: '/api/oic'
     };
 
     // Servers that are explored
@@ -172,12 +172,14 @@ export class OcfExplorerComponent implements OnInit {
     public onExploreClicked(event: any): void {
         event.preventDefault();
 
-        // Always remove trailing slashes from the path, because the API
-        // service assumes so. Let's also remove multiple consecutives
-        // slashes since we're sanitizing anyway.
+        // Sanitize the path input:
+        //  * remove multiple consecutive slashes
+        //  * remove trailing slashes
+        //  * remove trailing /res
         this.inputServer.path = this.inputServer.path
             .replace(/\/+/g, '/')
-            .replace(/\/+$/, '');
+            .replace(/\/+$/, '')
+            .replace(/\/res$/, '');
 
         let connectToServer: OcfServer = null;
         let existingServers: OcfServer[] = this.connectedServers.filter(
