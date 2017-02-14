@@ -125,8 +125,7 @@ export class WebUsbPort {
                     let ihex =
                         this.convIHex(
                             this.stripBlankLines(
-                                this.stripComments(
-                                    this.stripConsole(data))));
+                                this.stripComments(data)));
 
                     for (let line of ihex.split('\n')) {
                         this.send(line + '\n');
@@ -150,10 +149,6 @@ export class WebUsbPort {
 
     private stripComments(source: string): string {
       return source.replace(RegExp('[ \t]*//.*', 'g'), '');
-    }
-
-    private stripConsole(source: string): string {
-      return source.replace(RegExp('console\.[a-zA-Z]+\(.*\)', 'g'), '');
     }
 
     private stripBlankLines(source: string): string {
