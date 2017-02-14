@@ -1,3 +1,9 @@
+2017-02-14 Salvatore Iovene <salvatore.iovene@intel.com>
+	* Release 0.8.0-alpha
+	* ocf-explorer: sanitize user input for path
+	* ocf-explorer: implement sending fan sensor updates
+	* console: fix issue with CR/LF control codes
+
 2017-02-13 Salvatore Iovene <salvatore.iovene@intel.com>
 	* Release 0.7.2-alpha
 	* ocf-explorer: adapt API to some update in iot-rest-server
