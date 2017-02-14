@@ -45,6 +45,11 @@ export class WebUsbPort {
                     skip = !this.rawMode && /^(\n|\[.*\])/.test(str);
 
                     if (!skip) {
+                        if (str.length === 1 && str.charCodeAt(0) === 13) {
+                            // Replace CR to CRLF because hterm won't go to
+                            // a new line with CR alone.
+                            str = '\r\n';
+                        }
                         this.onReceive(str);
                     }
 
