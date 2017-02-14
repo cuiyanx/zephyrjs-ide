@@ -44,7 +44,7 @@ export class OcfExplorerComponent implements OnInit {
         https: false,
         ip: '127.0.0.1',
         port: 8000,
-        path: '/api/oic'
+        path: '/api/oic/res'
     };
 
     // Servers that are explored

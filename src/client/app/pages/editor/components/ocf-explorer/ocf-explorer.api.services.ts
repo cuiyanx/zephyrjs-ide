@@ -47,7 +47,7 @@ export interface IOcfResourceApi {
 export class OcfApiService extends RestClient {
     @ResourceAction({
         isArray: true,
-        path: '/res'
+        path: '/'
     })
     getResources: ResourceMethod<IQueryInput, any[]>;
 
