@@ -5,7 +5,7 @@ describe('App', () => {
   });
 
   it('should have a title', () => {
-    expect(browser.getTitle()).toEqual('Zephyr.js IDE');
+    expect(browser.getTitle()).toEqual('JS IDE for Zephyr OS');
   });
 
   it('should have <nav>', () => {

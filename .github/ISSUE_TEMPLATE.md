@@ -10,5 +10,5 @@
 **Steps to reproduce**
 <!-- If not obvious, please describe how to reproduce the issue. -->
 
-**Zephyr.js IDE version:** `X.Y.Z / abcd1234`
-<!-- Look at the footer of your Zephyr.js IDE page for this information. -->
+**'JS IDE for Zephyr OS' version:** `X.Y.Z / abcd1234`
+<!-- Look at the footer of your Web page for this information. -->

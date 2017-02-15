@@ -71,13 +71,13 @@ export class MonacoComponent implements AfterViewInit {
                 let theme = 'vs-dark';
 
                 if (monaco.editor.defineTheme !== undefined) {
-                    monaco.editor.defineTheme('zephyrjs-ide', {
+                    monaco.editor.defineTheme('web-ide', {
                         base: theme,
                         inherit: true,
                         rules: []
                     });
 
-                    theme = 'zephyrjs-ide';
+                    theme = 'web-ide';
                 }
 
                 this.tab.editor = monaco.editor.create(this.editorView.nativeElement, {

@@ -1,9 +1,9 @@
 # Introduction
 
-`Zephyr.js IDE` is an online JavaScript editor that lets you upload code to a
+`JS IDE for Zephyr OS` is an online JavaScript editor that lets you upload code to a
 Zephyr board, directly from the browser, taking advantage of WebUSB.
 
-`Zephyr.js IDE` provides the following features:
+`JS IDE for Zephyr OS` provides the following features:
 
 - Edit JavaScript code with the integrated Monaco editor
 - Connect and upload to a Zephyr board via WebUSB
