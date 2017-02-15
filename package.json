@@ -3,7 +3,7 @@
   "version": "0.8.1-alpha",
   "description": "Online JavaScript editor with WebUSB Zephyr.js integration",
   "repository": {
-    "url": "https://github.com/01org/zephyr.js"
+    "url": "https://github.com/01org/zephyrjs-ide"
   },
   "scripts": {
     "build.dev": "gulp build.dev --color --env-config dev",
