@@ -12,6 +12,7 @@ export class WebUsbPort {
     decoder: any;
     encoder: any;
     rawMode: boolean;
+    previousRead: string;
 
     constructor(device: any) {
         this.device = device;
@@ -45,11 +46,16 @@ export class WebUsbPort {
                     skip = !this.rawMode && /^(\n|\[.*\])/.test(str);
 
                     if (!skip) {
-                        if (str.length === 1 && str.charCodeAt(0) === 13) {
-                            // Replace CR to CRLF because hterm won't go to
-                            // a new line with CR alone.
-                            str = '\r\n';
+                        if (str.length === 1 &&
+                            str.charCodeAt(0) !== 13 &&
+                            str.charCodeAt(0) !== 10 &&
+                            this.previousRead !== undefined &&
+                            this.previousRead.charCodeAt(
+                                this.previousRead.length - 1) === 13) {
+                            str = '\n' + str;
                         }
+
+                        this.previousRead = str;
                         this.onReceive(str);
                     }
 
