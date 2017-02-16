@@ -30,7 +30,6 @@
 
     .monaco-container {
         height: 100%;
-        min-height: 250px;
 
         .monaco-editor {
             height: calc(100% - 62px); // 62px for the toolbar

@@ -141,12 +141,20 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
         let doEditorResize = (ev: any) => {
             // The resizing should not happen over this limit so that the
             // status bar is not pushed out of the way.
-            let overflowLimit =
+            let lowerLimit =
                 elems.consoleHeader.clientHeight +
                 elems.statusBar.clientHeight +
                 elems.footer.clientHeight;
 
-            if (window.innerHeight - ev.clientY > overflowLimit) {
+            // TODO: get clientHieght of elements instead of hardcoding.
+            let upperLimit =
+                50 + // navbar
+                40 + // tab bar
+                62 - // editor menu bar
+                14;  // the resize handle
+
+            if (window.innerHeight - ev.clientY > lowerLimit &&
+                ev.clientY > upperLimit) {
                 elems.editorContainer.style.height = (
                     ev.clientY -
                     elems.editorContainer.offsetTop -
