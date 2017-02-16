@@ -14,15 +14,51 @@
   <!-- inject:css -->
   <!-- endinject -->
 
+  <!--
+  Style for the 'loading' page. At this point, nothing is bootstrapped so
+  we must embed it.
+  NOTE: keep colors in sync with src/client/scss/colors.scss
+  -->
   <style>
-    html, body {
+    html, body, sd-app {
       height: 100%;
+    }
+
+    sd-app > .loading-container {
+      display: block;
+      height: 100%;
+      width: 100%;
+      background-color: #2b2f3a;
+      color: #f4f4f4;
+      position: relative;
+      text-align: center;
+    }
+
+    sd-app > .loading-container > .loading-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 50%;
+      transform: translate(-50%, -50%);
+      text-transform: uppercase;
+    }
+
+    sd-app > .loading-container > .loading-content > .fa {
+      display: block;
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
 
-  <sd-app>Loading...</sd-app>
+  <sd-app>
+    <div class="loading-container">
+      <div class="loading-content">
+        <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
+        Loading
+      </div>
+    </div>
+  </sd-app>
 
   <script>
     // Fixes undefined module function in SystemJS bundle
