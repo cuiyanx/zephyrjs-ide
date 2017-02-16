@@ -89,6 +89,14 @@ export class ProjectConfig extends SeedConfig {
                 main: 'components.js',
                 defaultExtension: 'js'
             }
+        },
+        {
+            name: 'ng2-split-pane',
+            path: 'node_modules/ng2-split-pane/components.js',
+            packageMeta: {
+                main: 'components.js',
+                defaultExtension: 'js'
+            }
         }
     ];
 

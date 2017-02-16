@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 // Third-party modules
 import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome';
 import { SimpleNotificationsModule } from 'angular2-notifications';
+import { SplitPaneModule } from 'ng2-split-pane/lib/ng2-split-pane';
 
 // Own modules
 import { MonacoModule } from './components/monaco/monaco.module';
@@ -26,6 +27,7 @@ import { EditorComponent } from './editor.component';
 
         Angular2FontawesomeModule,
         SimpleNotificationsModule,
+        SplitPaneModule,
 
         MonacoModule,
         ConsoleModule,

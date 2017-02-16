@@ -1,5 +1,11 @@
-<div id="editor-page-container" class="row">
-    <div class="col-md-6 pane" id="editor-pane">
+<vertical-split-pane
+    primary-component-minsize="400"
+    secondary-component-minsize="400"
+    local-storage-key="editor-split-pane"
+    (on-begin-resizing)="onBeginResizing($event)"
+    (on-ended-resizing)="onEndedResizing($event)">
+
+    <div class="split-pane-content-primary">
         <ul #tabMenu class="nav nav-tabs" role="tablist">
             <li
                 *ngFor="let tab of tabs" role="presentation"
@@ -8,7 +14,8 @@
                     class="nav-link"
                     href="#tab-{{tab.id}}"
                     role="tab"
-                    data-toggle="tab">
+                    data-toggle="tab"
+                    (click)="onActivateTab(tab)">
 
                     <div class="tab-title">
                         {{tab.title}}
@@ -37,32 +44,29 @@
                     (onError)="onError($event)">
                 </sd-monaco>
 
-                <div
-                    class="horizontal-resize-handle"
-                    id="editor-resize-handle-{{tab.id}}">
-                    <fa [name]="'ellipsis-h'"></fa>
-                </div>
-
-                <sd-console [tab]="tab"></sd-console>
                 <sd-statusbar [tab]="tab"></sd-statusbar>
             </div> <!-- ./tab-pane -->
         </div> <!-- ./tab-content -->
 
         <button
             id="new-tab-button"
-            [hidden]="!mayAddTab()"
+            class="btn btn-primary"
+            [disabled]="!mayAddTab()"
             (click)="newTab()">
             <fa [name]="'plus'"></fa> New tab
         </button>
-    </div> <!-- /col pane -->
+    </div> <!-- ./split-pane-contenty-primary -->
 
-    <div class="col-md-6 pane" id="explorer-pane">
-        <div class="vertical-resize-handle" id="explorer-resize-handle">
-            <fa [name]="'ellipsis-v'"></fa>
-        </div>
-
+    <div class="split-pane-content-secondary">
         <ul #explorerMenu class="nav nav-tabs" role="tablist">
             <li role="presentation" class="nav-item active">
+                <a class="nav-link" href="#console" role="tab"
+                   data-toggle="tab">
+                    Console
+                </a>
+            </li>
+
+            <li role="presentation" class="nav-item">
                 <a class="nav-link" href="#board-explorer" role="tab"
                    data-toggle="tab">
                     Board schematic
@@ -78,9 +82,18 @@
         </ul>
 
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="board-explorer">
+            <div role="tabpanel" class="tab-pane active" id="console">
+                <sd-console
+                    *ngFor="let tab of tabs"
+                    [tab]="tab"
+                    [hidden]="!tab.active">
+                </sd-console>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="board-explorer">
                 <sd-board-explorer></sd-board-explorer>
             </div>
+
             <div role="tabpanel" class="tab-pane" id="ocf-explorer">
                 <sd-ocf-explorer
                     (onWarning)="onWarning($event)"
@@ -88,7 +101,7 @@
                 </sd-ocf-explorer>
             </div>
         </div> <!-- ./tab-content -->
-    </div>
-</div> <!-- ./row -->
+    </div> <!-- ./split-pane-content-secondary -->
+</vertical-split-pane>
 
 <simple-notifications [options]="notificationOptions"></simple-notifications>

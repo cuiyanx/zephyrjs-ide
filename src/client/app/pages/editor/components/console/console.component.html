@@ -2,12 +2,6 @@
     id="console-container-{{tab.id}}"
     class="console-container">
 
-    <h2
-        id="console-header-{{tab.id}}"
-        class="pane-header">
-        Console
-    </h2>
-
     <div
         #console
         id="console-{{tab.id}}"
@@ -15,3 +9,9 @@
     </div>
 
 </div> <!-- ./console-container -->
+
+<!--
+Used to mask the console during resizing operations, and prevent it from
+trying to intercept mouse events.
+-->
+<div class="console-resizing-overlay"></div>

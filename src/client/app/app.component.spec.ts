@@ -8,6 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome';
 import { SimpleNotificationsModule } from 'angular2-notifications';
+import { SplitPaneModule } from 'ng2-split-pane/lib/ng2-split-pane';
 
 // Main app component
 import { AppComponent } from './app.component';
@@ -59,7 +60,8 @@ export function main() {
                     FormsModule,
                     RouterTestingModule.withRoutes(config),
                     Angular2FontawesomeModule,
-                    SimpleNotificationsModule
+                    SimpleNotificationsModule,
+                    SplitPaneModule
                 ],
                 declarations: [
                     TestComponent,

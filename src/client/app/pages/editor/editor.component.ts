@@ -3,8 +3,6 @@ import {
     AfterViewInit,
     Component,
     ElementRef,
-    OnInit,
-    OnDestroy,
     ViewChild
 } from '@angular/core';
 
@@ -26,7 +24,7 @@ declare var $: any;
   styleUrls: ['editor.component.css'],
   providers: [GitHubService]
 })
-export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
+export class EditorComponent implements AfterViewInit {
     public notificationOptions = {
         timeOut: 5000
     };
@@ -56,157 +54,8 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
         private webusbService: WebUsbService) {
     }
 
-    public ngOnInit() {
-        // tsling:disable-next-line:no-empty
-    }
-
-    public ngOnDestroy() {
-        window.onresize = null;
-    }
-
     public ngAfterViewInit() {
-        setTimeout(() => {
-            this.setDefaultTabStatuses(1);
-            this.computeTabMenuWidth();
-            this.initEditorResizeHandle(1);
-            this.initExplorerResizeHandle();
-        }, 0);
-
-        window.onresize = () => {
-            let editorPane = document.getElementById('editor-pane');
-            let explorerPane = document.getElementById('explorer-pane');
-            let editors = document.getElementsByClassName('monaco-container');
-            let consoles = document.getElementsByClassName('console-container');
-
-            editorPane.style.width = '';
-            explorerPane.style.width = '';
-
-            for (let i = 0; i < editors.length; i++) {
-                (editors[i].parentElement as HTMLElement).style.height = '';
-            }
-
-            for (let i = 0; i < consoles.length; i++ ) {
-                (consoles[i].parentElement as HTMLElement).style.height = '';
-            }
-
-            this.computeTabMenuWidth();
-        };
-    }
-
-    private computeTabMenuWidth() {
-        let editorPane = document.getElementById('editor-pane');
-        let newButton = document.getElementById('new-tab-button');
-
-        let width = editorPane.clientWidth - 10;
-
-        if (newButton !== null) {
-            width -= newButton.clientWidth;
-        }
-
-        this.tabMenu.nativeElement.style.width = width + 'px';
-    }
-
-    private initEditorResizeHandle(id: number) {
-        interface IElements {
-            tab: HTMLElement;
-            editorContainer: HTMLElement;
-            resizeHandle: HTMLElement;
-            console: HTMLElement;
-            consoleHeader: HTMLElement;
-            statusBar: HTMLElement;
-            footer: HTMLElement;
-        };
-
-        // TODO: use ViewChild where possible
-        let elems: IElements = {
-            tab: document.getElementById('tab-' + id),
-            editorContainer: document.getElementById('monaco-container-' + id).parentElement,
-            resizeHandle: document.getElementById('editor-resize-handle-' + id),
-            console: document.getElementById('console-container-' + id).parentElement,
-            consoleHeader: document.getElementById('console-header-' + id),
-            statusBar: document.getElementById('statusbar-' + id),
-            footer: document.getElementById('footer')
-        };
-
-        if (elems.tab === null ||
-            elems.editorContainer === null ||
-            elems.resizeHandle === null ||
-            elems.console === null ||
-            elems.consoleHeader === null ||
-            elems.statusBar === null ||
-            elems.footer === null) {
-            return;
-        }
-
-        let doEditorResize = (ev: any) => {
-            // The resizing should not happen over this limit so that the
-            // status bar is not pushed out of the way.
-            let lowerLimit =
-                elems.consoleHeader.clientHeight +
-                elems.statusBar.clientHeight +
-                elems.footer.clientHeight;
-
-            // TODO: get clientHieght of elements instead of hardcoding.
-            let upperLimit =
-                50 + // navbar
-                40 + // tab bar
-                62 - // editor menu bar
-                14;  // the resize handle
-
-            if (window.innerHeight - ev.clientY > lowerLimit &&
-                ev.clientY > upperLimit) {
-                elems.editorContainer.style.height = (
-                    ev.clientY -
-                    elems.editorContainer.offsetTop -
-                    elems.footer.clientHeight) + 'px';
-
-                elems.console.style.height = (
-                    elems.tab.clientHeight -
-                    elems.editorContainer.clientHeight -
-                    elems.resizeHandle.clientHeight -
-                    elems.statusBar.clientHeight) + 'px';
-            }
-            ev.preventDefault();
-        };
-
-        let stopEditorResize = () => {
-            window.removeEventListener('mousemove', doEditorResize, false);
-            window.removeEventListener('mouseup', stopEditorResize, false);
-        };
-
-        let startEditorResize = () => {
-            window.addEventListener('mousemove', doEditorResize, false);
-            window.addEventListener('mouseup', stopEditorResize, false);
-        };
-
-        elems.resizeHandle.addEventListener('mousedown', startEditorResize, false);
-    }
-
-    private initExplorerResizeHandle() {
-        let explorerHandleEl = document.getElementById('explorer-resize-handle');
-        let editorEl = document.getElementById('editor-pane');
-        let explorerEl = document.getElementById('explorer-pane');
-
-        let doExplorerResize = (ev: any) => {
-            if (window.innerWidth - ev.clientX > 30) {
-                editorEl.style.width = (ev.clientX + editorEl.offsetLeft) + 'px';
-                explorerEl.style.width = (explorerEl.parentElement.offsetWidth - editorEl.offsetWidth) + 'px';
-                this.computeTabMenuWidth();
-            }
-            ev.preventDefault();
-        };
-
-        let stopExplorerResize = () => {
-            window.removeEventListener('mousemove', doExplorerResize, false);
-            window.removeEventListener('mouseup', stopExplorerResize, false);
-        };
-
-        let startExplorerResize = () => {
-            window.addEventListener('mousemove', doExplorerResize, false);
-            window.addEventListener('mouseup', stopExplorerResize, false);
-        };
-
-       explorerHandleEl.addEventListener('mousedown', startExplorerResize, false);
+        this.setDefaultTabStatuses(1);
     }
 
     private getTabById(id: number): EditorTab {
@@ -239,10 +88,14 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
             this.newTab();
         }
+    }
 
-        if (this.tabs.length === this.MAX_TABS - 1) {
-            this.computeTabMenuWidth();
+    // tslint:disable-next-line:no-unused-variable
+    private onActivateTab(tab: EditorTab) {
+        for (let t of this.tabs) {
+            t.active = false;
         }
+        tab.active = true;
     }
 
     private setDefaultTabStatuses(id: number) {
@@ -284,15 +137,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
         $(this.tabMenu.nativeElement).find('a:last').tab('show');
 
         this.tabs.push(tab);
-
-        if (this.tabs.length === this.MAX_TABS) {
-            this.computeTabMenuWidth();
-        }
-
-        setTimeout(() => {
-            this.setDefaultTabStatuses(tab.id);
-            this.initEditorResizeHandle(tab.id);
-        }, 0);
+        this.setDefaultTabStatuses(tab.id);
 
         return tab;
     }
@@ -305,5 +150,23 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     // tslint:disable-next-line:no-unused-variable
     private onError(message: any) {
         this.notificationsService.error(message.header, message.body);
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    private onBeginResizing() {
+        let overlays = document.getElementsByClassName(
+            'console-resizing-overlay');
+        [].forEach.call(overlays, (overlay: HTMLElement) => {
+            overlay.style.display = 'block';
+        });
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    private onEndedResizing() {
+        let overlays = document.getElementsByClassName(
+            'console-resizing-overlay');
+        [].forEach.call(overlays, (overlay: HTMLElement) => {
+            overlay.style.display = 'none';
+        });
     }
 }

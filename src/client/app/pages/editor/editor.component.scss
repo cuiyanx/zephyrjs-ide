@@ -4,11 +4,6 @@
     display: block;
     height: calc(100% - 50px - 60px); // navbar and footer
 
-    > #editor-page-container {
-        height: 100%;
-        margin: 0;
-    }
-
     .pane {
         height: 100%;
         padding: 0;
@@ -33,6 +28,7 @@
         border: 0;
         background-color: $panel-bg-color;
         height: 40px;
+        width: calc(100% - 90px); // for the new tab button
 
         > li {
             padding: 0;
@@ -108,73 +104,71 @@
         }
     }
 
-    #editor-pane {
-        min-width: 360px;
+    .split-pane-content-primary, .split-pane-content-secondary {
+        height: 100%;
+        position: relative;
+        background-color: $panel-bg-color;
 
         .tab-content {
-            height: calc(100% - 40px);
+            height: calc(100% - 40px); // for the tab bar
 
             .tab-pane {
                 height: 100%;
             }
         }
+    }
 
+    .split-pane-content-primary {
         #new-tab-button {
             position: absolute;
             top: 12px;
-            right: 2px;
+            right: 10px;
             max-height: 20px;
 
             padding: 2px 10px;
             font-size: 11px;
+            font-weight: normal;
             color: $panel-bg-color;
-            background: $accent-color;
             border: none;
             border-radius: 15px;
             text-align: center;
+            text-shadow: none;
 
             fa {
                 margin-right: 4px;
                 font-weight: normal;
             }
-
-            &:hover {
-                background: lighten($accent-color, 5%);
-            }
         }
+    }
 
-        .horizontal-resize-handle {
-            width: 100%;
-            text-align: center;
-            line-height: 0;
-            cursor: ns-resize;
-            color: $text-color;
-        }
-    } // ./editor-pane
-
-    #explorer-pane {
-        background-color: $panel-bg-color;
-        height: 100%;
-        width: 50%;
-
-        .vertical-resize-handle {
-            position: absolute;
-            top: 0;
-            left: 0px;
-            height: 100%;
-            width: 15px;
-            cursor: ew-resize;
-            color: $text-color;
-
-            fa {
-                position: absolute;
-                top: 50%;
-                left: 6px;
-            }
-        }
-
-    .nav-tabs {
+    .split-pane-content-secondary {
+        .nav-tabs {
             padding-left: 10px;
+            width: auto;
+
+            li {
+                width: initial !important;
+                max-width: initial;
+                padding-left: initial !important;
+
+                a {
+                    padding: 0 16px;
+                }
+            }
         }
-    } // ./explorer-pane
+    }
+
+    /deep/ vertical-split-separator {
+        width: 6px;
+        border: none;
+        background-color: $navbar-bg-color;
+
+        .handle {
+            background-color: darken($accent-color, 10%);
+        }
+
+        &:hover {
+            background-color: lighten($navbar-bg-color, 10%);
+        }
+    }
 }

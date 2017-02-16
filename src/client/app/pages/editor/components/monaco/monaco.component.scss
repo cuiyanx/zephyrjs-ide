@@ -1,7 +1,7 @@
 @import '../../../../../scss/main';
 
 :host {
-    height: calc(60% - 14px); // for the resize handle
+    height: calc(100% - 24px); // for the statusbar
     display: block;
 
     .monaco-toolbar {
