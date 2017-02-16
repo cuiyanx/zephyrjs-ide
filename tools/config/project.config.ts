@@ -31,17 +31,9 @@ export class ProjectConfig extends SeedConfig {
   constructor() {
     super();
     this.APP_TITLE = 'JS IDE for Zephyr OS';
-    this.APP_TITLE_HTML = `
-        JS <strong>IDE</strong> for
-        <a href="https://www.zephyrproject.org/" target="blank">
-            Zephyr OS
-        </a>`;
+    this.APP_TITLE_HTML = 'JS <strong>IDE</strong> for Zephyr OS';
     this.APP_SHORT_DESC = 'JavaScript Web IDE for Zephyr OS';
-    this.APP_SHORT_DESC_HTML = `
-        JavaScript <strong>Web IDE</strong> for
-        <a href="https://www.zephyrproject.org/" target="blank">
-            Zephyr OS
-        </a>`;
+    this.APP_SHORT_DESC_HTML = 'JavaScript <strong>Web IDE</strong> for Zephyr OS';
 
     this.PORT = argv['port'] || 8000;
     this.PLUGIN_CONFIGS['browser-sync']['port'] = this.PORT;
