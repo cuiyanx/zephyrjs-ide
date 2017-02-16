@@ -1,4 +1,9 @@
 2017-02-16 Salvatore Iovene <salvatore.iovene@intel.com>
+	* Release 0.8.3-alpha
+	* Remove link to Zephyr OS from app title/desc because of prod build
+	issues
+
+2017-02-16 Salvatore Iovene <salvatore.iovene@intel.com>
 	* Release 0.8.2-alpha
 	* Fix references to incorrect git repo
 	* Rename app to 'JS IDE for Zephyr OS'
