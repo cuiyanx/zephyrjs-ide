@@ -1,3 +1,12 @@
+2017-02-16 Salvatore Iovene <salvatore.iovene@intel.com>
+	* Release 0.8.2-alpha
+	* Fix references to incorrect git repo
+	* Rename app to 'JS IDE for Zephyr OS'
+	* Add content to About page
+	* Make sure accent color for links is propagated everywhere
+	* Fix disappearing resize handle between editor and console
+	* Prevent unintended double newlines in console
+
 2017-02-14 Salvatore Iovene <salvatore.iovene@intel.com>
 	* Release 0.8.1-alpha
 	* webusb: remove stripping of 'console.log' statements
