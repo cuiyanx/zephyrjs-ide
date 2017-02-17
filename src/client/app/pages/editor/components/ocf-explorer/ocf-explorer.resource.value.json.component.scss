@@ -1,0 +1,14 @@
+@import '../../../../../scss/main';
+
+:host {
+    font-family: $bold-font;
+    font-weight: bold;
+    margin-right: 4px;
+    text-align: initial !important;
+
+    button {
+        font-size: 12px;
+        line-height: 15px;
+        vertical-align: top;
+    }
+}

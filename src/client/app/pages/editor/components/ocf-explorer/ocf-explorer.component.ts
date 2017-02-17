@@ -39,6 +39,14 @@ export class OcfExplorerComponent implements OnInit {
     @Output() onWarning = new EventEmitter();
     @Output() onError = new EventEmitter();
 
+    // The following resource types are ignored and not shown in the UI.
+    public ignoredResources: string[] = [
+        'oic.wk.p',
+        'oic.wk.d',
+        'oic.r.doxm',
+        'oic.r.pstat'
+    ];
+
     // Model for connection form
     public inputServer: OcfServer = {
         https: false,
@@ -120,22 +128,14 @@ export class OcfExplorerComponent implements OnInit {
                 server.isExploring = false;
                 server.resources = response
                     .filter((data: any) => {
-                        let supportedTypes: string[] = [
-                            'oic.r.fan',
-                            'oic.r.sensor.illuminance',
-                            'oic.r.led',
-                            'oic.r.colour.rgb',
-                            'oic.r.temperature'
-                        ];
-
                         // Ignore resources with no links
                         if (data.links === undefined ||
                             data.links.length === 0) {
                             return false;
                         }
 
-                        // Filter only supported resource types
-                        if (supportedTypes.indexOf(data.links[0].rt) === -1) {
+                        // Filter out the ignored resources
+                        if (this.ignoredResources.indexOf(data.links[0].rt) !== -1) {
                             return false;
                         }
 

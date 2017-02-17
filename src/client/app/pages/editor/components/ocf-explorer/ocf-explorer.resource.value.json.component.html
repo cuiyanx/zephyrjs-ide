@@ -1,0 +1,64 @@
+<button
+    type="button"
+    class="btn btn-default btn-xs"
+    data-toggle="modal"
+    data-target="#jsonEditorModal">
+    {{'{'}}JSON{{'}'}}
+</button>
+
+<div
+    #jsonEditor id="jsonEditorModal" class="modal fade" tabindex="-1"
+    role="dialog" aria-labelledby="jsonEditorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button
+                    type="button" class="close" aria-label="Close"
+                    (click)="hide()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+
+                <h4 class="modal-title">
+                    Resource JSON editor
+                </h4>
+            </div> <!-- ./modal-header -->
+
+            <div class="modal-body">
+                <form>
+                    <div class="form-group" [class.has-error]="!isValidJson()">
+                        <label class="sr-only" for="json">JSON</label>
+                        <textarea
+                            #textArea
+                            class="form-control"
+                            aria-describedBy="json-help-block"
+                            id="json"
+                            name="json"
+                            [(ngModel)]="json"
+                            (keyup)="onTextareaKeyUp()">
+                        </textarea>
+                        <span id="json-help-block" class="help-block">
+                            Use a valid JSON format to update your resource
+                        </span>
+                    </div> <!-- .form-group -->
+                </form>
+            </div> <!-- ./modal-body -->
+
+            <div class="modal-footer">
+                <button
+                    class="btn btn-default" aria-label="Cancel"
+                    (click)="hide()">
+                    Cancel
+                </button>
+
+                <button
+                    class="btn btn-primary"
+                    (click)="onUpdateClicked()"
+                    [disabled]="!mayUpdate()">
+                    Update
+                </button>
+            </div> <!-- ./modal-footer -->
+ 
+        </div> <!-- ./modal-content -->
+    </div> <!-- ./modal-dialog -->
+</div> <!-- ./modal -->

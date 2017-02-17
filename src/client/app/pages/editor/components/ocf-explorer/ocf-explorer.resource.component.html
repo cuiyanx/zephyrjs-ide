@@ -1,28 +1,34 @@
 <span class="resource-value" *ngIf="resource.properties !== null">
     <sd-ocf-resource-fan
         [resource]="resource"
-        *ngIf="resource.rt === 'oic.r.fan'">
+        *ngIf="hasNativeComponent(resource) && resource.rt === 'oic.r.fan'">
     </sd-ocf-resource-fan>
 
     <sd-ocf-resource-illuminance
         [resource]="resource"
-        *ngIf="resource.rt === 'oic.r.illuminance'">
+        *ngIf="hasNativeComponent(resource) && resource.rt === 'oic.r.illuminance'">
     </sd-ocf-resource-illuminance>
 
     <sd-ocf-resource-led
         [resource]="resource"
-        *ngIf="resource.rt === 'oic.r.led'">
+        *ngIf="hasNativeComponent(resource) && resource.rt === 'oic.r.led'">
     </sd-ocf-resource-led>
 
     <sd-ocf-resource-rgbled
         [resource]="resource"
-        *ngIf="resource.rt === 'oic.r.colour.rgb'">
+        *ngIf="hasNativeComponent(resource) && resource.rt === 'oic.r.colour.rgb'">
     </sd-ocf-resource-rgbled>
 
     <sd-ocf-resource-temperature
         [resource]="resource"
-        *ngIf="resource.rt === 'oic.r.temperature'">
+        *ngIf="hasNativeComponent(resource) && resource.rt === 'oic.r.temperature'">
     </sd-ocf-resource-temperature>
+
+    <sd-ocf-resource-json
+        [resource]="resource"
+        *ngIf="!hasNativeComponent(resource)">
+    </sd-ocf-resource-json>
+
 </span>
 
 <span

@@ -42,6 +42,14 @@ export class OcfResource implements IOcfResource {
 export class OcfResourceComponent implements OnInit {
     @Input('resource') public resource: OcfResource;
 
+    public resourcesWithNativeComponent: string[] = [
+        'oic.r.fan',
+        'oic.r.illuminance',
+        'oic.r.led',
+        'oic.r.colour.rgb',
+        'oic.r.temperature'
+    ];
+
     public constructor(private ocfApiService: OcfApiService) {
     }
 
@@ -51,6 +59,11 @@ export class OcfResourceComponent implements OnInit {
         this.resource.isGettingProperties = false;
 
         this.getProperties();
+    }
+
+    // tslint:disable-next-line:no-unused-variable
+    public hasNativeComponent(resource: OcfResource): boolean {
+        return this.resourcesWithNativeComponent.indexOf(resource.rt) !== -1;
     }
 
     // tslint:disable-next-line:no-unused-variable

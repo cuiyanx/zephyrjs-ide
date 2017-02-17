@@ -36,6 +36,9 @@ import { OcfResourceValueRgbLedComponent }
     from './pages/editor/components/ocf-explorer/ocf-explorer.resource.value.rgbled.component';
 import { OcfResourceValueTemperatureComponent }
     from './pages/editor/components/ocf-explorer/ocf-explorer.resource.value.temperature.component';
+import { OcfResourceValueJsonComponent }
+    from './pages/editor/components/ocf-explorer/ocf-explorer.resource.value.json.component';
+
 
 // Shared
 import { NavbarComponent } from './shared/navbar/navbar.component';
@@ -76,6 +79,7 @@ export function main() {
                             OcfResourceValueLedComponent,
                             OcfResourceValueRgbLedComponent,
                             OcfResourceValueTemperatureComponent,
+                            OcfResourceValueJsonComponent,
                     NavbarComponent,
                     FooterComponent
                 ],
