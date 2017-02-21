@@ -1,3 +1,9 @@
+2017-02-21 Salvatore Iovene <salvatore.iovene@intel.com>
+	* Release: 0.9.0-alpha
+	* ocf-explorer: add support for arbitrary resources via JSON editing
+	* ui: improve looks of 'loading' page
+	* ui: move console to the right pane
+
 2017-02-16 Salvatore Iovene <salvatore.iovene@intel.com>
 	* Release 0.8.3-alpha
 	* Remove link to Zephyr OS from app title/desc because of prod build
