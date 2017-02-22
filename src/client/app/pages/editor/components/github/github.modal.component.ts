@@ -103,7 +103,6 @@ export class GitHubModalComponent implements AfterViewInit {
 
     private resetFiles() {
         this.gitHubService.data.files.objects = [];
-        this.gitHubService.data.files.selected = null;
         this.gitHubService.data.files.currentSha = null;
         this.gitHubService.data.files.rootSha = null;
         this.gitHubService.data.files.ui.loading = false;
@@ -256,33 +255,30 @@ export class GitHubModalComponent implements AfterViewInit {
         if (file.type === 'tree') {
             this.fetchFiles(file.sha);
         } else {
-            this.gitHubService.data.files.selected = file;
+            let repo = this.gitHubService.data.repos.current;
+
+            this.gitHubService.wizardStep = WIZARD_STEP.DOWNLOADING;
+            this.repoService.getBlob({
+                owner: repo.owner.login,
+                repo: repo.name,
+                sha: file.sha
+            }).$observable.subscribe(
+                (response: any) => {
+            this.gitHubService.wizardStep = WIZARD_STEP.DOWNLOADING;
+                    this.fileFetched.emit(atob(response.content));
+                    this.hide();
+                    this.gitHubService.wizardStep = WIZARD_STEP.CHOOSE_FILE;
+                }
+            );
+
         }
 
         return false;
     }
 
-
     // tslint:disable-next-line:no-unused-variable
     private onLogoutClicked() {
         this.resetUser();
         this.resetUI();
-    }
-
-    // tslint:disable-next-line:no-unused-variable
-    private onDownloadClicked() {
-        let repo = this.gitHubService.data.repos.current;
-
-        this.gitHubService.wizardStep = WIZARD_STEP.DOWNLOADING;
-        this.repoService.getBlob({
-            owner: repo.owner.login,
-            repo: repo.name,
-            sha: this.gitHubService.data.files.selected.sha
-        }).$observable.subscribe(
-            (response: any) => {
-                this.fileFetched.emit(atob(response.content));
-                this.hide();
-            }
-        );
     }
 }

@@ -189,23 +189,21 @@
               Logout
           </button>
 
-
           <button class="btn btn-primary"
-                  *ngIf="gitHubService.wizardStep === wizardStepEnum.CHOOSE_FILE"
-                  (click)="onDownloadClicked()"
-                  [disabled]="gitHubService.data.files.selected === null">
-              Download
-          </button>
-
-          <button class="btn btn-primary"
-                  *ngIf="
-                      gitHubService.wizardStep === wizardStepEnum.LOGGING_IN ||
-                      gitHubService.wizardStep === wizardStepEnum.DOWNLOADING"
+                  *ngIf="gitHubService.wizardStep === wizardStepEnum.LOGGING_IN"
                   [disabled]="true">
               <fa [name]="'spinner'" [spin]="true"></fa>
           </button>
       </div> <!-- /.modal-footer -->
 
     </div> <!-- /.modal-content -->
+
+    <div
+        class="downloading-overlay-container"
+        *ngIf="gitHubService.wizardStep === wizardStepEnum.DOWNLOADING">
+        <div class="downloading-overlay">
+            <fa [name]="'spinner'" [spin]="true"></fa>
+        </div>
+    </div>
   </div> <!-- /.modal-dialog -->
 </div> <!-- /.modal -->
