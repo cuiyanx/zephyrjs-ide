@@ -137,6 +137,7 @@
                                      (click)="fetchFiles(gitHubService.data.files.rootSha)">
                                       Back to top
                                   </a>
+                              </td>
                           </tr>
                           <tr *ngFor="let file of gitHubService.data.files.objects"
                               [ngClass]="{
