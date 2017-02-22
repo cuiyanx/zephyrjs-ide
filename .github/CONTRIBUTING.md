@@ -8,6 +8,15 @@
  * ```npm test```
 * If you've added new functionality, **please** include tests which validate its behaviour
 * Make reference to possible [issues](https://github.com/01org/zephyrjs-ide/issues) on PR comment
+* Follow the [Karma guidelines for git commit
+  messages](http://karma-runner.github.io/1.0/dev/git-commit-msg.html), with
+  possible scope examples being:
+  * home
+  * about
+  * editor
+  * github-modal
+  * board-viewer
+  * ocf-explorer
 
 ## Submitting bug reports
 
