@@ -58,27 +58,8 @@ export class EditorComponent implements AfterViewInit {
         this.setDefaultTabStatuses(1);
     }
 
-    private getTabById(id: number): EditorTab {
-        for (let tab of this.tabs) {
-            if (tab.id === id) {
-                return tab;
-            }
-        }
-        return null;
-    }
-
-    private getFirstAvailableTabId(): number {
-        let max = 0;
-        for (let tab of this.tabs) {
-            if (tab.id > max) {
-                max = tab.id;
-            }
-        }
-        return max + 1;
-    }
-
     // tslint:disable-next-line:no-unused-variable
-    private onCloseTab(id: number) {
+    public onCloseTab(id: number) {
         let tab = this.getTabById(id);
         let index = this.tabs.indexOf(tab);
         this.tabs.splice(index, 1);
@@ -91,32 +72,20 @@ export class EditorComponent implements AfterViewInit {
     }
 
     // tslint:disable-next-line:no-unused-variable
-    private onActivateTab(tab: EditorTab) {
+    public onActivateTab(tab: EditorTab) {
         for (let t of this.tabs) {
             t.active = false;
         }
         tab.active = true;
     }
 
-    private setDefaultTabStatuses(id: number) {
-        let tab = this.getTabById(id);
-
-        tab.connectionStatus = OPERATION_STATUS.NOT_STARTED;
-        tab.uploadStatus = OPERATION_STATUS.NOT_STARTED;
-        if (this.webusbService.usb !== undefined) {
-            tab.editorStatus = EDITOR_STATUS.READY;
-        } else {
-            tab.editorStatus = EDITOR_STATUS.WEBUSB_UNAVAILABLE;
-        }
-    }
-
     // tslint:disable-next-line:no-unused-variable
-    private mayAddTab(): boolean {
+    public mayAddTab(): boolean {
         return this.tabs.length < this.MAX_TABS;
     }
 
     // tslint:disable-next-line:no-unused-variable
-    private newTab(): EditorTab {
+    public newTab(): EditorTab {
         let id = this.getFirstAvailableTabId();
         let tab: EditorTab = {
             id: id,
@@ -143,17 +112,17 @@ export class EditorComponent implements AfterViewInit {
     }
 
     // tslint:disable-next-line:no-unused-variable
-    private onWarning(message: any) {
+    public onWarning(message: any) {
         this.notificationsService.alert(message.header, message.body);
     }
 
     // tslint:disable-next-line:no-unused-variable
-    private onError(message: any) {
+    public onError(message: any) {
         this.notificationsService.error(message.header, message.body);
     }
 
     // tslint:disable-next-line:no-unused-variable
-    private onBeginResizing() {
+    public onBeginResizing() {
         let overlays = document.getElementsByClassName(
             'console-resizing-overlay');
         [].forEach.call(overlays, (overlay: HTMLElement) => {
@@ -162,11 +131,48 @@ export class EditorComponent implements AfterViewInit {
     }
 
     // tslint:disable-next-line:no-unused-variable
-    private onEndedResizing() {
+    public onEndedResizing() {
         let overlays = document.getElementsByClassName(
             'console-resizing-overlay');
         [].forEach.call(overlays, (overlay: HTMLElement) => {
             overlay.style.display = 'none';
         });
     }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    private setDefaultTabStatuses(id: number) {
+        let tab = this.getTabById(id);
+
+        tab.connectionStatus = OPERATION_STATUS.NOT_STARTED;
+        tab.uploadStatus = OPERATION_STATUS.NOT_STARTED;
+        if (this.webusbService.usb !== undefined) {
+            tab.editorStatus = EDITOR_STATUS.READY;
+        } else {
+            tab.editorStatus = EDITOR_STATUS.WEBUSB_UNAVAILABLE;
+        }
+    }
+
+    private getTabById(id: number): EditorTab {
+        for (let tab of this.tabs) {
+            if (tab.id === id) {
+                return tab;
+            }
+        }
+        return null;
+    }
+
+    private getFirstAvailableTabId(): number {
+        let max = 0;
+        for (let tab of this.tabs) {
+            if (tab.id > max) {
+                max = tab.id;
+            }
+        }
+        return max + 1;
+    }
+
+
 }

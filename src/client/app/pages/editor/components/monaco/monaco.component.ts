@@ -64,42 +64,15 @@ export class MonacoComponent implements AfterViewInit {
         }
     }
 
-    // Will be called once monaco library is available
-    private initMonaco() {
-        if (this.tab !== null && this.tab.editor === null) {
-            if (this.editorView !== null) {
-                let theme = 'vs-dark';
-
-                if (monaco.editor.defineTheme !== undefined) {
-                    monaco.editor.defineTheme('web-ide', {
-                        base: theme,
-                        inherit: true,
-                        rules: []
-                    });
-
-                    theme = 'web-ide';
-                }
-
-                this.tab.editor = monaco.editor.create(this.editorView.nativeElement, {
-                    value: this.initialCode,
-                    language: 'javascript',
-                    automaticLayout: true,
-                    theme: theme
-                });
-            }
-        }
-    }
-
-
     // tslint:disable-next-line:no-unused-variable
-    private mayConnect(): boolean {
+    public mayConnect(): boolean {
         return this.webusbService.usb !== undefined &&
                this.tab.connectionStatus === OPERATION_STATUS.NOT_STARTED ||
                this.tab.connectionStatus === OPERATION_STATUS.ERROR;
     }
 
     // tslint:disable-next-line:no-unused-variable
-    private onConnect() {
+    public onConnect() {
         this.tab.connectionStatus = OPERATION_STATUS.IN_PROGRESS;
         this.tab.editorStatus = EDITOR_STATUS.CONNECTING;
 
@@ -146,7 +119,7 @@ export class MonacoComponent implements AfterViewInit {
     }
 
     // tslint:disable-next-line:no-unused-variable
-    private mayUpload(): boolean {
+    public mayUpload(): boolean {
         return this.webusbService.usb !== undefined &&
                this.tab.connectionStatus === OPERATION_STATUS.DONE &&
                this.tab.editor.getValue().length > 0 &&
@@ -155,7 +128,7 @@ export class MonacoComponent implements AfterViewInit {
     }
 
     // tslint:disable-next-line:no-unused-variable
-    private onUpload() {
+    public onUpload() {
         this.tab.uploadStatus = OPERATION_STATUS.IN_PROGRESS;
         this.tab.editorStatus = EDITOR_STATUS.UPLOADING;
 
@@ -183,12 +156,45 @@ export class MonacoComponent implements AfterViewInit {
     }
 
     // tslint:disable-next-line:no-unused-variable
-    private onFetchFromGitHub() {
+    public onFetchFromGitHub() {
         this.gitHubModal.show();
     }
 
     // tslint:disable-next-line:no-unused-variable
-    private onGitHubFileFetched(content: string) {
+    public onGitHubFileFetched(content: string) {
         this.tab.editor.setValue(content);
     }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    // Will be called once monaco library is available
+    private initMonaco() {
+        if (this.tab !== null && this.tab.editor === null) {
+            if (this.editorView !== null) {
+                let theme = 'vs-dark';
+
+                if (monaco.editor.defineTheme !== undefined) {
+                    monaco.editor.defineTheme('web-ide', {
+                        base: theme,
+                        inherit: true,
+                        rules: []
+                    });
+
+                    theme = 'web-ide';
+                }
+
+                this.tab.editor = monaco.editor.create(this.editorView.nativeElement, {
+                    value: this.initialCode,
+                    language: 'javascript',
+                    automaticLayout: true,
+                    theme: theme
+                });
+            }
+        }
+    }
+
+
+
 }
