@@ -64,14 +64,14 @@ export class MonacoComponent implements AfterViewInit {
         }
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public mayConnect(): boolean {
         return this.webusbService.usb !== undefined &&
                this.tab.connectionStatus === OPERATION_STATUS.NOT_STARTED ||
                this.tab.connectionStatus === OPERATION_STATUS.ERROR;
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onConnect() {
         this.tab.connectionStatus = OPERATION_STATUS.IN_PROGRESS;
         this.tab.editorStatus = EDITOR_STATUS.CONNECTING;
@@ -118,7 +118,7 @@ export class MonacoComponent implements AfterViewInit {
         }
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public mayUpload(): boolean {
         return this.webusbService.usb !== undefined &&
                this.tab.connectionStatus === OPERATION_STATUS.DONE &&
@@ -127,7 +127,7 @@ export class MonacoComponent implements AfterViewInit {
                this.tab.port !== null;
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onUpload() {
         this.tab.uploadStatus = OPERATION_STATUS.IN_PROGRESS;
         this.tab.editorStatus = EDITOR_STATUS.UPLOADING;
@@ -155,12 +155,12 @@ export class MonacoComponent implements AfterViewInit {
         });
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onFetchFromGitHub() {
         this.gitHubModal.show();
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onGitHubFileFetched(content: string) {
         this.tab.editor.setValue(content);
     }

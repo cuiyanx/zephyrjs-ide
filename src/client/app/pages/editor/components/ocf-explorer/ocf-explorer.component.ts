@@ -75,23 +75,23 @@ export class OcfExplorerComponent implements OnInit {
         });
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public isValidIPAddress(): boolean {
         let ip = this.inputServer.ip;
         return /^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/.test(ip);
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public isValidPort(): boolean {
         return this.inputServer.port > 0 && this.inputServer.port < 65536;
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public isValidPath(): boolean {
         return this.inputServer.path[0] === '/';
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public explorationEnabled(): boolean {
         return this.isValidIPAddress() &&
                this.isValidPort() &&
@@ -99,7 +99,7 @@ export class OcfExplorerComponent implements OnInit {
                !this.isExploring();
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public isExploring(): boolean {
         for(let server of this.connectedServers) {
             if (server.isExploring) {
@@ -168,7 +168,7 @@ export class OcfExplorerComponent implements OnInit {
         );
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onExploreClicked(event: any): void {
         event.preventDefault();
 
@@ -201,13 +201,13 @@ export class OcfExplorerComponent implements OnInit {
         this.explore(connectToServer);
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onRefreshServer(server: OcfServer): boolean {
         this.explore(server);
         return false;
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onCloseServer(server: OcfServer): boolean {
         this.connectedServers = this.connectedServers.filter(
             (s: OcfServer) => {
@@ -222,7 +222,7 @@ export class OcfExplorerComponent implements OnInit {
         return false;
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onRefreshResource(resource: OcfResource): boolean {
         let resourceComponent = this.resourceComponents
             .find((component: OcfResourceComponent) => {

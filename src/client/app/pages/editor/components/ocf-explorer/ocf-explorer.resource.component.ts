@@ -61,12 +61,12 @@ export class OcfResourceComponent implements OnInit {
         this.getProperties();
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public hasNativeComponent(resource: OcfResource): boolean {
         return this.resourcesWithNativeComponent.indexOf(resource.rt) !== -1;
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public getProperties() {
         this.resource.properties = null;
         this.resource.error = null;
@@ -87,7 +87,7 @@ export class OcfResourceComponent implements OnInit {
         });
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onRetryClicked() {
         this.getProperties();
         return false;

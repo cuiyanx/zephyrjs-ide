@@ -24,7 +24,7 @@ declare var $: any;
 export class GitHubModalComponent implements AfterViewInit {
     // Types
 
-    // tslint:disable-next-line:no-unused-variable (used in template)
+    // tslint:disable-next-line:no-unused-locals (used in template)
     public wizardStepEnum = WIZARD_STEP;
 
     // Outputs
@@ -70,7 +70,7 @@ export class GitHubModalComponent implements AfterViewInit {
         });
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public mayLogin() {
         return (
             this.gitHubService.wizardStep === WIZARD_STEP.LOGIN &&
@@ -78,7 +78,7 @@ export class GitHubModalComponent implements AfterViewInit {
         );
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onLoginClicked() {
         let onError = (error: any) => {
             if (error.status === 401) {
@@ -115,7 +115,7 @@ export class GitHubModalComponent implements AfterViewInit {
         }, 0);
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onRepoChanged(name: string) {
         let getRepoByName = (name: string): any => {
             return this.gitHubService.data.repos.objects.find((repo: any) => {
@@ -142,7 +142,7 @@ export class GitHubModalComponent implements AfterViewInit {
         }
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onBranchChanged(name: string) {
         let getBranchByName = (name: string): any => {
             return this.gitHubService.data.branches.objects.find((branch: any) => {
@@ -188,7 +188,7 @@ export class GitHubModalComponent implements AfterViewInit {
         return false;
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onFileClicked(file: any) {
         if (file.type === 'tree') {
             this.fetchFiles(file.sha);
@@ -214,7 +214,7 @@ export class GitHubModalComponent implements AfterViewInit {
         return false;
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onLogoutClicked() {
         this.resetUser();
         this.resetUI();
@@ -275,7 +275,7 @@ export class GitHubModalComponent implements AfterViewInit {
         this.resetFiles();
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     private onShown() {
         let el = document.getElementById('github_token');
         if (el !== null) {
@@ -283,7 +283,7 @@ export class GitHubModalComponent implements AfterViewInit {
         }
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     private onHidden() {
         if (!this.gitHubService.data.user.remember) {
             this.reset();

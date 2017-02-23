@@ -18,12 +18,12 @@ interface IData {
 export class StatusBarComponent {
     @Input('tab') tab: EditorTab;
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public getClass(): string {
         return this.getData().cls;
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public getMessage(): string {
         return this.getData().msg;
     }

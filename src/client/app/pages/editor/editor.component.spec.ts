@@ -27,7 +27,7 @@ export function main() {
           .compileComponents()
           .then(() => {
             let fixture = TestBed.createComponent(TestComponent);
-            // tslint:disable-next-line:no-unused-variable
+            // tslint:disable-next-line:no-unused-locals
             let editorDOMEl = fixture.debugElement.children[0].nativeElement;
 
             // TODO: test

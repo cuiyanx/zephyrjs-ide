@@ -58,7 +58,7 @@ export class EditorComponent implements AfterViewInit {
         this.setDefaultTabStatuses(1);
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onCloseTab(id: number) {
         let tab = this.getTabById(id);
         let index = this.tabs.indexOf(tab);
@@ -71,7 +71,7 @@ export class EditorComponent implements AfterViewInit {
         }
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onActivateTab(tab: EditorTab) {
         for (let t of this.tabs) {
             t.active = false;
@@ -79,12 +79,12 @@ export class EditorComponent implements AfterViewInit {
         tab.active = true;
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public mayAddTab(): boolean {
         return this.tabs.length < this.MAX_TABS;
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public newTab(): EditorTab {
         let id = this.getFirstAvailableTabId();
         let tab: EditorTab = {
@@ -111,17 +111,17 @@ export class EditorComponent implements AfterViewInit {
         return tab;
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onWarning(message: any) {
         this.notificationsService.alert(message.header, message.body);
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onError(message: any) {
         this.notificationsService.error(message.header, message.body);
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onBeginResizing() {
         let overlays = document.getElementsByClassName(
             'console-resizing-overlay');
@@ -130,7 +130,7 @@ export class EditorComponent implements AfterViewInit {
         });
     }
 
-    // tslint:disable-next-line:no-unused-variable
+    // tslint:disable-next-line:no-unused-locals
     public onEndedResizing() {
         let overlays = document.getElementsByClassName(
             'console-resizing-overlay');
