@@ -31,11 +31,6 @@ export class StatusBarComponent {
     private getData(): IData {
         if (this.tab !== null) {
             let map: {[key: number]: IData;} = {
-                [EDITOR_STATUS.WEBUSB_UNAVAILABLE]: {
-                    cls: 'error',
-                    msg: 'Your browser does not support WebUSB.'
-                },
-
                 [EDITOR_STATUS.READY]: {
                     cls: 'info',
                     msg: 'Ready.'

@@ -35,12 +35,9 @@ export class MonacoComponent implements AfterViewInit {
     @ViewChild('gitHubModal')
     private gitHubModal: GitHubModalComponent;
 
-    private webusbService: WebUsbService = undefined;
-
     private initialCode: string = '';
 
-    constructor(webusbService: WebUsbService) {
-        this.webusbService = webusbService;
+    constructor(private webusbService: WebUsbService) {
     }
 
     public ngAfterViewInit() {
@@ -61,6 +58,13 @@ export class MonacoComponent implements AfterViewInit {
             document.body.appendChild(loaderScript);
         } else {
             onGotAmdLoader();
+        }
+
+        if (this.webusbService.usb === undefined) {
+            this.onError.emit({
+                body: 'Your browser does not support WebUSB',
+                sticky: true
+            });
         }
     }
 

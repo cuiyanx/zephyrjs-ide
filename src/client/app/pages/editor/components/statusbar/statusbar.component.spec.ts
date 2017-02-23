@@ -33,13 +33,6 @@ export function main() {
             expect(el.querySelectorAll('.statusbar')[0].className)
                 .toContain('error');
 
-            testComponent.tab.editorStatus = EDITOR_STATUS.WEBUSB_UNAVAILABLE;
-            fixture.detectChanges();
-            expect(el.querySelectorAll('.statusbar')[0].textContent)
-                .toContain('Your browser does not support WebUSB.');
-            expect(el.querySelectorAll('.statusbar')[0].className)
-                .toContain('error');
-
             testComponent.tab.editorStatus = EDITOR_STATUS.READY;
             fixture.detectChanges();
             expect(el.querySelectorAll('.statusbar')[0].textContent)

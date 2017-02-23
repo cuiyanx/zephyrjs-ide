@@ -113,12 +113,26 @@ export class EditorComponent implements AfterViewInit {
 
     // tslint:disable-next-line:no-unused-locals
     public onWarning(message: any) {
-        this.notificationsService.alert(message.header, message.body);
+        let overrides: any = {};
+
+        if (message.sticky) {
+            overrides['timeOut'] = 0;
+        }
+
+        this.notificationsService.alert(
+            message.header, message.body, overrides);
     }
 
     // tslint:disable-next-line:no-unused-locals
     public onError(message: any) {
-        this.notificationsService.error(message.header, message.body);
+        let overrides: any = {};
+
+        if (message.sticky) {
+            overrides['timeOut'] = 0;
+        }
+
+        this.notificationsService.error(
+            message.header, message.body, overrides);
     }
 
     // tslint:disable-next-line:no-unused-locals
@@ -148,11 +162,7 @@ export class EditorComponent implements AfterViewInit {
 
         tab.connectionStatus = OPERATION_STATUS.NOT_STARTED;
         tab.uploadStatus = OPERATION_STATUS.NOT_STARTED;
-        if (this.webusbService.usb !== undefined) {
-            tab.editorStatus = EDITOR_STATUS.READY;
-        } else {
-            tab.editorStatus = EDITOR_STATUS.WEBUSB_UNAVAILABLE;
-        }
+        tab.editorStatus = EDITOR_STATUS.READY;
     }
 
     private getTabById(id: number): EditorTab {

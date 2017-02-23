@@ -9,7 +9,6 @@ export enum OPERATION_STATUS {
 };
 
 export enum EDITOR_STATUS {
-    WEBUSB_UNAVAILABLE,
     READY,
     CONNECTING,
     UPLOADING
