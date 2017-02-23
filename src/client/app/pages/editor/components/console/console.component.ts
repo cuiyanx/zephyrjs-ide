@@ -77,6 +77,7 @@ export class ConsoleComponent implements AfterViewInit {
             this.tab.term.prefs_.set('cursor-color', 'rgba(100, 100, 10, 0.5)');
             this.tab.term.prefs_.set('font-size', 13);
             this.tab.term.prefs_.set('cursor-blink', true);
+            this.tab.term.prefs_.set('scrollbar-visible', false);
 
             this.tab.term.decorate(this.consoleView.nativeElement);
             this.tab.term.installKeyboard();
