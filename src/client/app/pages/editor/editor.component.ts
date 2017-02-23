@@ -26,7 +26,8 @@ declare var $: any;
 })
 export class EditorComponent implements AfterViewInit {
     public notificationOptions = {
-        timeOut: 5000
+        timeOut: 3000,
+        showProgressBar: false
     };
 
     private readonly MAX_TABS: number = 10;

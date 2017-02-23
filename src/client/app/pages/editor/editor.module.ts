@@ -26,7 +26,7 @@ import { EditorComponent } from './editor.component';
         FormsModule,
 
         Angular2FontawesomeModule,
-        SimpleNotificationsModule,
+        SimpleNotificationsModule.forRoot(),
         SplitPaneModule,
 
         MonacoModule,
